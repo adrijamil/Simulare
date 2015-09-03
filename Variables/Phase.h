@@ -49,6 +49,7 @@ public:
 private:
 	PhaseType _phase_type = UNDEFINED;
 	Fluid* _parent_stream;
+	RealVariable* _phase_fraction;
 };
 
 #endif

@@ -11,6 +11,7 @@
 //#include "UnitConvertor.h"
 //#include "Fluid.h"
 #include "Stream.h"
+#include "Ideal.h"
 //#include "PropPack.h"
 //namespace
 using namespace std;
@@ -47,7 +48,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	////cout << thebv.GetValue(1) << "\n";
 	////cout << thebv.GetValue(2) << "\n";
 
-	//*thptr = thebv.GetValue(); //I can obtain the pointer and deconstruct it back
+  //*thptr = thebv.GetValue(); //I can obtain the pointer and deconstruct it back
 
 	//dbarr2[0] = thptr[0];
 	//dbarr2[1] = thptr[1];
@@ -91,6 +92,26 @@ int _tmain(int argc, _TCHAR* argv[])
 	//cout << *pt1 << "\n";
 	//cout << *pt2 << "\n";
 
+	RealVariable rv;
+
+	double arr[3];
+	arr[0] = 0.1111;
+	arr[1] = 0.222;
+	arr[2] = 0.333;
+
+	rv.SetValue(arr);
+
+	double* ptr =  new double[3];
+
+	ptr = rv.GetValues();
+	 
+	cout << ptr[0];
+	cout << ptr[1];
+	cout << ptr[2];
+	
+
+
+
 	
 	Stream strm1;
 	/*Phase ph1;
@@ -98,26 +119,38 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout << ph1.Pressure()->GetValue();
 	RealVariable* rv;*/
 
-	strm1.Pressure()->SetValue(4.3);
-	cout << strm1.Pressure()->GetValue()<< "\n";
+	strm1.Pressure()->SetValue(101.325);
+	strm1.Temperature()->SetValue(200);
+	double* xcheck;
+	double xout;
+	double x[3];
+	x[0] = 0.333333333;
+	x[1] = 0.333333333;
+	x[2] = 0.333333333;
+	cout << "\n";
+	cout << "\n";
+	cout << x[1];
+	xcheck = new double[3];
+
+	strm1.Composition()->SetValue(x);
+
+
+	//cout << strm1.Pressure()->GetValue()<< "\n";
 
 	//double* x;
 	//x = strm1.Phases(1)->Pressure()->GetValue();
-	PropPack<> myPP1;
-	PropPack<> myPP2;
+	PropPack myPP1;
+	Ideal myPP2;
 
 	myPP1.SetName("theone");
-	myPP2.SetName("theother");
+	//myPP2.SetName("theother");
 
-	strm1.SetPropertyPackage(&myPP1);
-	strm1.PTFlashMe();
 	strm1.SetPropertyPackage(&myPP2);
 	strm1.PTFlashMe();
 
 	//cout << *x;
 	//cout << strm1.Phases(0)->Pressure()->GetValue();
 
-	getchar();
 	getchar();
 
 	return 0;

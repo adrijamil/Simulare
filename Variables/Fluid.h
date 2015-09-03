@@ -28,9 +28,12 @@ public:
 	Fluid();
 	~Fluid();
 	void Normalise();
-	RealVariable* Pressure(){ return _pressure; };
+	
 	RealVariable* Composition(){ return _composition; };
-	int NComponents;
+	RealVariable* Pressure(){ return _pressure; };
+	RealVariable* Temperature(){ return _temperature; };
+	
+	int NComponents; //implement this
 	
 protected:
 	RealVariable* _composition = new RealVariable;

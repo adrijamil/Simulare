@@ -8,6 +8,7 @@
 // TO BE IMPLEMENTED: 
 // 1. Unit conversion. This can be handled by some user interface. 
 // 2. Copy/clone function
+// 3. Consider how fractions are dealt with. Just cap 0 < x < 1 is sufficient?
 // SPECIAL NOTES:	
 // ===============================
 // Change History: - put name, date and description of change
