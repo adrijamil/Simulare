@@ -27,6 +27,11 @@ PropPack<>::PropPack()
 
 }
 
+template<>
+void PropPack<Stream>::PT_Flash(Stream* thestream)
+{
+	cout << "im flashing with " << _name;
+};
 
 PropPack<>::~PropPack()
 {

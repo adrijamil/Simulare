@@ -37,13 +37,14 @@ template<typename T = Stream>
 class PropPack
 {
 public:
-	PropPack();
+	 PropPack();
 	~PropPack();
 
-	void PT_Flash(T* thestream){
-		cout << "im flashing with " << _name;
-	};// i need P, T and x. Output H, vf and a bunch of props.
-	
+	void PT_Flash(T* thestream);
+		//{
+		//	cout << "im flashing with " << _name;
+		//};// i need P, T and x. Output H, vf and a bunch of props.
+
 	void SetName(string thename){ _name = thename; }
 
 private:
