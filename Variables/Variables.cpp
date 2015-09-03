@@ -118,7 +118,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	//cout << strm1.Phases(0)->Pressure()->GetValue();
 
 	getchar();
-	getchar();
 
 	return 0;
 }
