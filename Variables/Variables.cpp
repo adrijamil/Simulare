@@ -12,6 +12,8 @@
 //#include "Fluid.h"
 #include "Stream.h"
 #include "Ideal.h"
+#include "RefPropPack.h"
+//#include "RefPropFunctions.h"
 //#include "PropPack.h"
 //namespace
 using namespace std;
@@ -139,18 +141,19 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//double* x;
 	//x = strm1.Phases(1)->Pressure()->GetValue();
-	PropPack myPP1;
-	Ideal myPP2;
+	//PropPack myPP1;
+	RefPropPack myPP1;
 
 	myPP1.SetName("theone");
 	//myPP2.SetName("theother");
 
-	strm1.SetPropertyPackage(&myPP2);
+	strm1.SetPropertyPackage(&myPP1);
 	strm1.PTFlashMe();
-
-	//cout << *x;
-	//cout << strm1.Phases(0)->Pressure()->GetValue();
-
+	cout <<"\n" << "\n";
+	cout << strm1.Phases(0)->Composition()->GetValue(0) << "\n";
+	cout << strm1.Phases(0)->Composition()->GetValue(1)<<"\n";
+	cout << strm1.Phases(0)->Composition()->GetValue(2) << "\n";
+	cout << strm1.Phases(0)->PhaseMoleFraction()->GetValue() << "\n";
 	getchar();
 
 	return 0;

@@ -30,6 +30,7 @@ public:
 	void Normalise();
 	
 	RealVariable* Composition(){ return _composition; };
+
 	RealVariable* Pressure(){ return _pressure; };
 	RealVariable* Temperature(){ return _temperature; };
 	

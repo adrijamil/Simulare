@@ -1,5 +1,10 @@
 
 
+//Physical properties should be attached to property package I suppose.
+//Should include a setup method + issetup member. set the ncomps, define components etc.
+
+
+
 //option 1: this class knows what a "Stream" is. Stream is "unpacked", flash is solved and stream is changed accordingly
 //		this kinda violates encapsulation
 //		

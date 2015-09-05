@@ -70,6 +70,8 @@ public:
 	//setting a value for a single element
 	void SetValue(T thevalue){ *_value = thevalue; }; //setval single element
 
+	void SetValue(int i, T thevalue){ _value[i] = thevalue; }
+
 	T* GetValues(){ return  _value; };  // to get an array
 	T GetValue(){ return *_value; };// to get the single value //otherwise gotta treat element as array of 1. this is not nice.
 	T GetValue(int i)

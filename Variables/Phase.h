@@ -39,17 +39,20 @@ public:
 	{ 
 		_pressure = new RealVariable; 
 	};
+
 	Phase(PhaseType thetype){ 
 		_phase_type = thetype; 
-		//_pressure = new RealVariable;
+		_phase_mol_fraction = new RealVariable;
 	};
-	~Phase();
 
+	RealVariable* PhaseMoleFraction(){ return _phase_mol_fraction; }
+
+	~Phase();
 	void SetParent(Fluid* parentstrm);
 private:
 	PhaseType _phase_type = UNDEFINED;
 	Fluid* _parent_stream;
-	RealVariable* _phase_fraction;
+	RealVariable* _phase_mol_fraction;
 };
 
 #endif
