@@ -47,11 +47,14 @@ public:
 	}
 
 	void PTFlashMe(){ _proppack->PT_Flash(this); };
-	void SetPropertyPackage(PropPack<>* thePP);
+	void SetPropertyPackage(PropPack* thePP);
 	
+	string Name() { return _name; }
+
 private:
 	Phase* _phases[3];
-	PropPack<>* _proppack;
+	PropPack* _proppack;
+	string _name;
 
 };
 #endif

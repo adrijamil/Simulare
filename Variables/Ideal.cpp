@@ -1,0 +1,133 @@
+#include "stdafx.h"
+#include "Ideal.h"
+
+
+double Ideal::_RR(double vfrac, double* comps)
+{
+	double sum;
+	sum = 0;
+	cout << "\n";
+	cout << comps[2];
+
+	for (int i = 0; i < Ideal::_ncomps; i++)
+	{
+		sum = sum+(comps[i] * (_Ki[i] - 1)) / (1 + vfrac*(_Ki[i] - 1));
+	}
+	return sum;
+}
+
+
+void Ideal::PT_Flash(Stream* thestream)
+{
+	double P;
+	double T;
+	double Pvap;//need an array
+	
+	double Tr;
+	double tol;
+	double delta;
+	
+	double hi;
+	double lo;
+	double mid;
+
+	double fhi;
+	double flo;
+	double fmid;
+	
+	double vfrac;
+
+	int iter; 
+	int maxiter;
+	double* Zi;
+	double* Yi;
+	double* Xi;
+
+	maxiter = 1000;
+	delta = 100;
+	tol = 0.01;
+	P = thestream->Pressure()->GetValue();
+	T = thestream->Temperature()->GetValue();
+	
+	Zi = new double[_ncomps];
+	Zi = thestream->Composition()->GetValues();
+
+	Xi = new double[_ncomps];
+	Yi = new double[_ncomps];
+
+	//cout << Zi[0] << " " << Zi[1] << " " << Zi[2];
+
+	//Pvap = new double[_ncomps];
+	_Ki = new double[_ncomps];
+
+	//calculcate vapour pressures
+	//calculate Ks
+	for (int i = 0; i < _ncomps; i++)
+	{
+		Tr = T / _components[i].Tc;
+		Pvap= _components[i].Pc*(exp(5.92714 - 6.09648 / Tr - 1.28862*log(Tr) + 0.169347*pow(Tr, 6) + _components[i].Acentric*(15.2518 - 15.6875 / Tr - 13.4721*log(Tr) + 0.43577*pow(Tr, 6))));
+		_Ki[i] = Pvap / P;
+
+		//exp(5.92714 - 6.09648 / Tr - 1.28862*log(Tr) + 0.169347*Tr ^ 6));
+	}
+	
+
+
+	//solve Rachford-Rice equation using bisection
+	cout << _Ki[0] << " " << _Ki[1] << " " << _Ki[2];
+	hi = 1;
+	lo = 0;
+	mid = 0.5;
+
+	iter = 0;
+	while (delta > tol)
+	{
+		fhi = _RR(hi, Zi);
+		flo = _RR(lo, Zi);
+		fmid = _RR(mid, Zi);
+
+		cout << iter << "\n" << "\n";
+		cout << hi << " " << lo << " " << mid << "\n";
+		cout << fhi << " " << flo << " " << fmid;
+
+		if ((fhi*fmid) > 0) //fmid and fhi same sign
+		{
+			hi = mid;
+		}
+		else
+		{
+			lo = mid;
+		}
+		mid = (hi + lo) / 2;
+		delta =abs(hi - lo);
+		
+		iter = iter + 1;
+	}
+	
+	vfrac = mid;
+	//cout << "calculated vfrac = " << mid;
+
+
+	//calculate phase compositions
+	for (int i = 0; i < _ncomps; i++)
+	{
+		Xi[i] = Zi[i]/(1+vfrac*(_Ki[i]-1));
+		thestream->Phases(0)->Composition()->SetValue(i, Xi[i]);
+		thestream->Phases(1)->Composition()->SetValue(i, _Ki[i] * Xi[i]);
+		//Yi[i] = _Ki[i] * Xi[i];
+	}
+
+	//put it into the stream
+
+	thestream->Phases(0)->PhaseMoleFraction()->SetValue(vfrac);
+	thestream->Phases(1)->PhaseMoleFraction()->SetValue(1-vfrac);
+	
+	
+
+}
+
+
+
+Ideal::~Ideal()
+{
+}

@@ -1,5 +1,10 @@
 
 
+//Physical properties should be attached to property package I suppose.
+//Should include a setup method + issetup member. set the ncomps, define components etc.
+
+
+
 //option 1: this class knows what a "Stream" is. Stream is "unpacked", flash is solved and stream is changed accordingly
 //		this kinda violates encapsulation
 //		
@@ -33,22 +38,25 @@ struct Component
 
 
 using namespace std;
-template<typename T = Stream>
+//template<typename T = Stream>
 class PropPack
 {
 public:
-	PropPack();
+	 PropPack();
 	~PropPack();
 
-	void PT_Flash(T* thestream){
-		cout << "im flashing with " << _name;
-	};// i need P, T and x. Output H, vf and a bunch of props.
-	
+	virtual void PT_Flash(Stream* thestream)
+		{
+			cout << "im flashing with " << _name;
+		};// i need P, T and x. Output H, vf and a bunch of props.
+
 	void SetName(string thename){ _name = thename; }
 
-private:
+protected:
 	string _name;
 	Component _components[3]; //make it fixed first
+	int _ncomps;
+
 };
 
 
