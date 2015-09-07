@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <string>
+#include "FlashMethod.h"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ struct Component
 	double Acentric;
 };
 
+enum FlashTypeEnum  {IDEAL,REFPROP};
 
 using namespace std;
 //template<typename T = Stream>
@@ -44,19 +46,21 @@ class PropPack
 public:
 	 PropPack();
 	~PropPack();
-
+	void SetMethod(FlashTypeEnum theFlashType);
 	virtual void PT_Flash(Stream* thestream)
 		{
-			cout << "im flashing with " << _name;
+			_flashmethod->PT_Flash(thestream,this);
 		};// i need P, T and x. Output H, vf and a bunch of props.
 
 	void SetName(string thename){ _name = thename; }
+	int NComps(){ return _ncomps; }
+	Component GetComponent(int i){ return _components[i]; }
 
 protected:
 	string _name;
 	Component _components[3]; //make it fixed first
 	int _ncomps;
-
+	FlashMethod* _flashmethod;
 };
 
 

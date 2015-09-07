@@ -1,25 +1,25 @@
 #ifndef __IDEAL_H__
 #define __IDEAL_H__
 
-#include "PropPack.h"
+#include "FlashMethod.h"
 #include "Stream.h"
 
 using namespace std;
 
 class Ideal :
-	public PropPack
+	public FlashMethod
 {
 public:
 	Ideal(){ _name = "ideal"; };
 	~Ideal();
-
-	void PT_Flash(Stream* thestream);
+	
+	void PT_Flash(Stream* theStream, PropPack* thePP);
 	//{
 	//	cout << "im flashing" <<thestream->Name() << "overrided by"<<_name;
 	//};// i need P, T and x. Output H, vf and a bunch of props.
 private:
 	double* _Ki;
-	double _RR(double vfrac,double* comps);
+	double _RR(double vfrac,double* comps, int NComp);
 };
 
 #endif

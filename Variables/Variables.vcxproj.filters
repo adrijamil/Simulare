@@ -60,6 +60,9 @@
     <ClInclude Include="RefPropPack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FlashMethod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RefPropPack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FlashMethod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
