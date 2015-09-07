@@ -12,8 +12,8 @@ class Ideal :
 public:
 	Ideal(){ _name = "ideal"; };
 	~Ideal();
-
-	void PT_Flash(Stream* thestream,PropPack* thePP);
+	
+	void PT_Flash(Stream* theStream, PropPack* thePP);
 	//{
 	//	cout << "im flashing" <<thestream->Name() << "overrided by"<<_name;
 	//};// i need P, T and x. Output H, vf and a bunch of props.

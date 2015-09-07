@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PropPack.h"
 #include "Ideal.h"
+#include "RefPropPack.h"
 
 PropPack::PropPack()
 {
@@ -41,7 +42,7 @@ void PropPack::SetMethod(FlashTypeEnum theFlashType)
 
 
 	case REFPROP:
-
+		_flashmethod = new Ideal;
 	}
 }
 

@@ -17,7 +17,7 @@ double Ideal::_RR(double vfrac, double* comps,int NComp)
 }
 
 
-void Ideal::PT_Flash(Stream* thestream, PropPack* thePP)
+void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 {
 	double P;
 	double T;
@@ -46,11 +46,11 @@ void Ideal::PT_Flash(Stream* thestream, PropPack* thePP)
 	maxiter = 1000;
 	delta = 100;
 	tol = 0.01;
-	P = thestream->Pressure()->GetValue();
-	T = thestream->Temperature()->GetValue();
+	P = theStream->Pressure()->GetValue();
+	T = theStream->Temperature()->GetValue();
 	
 	Zi = new double[ncomp];
-	Zi = thestream->Composition()->GetValues();
+	Zi = theStream->Composition()->GetValues();
 
 	Xi = new double[ncomp];
 	Yi = new double[ncomp];
@@ -112,15 +112,15 @@ void Ideal::PT_Flash(Stream* thestream, PropPack* thePP)
 	for (int i = 0; i < ncomp; i++)
 	{
 		Xi[i] = Zi[i]/(1+vfrac*(_Ki[i]-1));
-		thestream->Phases(0)->Composition()->SetValue(i, Xi[i]);
-		thestream->Phases(1)->Composition()->SetValue(i, _Ki[i] * Xi[i]);
+		theStream->Phases(0)->Composition()->SetValue(i, Xi[i]);
+		theStream->Phases(1)->Composition()->SetValue(i, _Ki[i] * Xi[i]);
 		//Yi[i] = _Ki[i] * Xi[i];
 	}
 
 	//put it into the stream
 
-	thestream->Phases(0)->PhaseMoleFraction()->SetValue(vfrac);
-	thestream->Phases(1)->PhaseMoleFraction()->SetValue(1-vfrac);
+	theStream->Phases(0)->PhaseMoleFraction()->SetValue(vfrac);
+	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - vfrac);
 	
 	
 

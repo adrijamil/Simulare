@@ -92,23 +92,23 @@ int _tmain(int argc, _TCHAR* argv[])
 	//cout << *pt1 << "\n";
 	//cout << *pt2 << "\n";
 
-	RealVariable rv;
+	//RealVariable rv;
 
-	double arr[3];
-	arr[0] = 0.1111;
-	arr[1] = 0.222;
-	arr[2] = 0.333;
+	//double arr[3];
+	//arr[0] = 0.1111;
+	//arr[1] = 0.222;
+	//arr[2] = 0.333;
 
-	rv.SetValue(arr);
+	//rv.SetValue(arr);
 
-	double* ptr =  new double[3];
+	//double* ptr =  new double[3];
 
-	ptr = rv.GetValues();
-	 
-	cout << ptr[0];
-	cout << ptr[1];
-	cout << ptr[2];
-	
+	//ptr = rv.GetValues();
+	// 
+	//cout << ptr[0];
+	//cout << ptr[1];
+	//cout << ptr[2];
+	//
 
 
 
@@ -147,7 +147,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	myPP1.SetMethod(IDEAL);
 	//myPP2.SetName("theother");
 
-	//strm1.SetPropertyPackage(&myPP1);
+	strm1.SetPropertyPackage(&myPP1);
 	strm1.PTFlashMe();
 	cout <<"\n" << "\n";
 	cout << strm1.Phases(0)->Composition()->GetValue(0) << "\n";
