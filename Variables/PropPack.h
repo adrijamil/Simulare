@@ -1,19 +1,23 @@
+// ===============================
+// AUTHOR     :		Adri
+// CREATED(d/m/yy):	7/9/15
+// PURPOSE     :	Base class for other PropertyPackages such as Ideal and RefProp
+//					Implements the strategy pattern for FlashMethod. can utilise this for other functions eg mixing rule
+//					
+//					
+// TO BE IMPLEMENTED: 
+// this class needs a factory.
+
+// SPECIAL NOTES:	
+// 1. Physical properties should be attached to property package I suppose.
+// 2. Should include a setup method + issetup member. set the ncomps, define components etc.
+// ===============================
+// Change History: - put name, date and description of change
+// 1. Created
+//==================================
 
 
-//Physical properties should be attached to property package I suppose.
-//Should include a setup method + issetup member. set the ncomps, define components etc.
 
-
-
-//option 1: this class knows what a "Stream" is. Stream is "unpacked", flash is solved and stream is changed accordingly
-//		this kinda violates encapsulation
-//		
-
-//option 2: this class does not know what a "Stream" is. He just gets inputs (P,T,x) and sends outputs. Stream changes itself accordingly.
-//		this will load alot of functions to the stream.
-//		stream needs to figure out which flash to call. this makes sense.
-
-//lets try option 1. Keep all stream operations in this module with actual calc done by subclass
 
 #ifndef __PROPPACK_H_INCLUDED__
 #define __PROPPACK_H_INCLUDED__

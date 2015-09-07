@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Ideal.h"
 
-
+//calculate RR equation
 double Ideal::_RR(double vfrac, double* comps,int NComp)
 {
 	double sum;
@@ -16,12 +16,12 @@ double Ideal::_RR(double vfrac, double* comps,int NComp)
 	return sum;
 }
 
-
+//PT flash algorithm
 void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 {
 	double P;
 	double T;
-	double Pvap;//need an array
+	double Pvap;
 	
 	double Tr;
 	double tol;
@@ -46,18 +46,22 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	maxiter = 1000;
 	delta = 100;
 	tol = 0.01;
+
+	//get stream inputs
 	P = theStream->Pressure()->GetValue();
 	T = theStream->Temperature()->GetValue();
 	
+
+	//total composition
 	Zi = new double[ncomp];
 	Zi = theStream->Composition()->GetValues();
 
+
+	//phase composition
 	Xi = new double[ncomp];
 	Yi = new double[ncomp];
 
-	//cout << Zi[0] << " " << Zi[1] << " " << Zi[2];
-
-	//Pvap = new double[_ncomps];
+	//K values
 	_Ki = new double[ncomp];
 
 	//calculcate vapour pressures
@@ -65,16 +69,17 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	for (int i = 0; i < ncomp; i++)
 	{
 		Tr = T / thePP->GetComponent(i).Tc;
+		//this is the Lee-Kesler method 
 		Pvap = thePP->GetComponent(i).Pc*(exp(5.92714 - 6.09648 / Tr - 1.28862*log(Tr) + 0.169347*pow(Tr, 6) + thePP->GetComponent(i).Acentric*(15.2518 - 15.6875 / Tr - 13.4721*log(Tr) + 0.43577*pow(Tr, 6))));
 		_Ki[i] = Pvap / P;
-
-		//exp(5.92714 - 6.09648 / Tr - 1.28862*log(Tr) + 0.169347*Tr ^ 6));
 	}
 	
 
 
 	//solve Rachford-Rice equation using bisection
-	cout << _Ki[0] << " " << _Ki[1] << " " << _Ki[2];
+	//could lump procedures like this into a library
+	//cout << _Ki[0] << " " << _Ki[1] << " " << _Ki[2];
+
 	hi = 1;
 	lo = 0;
 	mid = 0.5;
@@ -90,7 +95,7 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 		//cout << hi << " " << lo << " " << mid << "\n";
 	//	cout << fhi << " " << flo << " " << fmid;
 
-		if ((fhi*fmid) > 0) //fmid and fhi same sign
+		if ((fhi*fmid) > 0) //if fmid and fhi same sign
 		{
 			hi = mid;
 		}
@@ -117,12 +122,11 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 		//Yi[i] = _Ki[i] * Xi[i];
 	}
 
-	//put it into the stream
 
+
+	//put it into the stream
 	theStream->Phases(0)->PhaseMoleFraction()->SetValue(vfrac);
 	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - vfrac);
-	
-	
 
 }
 

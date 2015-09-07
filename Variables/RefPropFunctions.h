@@ -1,7 +1,21 @@
+// ===============================
+// AUTHOR     :		Adri
+// CREATED(d/m/yy):	7/9/15
+// PURPOSE     :	This is just a header file pointing to refprop functions
+//					
+//					
+// TO BE IMPLEMENTED: 
+
+// SPECIAL NOTES:	
+// ===============================
+// Change History: - put name, date and description of change
+// 1. Created
+//==================================
+
+
+
 //// Definitions of the Refprop types
 //// at some point, go through and find which functions you actually need
-//
-//
 
 
 //define a function pointer
