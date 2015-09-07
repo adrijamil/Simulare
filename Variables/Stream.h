@@ -23,17 +23,17 @@
 #ifndef __STREAM_H_INCLUDED__
 #define __STREAM_H_INCLUDED__
 
-#include "Fluid.h"
+#include "Fluid.h"//actually Phase.h already declared this. just keep it its guarded anyway
+
 #include "Phase.h"
-
-
+#include "FSObject.h"
 
 #include "PropPack.h"
 //class Phase;  //this way we avoid recursion in header files.
 
 
 class Stream :
-	public Fluid
+	public Fluid, public FSObject
 	
 {
 	//friend class Fluid;
@@ -48,8 +48,10 @@ public:
 
 	void PTFlashMe(){ _proppack->PT_Flash(this); };
 	void SetPropertyPackage(PropPack* thePP);
-	
 	string Name() { return _name; }
+
+	bool Solve();
+
 
 private:
 	Phase* _phases[3];

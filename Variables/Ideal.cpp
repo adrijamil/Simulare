@@ -6,8 +6,8 @@ double Ideal::_RR(double vfrac, double* comps,int NComp)
 {
 	double sum;
 	sum = 0;
-	cout << "\n";
-	cout << comps[2];
+	//cout << "\n";
+	//cout << comps[2];
 
 	for (int i = 0; i < NComp; i++)
 	{
@@ -86,9 +86,9 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 		flo = _RR(lo, Zi, ncomp);
 		fmid = _RR(mid, Zi, ncomp);
 
-		cout << iter << "\n" << "\n";
-		cout << hi << " " << lo << " " << mid << "\n";
-		cout << fhi << " " << flo << " " << fmid;
+		//cout << iter << "\n" << "\n";
+		//cout << hi << " " << lo << " " << mid << "\n";
+	//	cout << fhi << " " << flo << " " << fmid;
 
 		if ((fhi*fmid) > 0) //fmid and fhi same sign
 		{

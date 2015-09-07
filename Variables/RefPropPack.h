@@ -1,12 +1,16 @@
 #pragma once
-#include "PropPack.h"
 
-#include "Stream.h"
+
 #include <windows.h>
-
 #include <stdio.h>
 #include <iostream>
 
+
+#include "FlashMethod.h"
+#include "Stream.h"
+
+
+using namespace std;
 //can I put this constants here?
 const long refpropcharlength = 255;
 const long filepathlength = 255;
@@ -19,14 +23,14 @@ const long maxcoefs = 50;
 
 
 class RefPropPack :
-	public PropPack
+	public FlashMethod
 {
 public:
 	RefPropPack();
 	
 	~RefPropPack();
 
-	void PT_Flash(Stream* thestream);
+	void PT_Flash(Stream* theStream, PropPack* thePP);
 
 private:
 	HINSTANCE RefProp_dll_instance;

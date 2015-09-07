@@ -31,3 +31,16 @@ void Stream::SetPropertyPackage(PropPack* thePP)
 Stream::~Stream()
 {
 }
+
+
+bool Stream::Solve()
+{
+	//check DOF then call appropriate flash
+	PTFlashMe();
+
+	cout << "\n" << "\n";
+	cout << _phases[0]->Composition()->GetValue(0)<<"\n";
+	cout << _phases[0]->Composition()->GetValue(1) << "\n";
+	cout << _phases[0]->Composition()->GetValue(2) << "\n";
+	return true;
+}

@@ -40,9 +40,10 @@ void PropPack::SetMethod(FlashTypeEnum theFlashType)
 	case IDEAL:
 		_flashmethod = new Ideal;
 
-
+		break;
 	case REFPROP:
-		_flashmethod = new Ideal;
+		_flashmethod = new RefPropPack;
+		break;
 	}
 }
 

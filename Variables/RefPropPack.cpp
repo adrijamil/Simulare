@@ -142,7 +142,7 @@ RefPropPack::RefPropPack()
 
 }
 
-void RefPropPack::PT_Flash(Stream* thestream)
+void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 {
 
 	//setup arrays to be dynamic
@@ -152,15 +152,17 @@ void RefPropPack::PT_Flash(Stream* thestream)
 	double t, p, d, dl, dv, q, e, h, s, cv, cp, w;
 	double x[ncmax], xliq[ncmax], xvap[ncmax], f[ncmax];
 
-	
+	int ncomps;
+	ncomps = thePP->NComps();
+
 	//extract components and compositions
 
-	t = thestream->Temperature()->GetValue();
-	p = thestream->Pressure()->GetValue();
+	t = theStream->Temperature()->GetValue();
+	p = theStream->Pressure()->GetValue();
 	
-	for (int k = 0; k < _ncomps; k++)
+	for (int k = 0; k < ncomps; k++)
 	{
-		x[k] = thestream->Composition()->GetValue(k);
+		x[k] = theStream->Composition()->GetValue(k);
 	}
 	//x = thestream->Composition()->GetValues();
 
@@ -168,21 +170,21 @@ void RefPropPack::PT_Flash(Stream* thestream)
 	// do PT flash
 	//...Calculate pressure (p), internal energy (e), enthalpy (h), entropy (s),
 	//.....isochoric (cv) and isobaric (cp) heat capacities, speed of sound (w),
-	TPFLSHdll(t, p, x, d, dl, dv, xliq, xvap, q, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+	TPFLSHdll(t, p, x, d, dl, dv, xvap, xliq, q, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
 	//cout<< herr;
 
 	//send back to stream
-	for (int i = 0; i < _ncomps; i++)
+	for (int i = 0; i < ncomps; i++)
 	{
-		thestream->Phases(0)->Composition()->SetValue(i, xvap[i]);
-		thestream->Phases(1)->Composition()->SetValue(i, xliq[i]);
+		theStream->Phases(0)->Composition()->SetValue(i, xvap[i]);
+		theStream->Phases(1)->Composition()->SetValue(i, xliq[i]);
 		//Yi[i] = _Ki[i] * Xi[i];
 	}
 
 	//put it into the stream
 
-	thestream->Phases(0)->PhaseMoleFraction()->SetValue(q);
-	thestream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+	theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
+	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
 
 }
 
