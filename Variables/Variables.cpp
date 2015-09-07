@@ -11,10 +11,8 @@
 //#include "UnitConvertor.h"
 //#include "Fluid.h"
 #include "Stream.h"
-#include "Ideal.h"
-#include "RefPropPack.h"
 //#include "RefPropFunctions.h"
-//#include "PropPack.h"
+#include "PropPack.h"
 //namespace
 using namespace std;
 
@@ -142,12 +140,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	//double* x;
 	//x = strm1.Phases(1)->Pressure()->GetValue();
 	//PropPack myPP1;
-	RefPropPack myPP1;
+	PropPack myPP1;
+
 
 	myPP1.SetName("theone");
+	myPP1.SetMethod(IDEAL);
 	//myPP2.SetName("theother");
 
-	strm1.SetPropertyPackage(&myPP1);
+	//strm1.SetPropertyPackage(&myPP1);
 	strm1.PTFlashMe();
 	cout <<"\n" << "\n";
 	cout << strm1.Phases(0)->Composition()->GetValue(0) << "\n";

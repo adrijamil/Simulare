@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseVariable.h" />
+    <ClInclude Include="FlashMethod.h" />
     <ClInclude Include="Fluid.h" />
     <ClInclude Include="FSObject.h" />
     <ClInclude Include="Ideal.h" />
@@ -96,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseVariable.cpp" />
+    <ClCompile Include="FlashMethod.cpp" />
     <ClCompile Include="Fluid.cpp" />
     <ClCompile Include="FSObject.cpp" />
     <ClCompile Include="Ideal.cpp" />
