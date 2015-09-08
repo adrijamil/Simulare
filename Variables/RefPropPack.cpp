@@ -192,4 +192,6 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 
 RefPropPack::~RefPropPack()
 {
+	//FreeLibrary(RefProp_dll_instance);
+
 }

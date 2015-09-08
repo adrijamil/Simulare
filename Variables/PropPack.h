@@ -42,7 +42,7 @@ struct Component
 };
 
 enum FlashTypeEnum  {IDEAL,REFPROP};
-
+enum ComponentNameEnum  { METHANE, ETHANE,BENZENE };
 using namespace std;
 //template<typename T = Stream>
 class PropPack
@@ -55,14 +55,17 @@ public:
 		{
 			_flashmethod->PT_Flash(thestream,this);
 		};// i need P, T and x. Output H, vf and a bunch of props.
+	virtual void AddComponent(string thecompname);
+
 
 	void SetName(string thename){ _name = thename; }
 	int NComps(){ return _ncomps; }
+
 	Component GetComponent(int i){ return _components[i]; }
 
 protected:
 	string _name;
-	Component _components[3]; //make it fixed first
+	Component* _components; //make it fixed first
 	int _ncomps;
 	FlashMethod* _flashmethod;
 };

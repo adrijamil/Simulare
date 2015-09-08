@@ -28,7 +28,7 @@ class FlashMethod
 public:
 	FlashMethod();
 	virtual void PT_Flash(Stream* theStream, PropPack* thePP){};
-	~FlashMethod();
+	virtual ~FlashMethod();
 protected:
 
 	string _name; 

@@ -148,6 +148,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	myPP1.SetName("theone");
 	myPP1.SetMethod(IDEAL);
 	//myPP2.SetName("theother");
+	myPP1.AddComponent("METHANE");
+	myPP1.AddComponent("ETHANE");
+	myPP1.AddComponent("BENZENE");
 
 	strm1.SetPropertyPackage(&myPP1);
 	//strm1.PTFlashMe();

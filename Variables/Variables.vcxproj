@@ -87,6 +87,7 @@
     <ClInclude Include="Ideal.h" />
     <ClInclude Include="Phase.h" />
     <ClInclude Include="PropPack.h" />
+    <ClInclude Include="PropPackFactory.h" />
     <ClInclude Include="RealVariable.h" />
     <ClInclude Include="RefPropFunctions.h" />
     <ClInclude Include="RefPropPack.h" />
@@ -105,6 +106,7 @@
     <ClCompile Include="Ideal.cpp" />
     <ClCompile Include="Phase.cpp" />
     <ClCompile Include="PropPack.cpp" />
+    <ClCompile Include="PropPackFactory.cpp" />
     <ClCompile Include="RealVariable.cpp" />
     <ClCompile Include="RefPropPack.cpp" />
     <ClCompile Include="Solver.cpp" />
