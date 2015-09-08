@@ -109,7 +109,10 @@ RefPropPack::RefPropPack()
 	//load an instance of the dll
 	FreeLibrary(RefProp_dll_instance);
 	RefProp_dll_instance = LoadLibrary("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL");
-
+	if (RefProp_dll_instance == NULL)
+	{
+		cout << "dll didnt load";
+	}
 	//create a method to check if instance is still valid/setup
 
 	//Map the function defined in RefPropFunctions.h to the function which exists in the dll

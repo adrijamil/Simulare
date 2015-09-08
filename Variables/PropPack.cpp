@@ -43,7 +43,7 @@ void PropPack::AddComponent(string thecompname)
 		getline(mycsv, myline);
 		getline(mycsv, myline);
 
-		cout<< "\n";
+		//cout<< "\n";
 		position = mystream.cur;
 		while (getline(mycsv, myline))
 		{
@@ -51,7 +51,7 @@ void PropPack::AddComponent(string thecompname)
 			mystream.str(myline); //turn the line string into a stream
 			getline(mystream, mystring, ','); //get element (ID)
 			getline(mystream, mystring, ',');//get element (Name)
-			cout << mystring << "\n";
+		//	cout << mystring << "\n";
 			if (mystring == thecompname)
 			{	
 				//start again at begining of stream
