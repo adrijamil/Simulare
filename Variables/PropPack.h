@@ -62,7 +62,7 @@ public:
 	int NComps(){ return _ncomps; }
 
 	Component GetComponent(int i){ return _components[i]; }
-
+	void Setup(){ _flashmethod->Setup(this); }
 protected:
 	string _name;
 	Component* _components; //make it fixed first

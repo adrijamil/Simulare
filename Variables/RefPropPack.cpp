@@ -103,10 +103,11 @@ RefPropPack::RefPropPack()
 {
 	//define where fluids are- change to point to "C:\\Program Files (x86)\\REFPROP\\
 
-	_fluids_path = "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids";
+	_fluids_path = "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\";
 
 	//maybe lump this in a setup proc// then lump that in a proppack factory
 	//load an instance of the dll
+	FreeLibrary(RefProp_dll_instance);
 	RefProp_dll_instance = LoadLibrary("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL");
 
 	//create a method to check if instance is still valid/setup
@@ -117,29 +118,57 @@ RefPropPack::RefPropPack()
 	TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TPFLSHdll");
 
 
+
+}
+
+
+void RefPropPack::Setup(PropPack* thePP)
+{
 	//set it up
+	string fluidstring;
+
 	long i, ierr;
 	char hf[refpropcharlength*ncmax], hrf[lengthofreference + 1],
 		herr[errormessagelength + 1], hfmix[refpropcharlength + 1];
 	double x[ncmax];
-	i = 3;
+	i = thePP->NComps();
 	ierr = 0;
+	fluidstring = "";
+	for (int k = 0; k < i; k++)
+	{
+		if (k > 0)
+		{
+			fluidstring = fluidstring + "|";
+		}
+		fluidstring = fluidstring+_fluids_path;
+		fluidstring = fluidstring+ thePP->GetComponent(k).Name+".FLD";
+	}
+	cout << "\n";
+	cout << "\n";
+	cout << "\n";
+
+	strcpy_s(hf, fluidstring.c_str());
+		cout << hf;
+
 	//strcpy_s(hf, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\METHANE.FLD");
-	strcpy_s(hf, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\METHANE.FLD|D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\ETHANE.FLD|D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\BENZENE.FLD");
+	//strcpy_s(hf, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\METHANE.FLD|D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\ETHANE.FLD|D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\BENZENE.FLD");
 	/*strcpy_s(hf, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\ARGON.FLD");
 	strcpy_s(hf, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\OXYGEN.FLD");*/
-	strcpy_s(hfmix, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\HMX.BNC");
+		strcpy_s(hfmix, (_fluids_path + "HMX.BNC").c_str());
 	strcpy_s(hrf, "DEF");
 	strcpy_s(herr, "Ok");
-	
-	
+
+	cout << "\n";
+	cout << "\n";
+	cout << "\n";
+
+	cout << hfmix;
+
 	//...Call SETUP to initialize the program
 	SETUPdll(i, hf, hfmix, hrf, ierr, herr,
 		refpropcharlength*ncmax, refpropcharlength,
 		lengthofreference, errormessagelength);
 	if (ierr != 0) printf("%s\n", herr);
-	std::cout << hf;
-
 }
 
 void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)

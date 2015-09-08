@@ -101,12 +101,18 @@ void PropPack::AddComponent(string thecompname)
 	newcomps[_ncomps-1] = *mycomp;
 	//memcpy(mycomp, newcomps[_ncomps-1], sizeof *mycomp);
 
-	Component* _components = new Component[_ncomps];
+	 _components = new Component[_ncomps];
 	//_components[_ncomps-1].Name = mycomp->Name;
 	//_components[_ncomps - 1] = *mycomp;
 	for (int k = 0; k < _ncomps ; k++)
 	{
 		_components[k] = newcomps[k];
+		//_components[k].Name = newcomps[k].Name;
+		//_components[k].ID = newcomps[k].ID;
+		//_components[k].Acentric = newcomps[k].Acentric;
+		//_components[k].Pc = newcomps[k].Pc;
+		//_components[k].Tc = newcomps[k].Tc;
+		//_components[k].Mw = newcomps[k].Mw;
 
 	}
 

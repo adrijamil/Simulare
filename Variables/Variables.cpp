@@ -181,6 +181,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	PropPack myPP2;
 	myPP2.SetName("thetwo");
 	myPP2.SetMethod(REFPROP);
+
+	myPP2.AddComponent("METHANE");
+	myPP2.AddComponent("ETHANE");
+	myPP2.AddComponent("BENZENE");
+	myPP2.Setup();
+
 	strm2.SetPropertyPackage(&myPP2);
 	////strm2.PTFlashMe();
 	///*cout << "\n" << "\n";

@@ -46,6 +46,8 @@ public:
 	
 	~RefPropPack();
 
+	void Setup(PropPack* thePP);
+
 	void PT_Flash(Stream* theStream, PropPack* thePP);
 
 private:
