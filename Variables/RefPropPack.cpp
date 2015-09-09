@@ -107,9 +107,11 @@ RefPropPack::RefPropPack()
 
 	//maybe lump this in a setup proc// then lump that in a proppack factory
 	//load an instance of the dll
-	HINSTANCE RefProp_dll_instance = NULL;
+	
+	
+	//HINSTANCE RefProp_dll_instance = NULL;
+	//FreeLibrary(RefProp_dll_instance);
 
-	FreeLibrary(RefProp_dll_instance);
 	RefProp_dll_instance = LoadLibrary("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL"); 
 	//RefProp_dll_instance = LoadLibraryEx("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL", NULL, LOAD_LIBRARY_AS_IMAGE_RESOURCE);
 	if (RefProp_dll_instance == NULL)
@@ -205,7 +207,7 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 	// do PT flash
 	//...Calculate pressure (p), internal energy (e), enthalpy (h), entropy (s),
 	//.....isochoric (cv) and isobaric (cp) heat capacities, speed of sound (w),
-	TPFLSHdll(t, p, x, d, dl, dv, xvap, xliq, q, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+	TPFLSHdll(t, p, x, d, dl, dv, xliq, xvap, q, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
 	//cout<< herr;
 
 	//send back to stream

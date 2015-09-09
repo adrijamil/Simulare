@@ -29,7 +29,8 @@
 using namespace std;
 
 class Stream;
-
+//#define __STREAM_H_INCLUDED__ //this line tells the compiler that stream has already been defined
+//#include "Stream.h"
 
 struct Component
 {

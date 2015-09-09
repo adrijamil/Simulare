@@ -24,10 +24,10 @@
 //Allows it to be called using Win32 API
 //http://stackoverflow.com/questions/297654/what-is-stdcall
 
-#pragma once
+#ifndef __REFPROPFUNCTIONS_H_INCLUDED__
+#define __REFPROPFUNCTIONS_H_INCLUDED__
+
 //typedef creates a type alias called fp_SETUPdll which takes inputs in () and returns a void
-
-
 typedef void(__stdcall *fp_SETUPdllTYPE)(long &, char*, char*, char*, long &, char*, long, long, long, long);
 
 typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, double &, long &, char*, long);
@@ -39,6 +39,7 @@ typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &
 fp_SETUPdllTYPE SETUPdll;
 fp_TPFLSHdllTYPE TPFLSHdll;
 
+#endif
 
 
 //

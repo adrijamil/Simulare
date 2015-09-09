@@ -10,8 +10,13 @@
 // 1. Created
 //==================================
 
-#pragma once
+#ifndef __FLOWSHEET_H_INCLUDED__
+#define __FLOWSHEET_H_INCLUDED__
+
+#include "Stream.h"
 #include "FSObject.h"
+
+
 class FlowSheet :
 	public FSObject
 {
@@ -24,9 +29,38 @@ public:
 	void Add(FSObject* thechild);
 	void Remove(){};//to be implemented
 
+	void AddStream(string strname)
+	{
+		Stream* strm = new Stream(strname);
+		if (!_default_package == 0)
+		{
+			strm->SetPropertyPackage(_default_package);
+			Add(strm);
+		}
+		else
+		{
+			cout << "set package first";
+		}
+	}
+	Stream* GetStream(string daname)
+	{
+		Stream* strmptr;
+		strmptr = 0;
+		for (int i = 0; i < _nchildren; i++)
+		{
+			if (_children[i]->Name() == daname)
+			{
+				strmptr = dynamic_cast<Stream *>(_children[i]);  //downcasting 
+			}
+		}
 
-private:
+		return strmptr;
+	}
+protected:
 	FSObject** _children; //array of pointers to objects  
 	int _nchildren;
+	string _name;
+	PropPack* _default_package;
 };
 
+#endif

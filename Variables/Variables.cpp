@@ -10,10 +10,12 @@
 //#include "RealVariable.h"
 //#include "UnitConvertor.h"
 //#include "Fluid.h"
-#include "Stream.h"
+#include "SimCase.h"
+
 //#include "RefPropFunctions.h"
-#include "PropPack.h"
+
 #include "FSObject.h"
+
 
 #include "FlowSheet.h"
 
@@ -112,104 +114,88 @@ int _tmain(int argc, _TCHAR* argv[])
 	//cout << ptr[0];
 	//cout << ptr[1];
 	//cout << ptr[2];
-	//
-
-
-
 	
 	
-	/*Phase ph1;
-	ph1.Pressure()->SetValue(0.3);
-	cout << ph1.Pressure()->GetValue();
-	RealVariable* rv;*/
-	Stream strm1;
-	strm1.Pressure()->SetValue(101.325);
-	strm1.Temperature()->SetValue(200);
-	double* xcheck;
+//
+//	Stream strm1;
+//	strm1.Pressure()->SetValue(101.325);
+//	strm1.Temperature()->SetValue(200);
+//
+//	double x[3];
+//	x[0] = 0.333333333;
+//	x[1] = 0.333333333;
+//	x[2] = 0.333333333;
+//	cout << "\n";
+//	cout << "\n";
+//	cout << x[1];
+//
+//	strm1.Composition()->SetValue(x);
+//
+//	PropPack myPP1;
+//	myPP1.SetName("theone");
+//	myPP1.SetMethod(IDEAL);
+//	myPP1.AddComponent("METHANE");
+//	myPP1.AddComponent("ETHANE");
+//	myPP1.AddComponent("BENZENE");
+//
+//	strm1.SetPropertyPackage(&myPP1);
+//	Stream strm2;
+//	strm2.Pressure()->SetValue(101.325);
+//	strm2.Temperature()->SetValue(200);
+//	
+//	double x2[3];
+//	x2[0] = 0.333333333;
+//	x2[1] = 0.333333333;
+//	x2[2] = 0.333333333;
+//	cout << "\n";
+//	cout << "\n";
+//	cout << x[1];
+//	//xcheck = new double[3];
+//
+//	strm2.Composition()->SetValue(x2);
+//
+//
+//	PropPack myPP2;
+//	myPP2.SetName("thetwo");
+//	myPP2.SetMethod(REFPROP);
+//
+//	myPP2.AddComponent("METHANE");
+//	myPP2.AddComponent("ETHANE");
+//	myPP2.AddComponent("BENZENE");
+//	myPP2.Setup();
+//
+//	strm2.SetPropertyPackage(&myPP2);
+//
+//	bool dabool;
+//
+//FlowSheet fs1;
+//
+//fs1.Add(&strm1);
+//fs1.Add(&strm2);
+//dabool=fs1.Solve();
 
-	double x[3];
-	x[0] = 0.333333333;
-	x[1] = 0.333333333;
-	x[2] = 0.333333333;
-	cout << "\n";
-	cout << "\n";
-	cout << x[1];
-	//xcheck = new double[3];
 
-	strm1.Composition()->SetValue(x);
+SimCase mycase;
+string mycompstrings[3];
+mycompstrings[0] = "METHANE";
+mycompstrings[1] = "ETHANE";
+mycompstrings[2] = "BENZENE";
 
+double mycomps[3];
+mycomps[0] = 0.333333;
+mycomps[1] = 0.333333333;
+mycomps[2] = 0.333333333;
 
-	////cout << strm1.Pressure()->GetValue()<< "\n";
+mycase.Setup(REFPROP, mycompstrings);
 
-	////double* x;
-	////x = strm1.Phases(1)->Pressure()->GetValue();
-	////PropPack myPP1;
-	PropPack myPP1;
-	myPP1.SetName("theone");
-	myPP1.SetMethod(IDEAL);
-	//myPP2.SetName("theother");
-	myPP1.AddComponent("METHANE");
-	myPP1.AddComponent("ETHANE");
-	myPP1.AddComponent("BENZENE");
-
-	strm1.SetPropertyPackage(&myPP1);
-	//strm1.PTFlashMe();
-	////cout <<"\n" << "\n";
-	////cout << strm1.Phases(0)->Composition()->GetValue(0) << "\n";
-	////cout << strm1.Phases(0)->Composition()->GetValue(1)<<"\n";
-	////cout << strm1.Phases(0)->Composition()->GetValue(2) << "\n";
-	////cout << strm1.Phases(0)->PhaseMoleFraction()->GetValue() << "\n";
-	////getchar();
+mycase.AddStream("strm1");
+mycase.GetStream("strm1")->Composition()->SetValue(mycomps);
+mycase.GetStream("strm1")->Pressure()->SetValue(101.325);
+mycase.GetStream("strm1")->Temperature()->SetValue(200);
 
 
-	Stream strm2;
-	strm2.Pressure()->SetValue(101.325);
-	strm2.Temperature()->SetValue(200);
-	
-	double x2[3];
-	x2[0] = 0.333333333;
-	x2[1] = 0.333333333;
-	x2[2] = 0.333333333;
-	cout << "\n";
-	cout << "\n";
-	cout << x[1];
-	//xcheck = new double[3];
 
-	strm2.Composition()->SetValue(x2);
-
-
-	PropPack myPP2;
-	myPP2.SetName("thetwo");
-	myPP2.SetMethod(REFPROP);
-
-	myPP2.AddComponent("METHANE");
-	myPP2.AddComponent("ETHANE");
-	myPP2.AddComponent("BENZENE");
-	myPP2.Setup();
-
-	strm2.SetPropertyPackage(&myPP2);
-	////strm2.PTFlashMe();
-	///*cout << "\n" << "\n";
-	//cout << strm1.Phases(0)->Composition()->GetValue(0) << "\n";
-	//cout << strm1.Phases(0)->Composition()->GetValue(1) << "\n";
-	//cout << strm1.Phases(0)->Composition()->GetValue(2) << "\n";
-	//cout << strm1.Phases(0)->PhaseMoleFraction()->GetValue() << "\n";*/
-
-	//FSObject FS1;
-
-	//FS1.Add(&strm1);
-	//FS1.Add(&strm2);
-	//
-
-	bool dabool;
-	
-
-FlowSheet fs1;
-
-fs1.Add(&strm1);
-fs1.Add(&strm2);
-dabool=fs1.Solve();
-
+mycase.Solve();
 
 	getchar();
 

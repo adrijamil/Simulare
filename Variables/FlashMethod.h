@@ -16,7 +16,8 @@
 //==================================
 
 
-#pragma once
+#ifndef __FLASHMETHOD_H_INCLUDED__
+#define __FLASHMETHOD_H_INCLUDED__
 using namespace std;
 
 //forward declare these guys. dont need to access. for now.
@@ -35,3 +36,4 @@ protected:
 	string _name; 
 };
 
+#endif

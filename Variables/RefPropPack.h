@@ -15,8 +15,8 @@
 // Change History: - put name, date and description of change
 // 1. Created
 //==================================
-#pragma once
-
+#ifndef __REFPROPPACK_H_INCLUDED__
+#define __REFPROPPACK_H_INCLUDED__
 
 #include <windows.h>
 #include <stdio.h>
@@ -57,3 +57,4 @@ private:
 
 };
 
+#endif

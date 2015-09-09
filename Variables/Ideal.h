@@ -15,8 +15,8 @@
 // 1. Created
 //==================================
 
-#ifndef __IDEAL_H__
-#define __IDEAL_H__
+#ifndef __IDEAL_H_INCLUDED__
+#define __IDEAL_H_INCLUDED__
 
 #include "FlashMethod.h"
 #include "Stream.h"

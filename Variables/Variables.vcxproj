@@ -87,10 +87,11 @@
     <ClInclude Include="Ideal.h" />
     <ClInclude Include="Phase.h" />
     <ClInclude Include="PropPack.h" />
-    <ClInclude Include="PropPackFactory.h" />
+    <ClInclude Include="PropPackBuilder.h" />
     <ClInclude Include="RealVariable.h" />
     <ClInclude Include="RefPropFunctions.h" />
     <ClInclude Include="RefPropPack.h" />
+    <ClInclude Include="SimCase.h" />
     <ClInclude Include="Solver.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stream.h" />
@@ -106,9 +107,10 @@
     <ClCompile Include="Ideal.cpp" />
     <ClCompile Include="Phase.cpp" />
     <ClCompile Include="PropPack.cpp" />
-    <ClCompile Include="PropPackFactory.cpp" />
+    <ClCompile Include="PropPackBuilder.cpp" />
     <ClCompile Include="RealVariable.cpp" />
     <ClCompile Include="RefPropPack.cpp" />
+    <ClCompile Include="SimCase.cpp" />
     <ClCompile Include="Solver.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

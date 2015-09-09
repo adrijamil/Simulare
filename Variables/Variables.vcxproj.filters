@@ -66,7 +66,10 @@
     <ClInclude Include="FlowSheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PropPackFactory.h">
+    <ClInclude Include="SimCase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PropPackBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +119,10 @@
     <ClCompile Include="FlowSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PropPackFactory.cpp">
+    <ClCompile Include="SimCase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropPackBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
