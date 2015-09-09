@@ -7,6 +7,7 @@
 // ===============================
 // TO BE IMPLEMENTED: 
 // 1. To keep relevant pure component data (Tc, Pc) on board so don't have too keep reaching into PropPack. Do this on the base class
+// 2. Implement this as a singleton
 // ===============================
 // SPECIAL NOTES:	
 // 1. 
@@ -51,7 +52,7 @@ public:
 	void PT_Flash(Stream* theStream, PropPack* thePP);
 
 private:
-	HINSTANCE RefProp_dll_instance;
+	HMODULE RefProp_dll_instance;
 	string _fluids_path;
 
 };

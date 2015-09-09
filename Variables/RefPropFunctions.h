@@ -29,6 +29,7 @@
 
 
 typedef void(__stdcall *fp_SETUPdllTYPE)(long &, char*, char*, char*, long &, char*, long, long, long, long);
+
 typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, double &, long &, char*, long);
 
 

@@ -107,21 +107,25 @@ RefPropPack::RefPropPack()
 
 	//maybe lump this in a setup proc// then lump that in a proppack factory
 	//load an instance of the dll
+	HINSTANCE RefProp_dll_instance = NULL;
+
 	FreeLibrary(RefProp_dll_instance);
-	RefProp_dll_instance = LoadLibrary("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL");
+	RefProp_dll_instance = LoadLibrary("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL"); 
+	//RefProp_dll_instance = LoadLibraryEx("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL", NULL, LOAD_LIBRARY_AS_IMAGE_RESOURCE);
 	if (RefProp_dll_instance == NULL)
 	{
 		cout << "dll didnt load";
 	}
+
 	//create a method to check if instance is still valid/setup
+
+
 
 	//Map the function defined in RefPropFunctions.h to the function which exists in the dll
 
 	SETUPdll = (fp_SETUPdllTYPE)GetProcAddress(RefProp_dll_instance, "SETUPdll");
 	TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TPFLSHdll");
-
-
-
+	cout << "\n" << "setupdll  " << SETUPdll << "\n";
 }
 
 
@@ -133,7 +137,7 @@ void RefPropPack::Setup(PropPack* thePP)
 	long i, ierr;
 	char hf[refpropcharlength*ncmax], hrf[lengthofreference + 1],
 		herr[errormessagelength + 1], hfmix[refpropcharlength + 1];
-	double x[ncmax];
+//	double x[ncmax];
 	i = thePP->NComps();
 	ierr = 0;
 	fluidstring = "";
@@ -166,7 +170,7 @@ void RefPropPack::Setup(PropPack* thePP)
 	cout << "\n";
 
 	cout << hfmix;
-
+	
 	//...Call SETUP to initialize the program
 	SETUPdll(i, hf, hfmix, hrf, ierr, herr,
 		refpropcharlength*ncmax, refpropcharlength,
@@ -178,11 +182,10 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 {
 
 	//setup arrays to be dynamic
-	long i, ierr;
-	char hf[refpropcharlength*ncmax], hrf[lengthofreference + 1],
-		herr[errormessagelength + 1], hfmix[refpropcharlength + 1];
+	long  ierr;
+	char 	herr[errormessagelength + 1];
 	double t, p, d, dl, dv, q, e, h, s, cv, cp, w;
-	double x[ncmax], xliq[ncmax], xvap[ncmax], f[ncmax];
+	double x[ncmax], xliq[ncmax], xvap[ncmax];
 
 	int ncomps;
 	ncomps = thePP->NComps();
@@ -206,10 +209,10 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 	//cout<< herr;
 
 	//send back to stream
-	for (int i = 0; i < ncomps; i++)
+	for (int k = 0; k < ncomps; k++)
 	{
-		theStream->Phases(0)->Composition()->SetValue(i, xvap[i]);
-		theStream->Phases(1)->Composition()->SetValue(i, xliq[i]);
+		theStream->Phases(0)->Composition()->SetValue(k, xvap[k]);
+		theStream->Phases(1)->Composition()->SetValue(k, xliq[k]);
 		//Yi[i] = _Ki[i] * Xi[i];
 	}
 
