@@ -42,7 +42,7 @@ public:
 private:
 	RealVariableType _variable_type;  //pressure, temperature etc
 	bool _is_known; // is known or not. toggle this when setting/clearing variables
-	bool _is_calculated=true; //as in is it dependent or independent (specified or calculated)
+	bool _is_calculated=false; //as in is it dependent or independent (specified or calculated)
 };
 
 

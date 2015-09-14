@@ -116,7 +116,7 @@ RefPropPack::RefPropPack()
 	//RefProp_dll_instance = LoadLibraryEx("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL", NULL, LOAD_LIBRARY_AS_IMAGE_RESOURCE);
 	if (RefProp_dll_instance == NULL)
 	{
-	//	cout << "dll didnt load";
+//		cout << "dll didnt load";
 	}
 
 	//create a method to check if instance is still valid/setup
@@ -153,11 +153,11 @@ void RefPropPack::Setup(PropPack* thePP)
 		fluidstring = fluidstring+ thePP->GetComponent(k).Name+".FLD";
 	}
 	//cout << "\n";
-	//cout << "\n";
+//	cout << "\n";
 //	cout << "\n";
 
 	strcpy_s(hf, fluidstring.c_str());
-	//	cout << hf;
+//		cout << hf;
 
 	//strcpy_s(hf, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\METHANE.FLD");
 	//strcpy_s(hf, "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\METHANE.FLD|D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\ETHANE.FLD|D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\BENZENE.FLD");
@@ -171,7 +171,7 @@ void RefPropPack::Setup(PropPack* thePP)
 	//cout << "\n";
 	//cout << "\n";
 
-	//cout << hfmix;
+//	cout << hfmix;
 	
 	//...Call SETUP to initialize the program
 	SETUPdll(i, hf, hfmix, hrf, ierr, herr,
