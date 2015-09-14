@@ -166,17 +166,21 @@ void CommandInterpreter::CaseSetup(string thesetupcmd)
 		{
 			getline(mypartstream, reply);
 		}
-
-		compnames[ncomps] = reply;
-
-		ncomps = ncomps + 1;
-		//FSObject** newchildren;
-
-		cout << reply << " has been added. Add another component or enter DONE to finish \n";
 		if (reply == "DONE")
 		{
 			issetup = true;
 		}
+		else
+		{
+			compnames[ncomps] = reply;
+
+			ncomps = ncomps + 1;
+			//FSObject** newchildren;
+
+			cout << reply << " has been added. Add another component or enter DONE to finish \n";
+		}
+		
+		
 	}
 
 
@@ -261,6 +265,8 @@ void CommandInterpreter::StreamSetup(string thecmd)
 		tempdb = stod(myreply);
 		_activecase->GetStream(strname)->Pressure()->SetValue(tempdb);
 
-
+		cout << "Stream has been added:";
 		_activecase->Solve();
+		_activecase->GetStream(strname)->Output();
+
 }

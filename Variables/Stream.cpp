@@ -54,8 +54,6 @@ bool Stream::Solve()
 }
 
 
-
-
 void Stream::Output()
 {
 	int myncomps;
