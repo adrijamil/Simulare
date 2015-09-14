@@ -24,25 +24,40 @@ enum RealVariableType {UNITLESS,PRESSURE,TEMPERATURE,MASSFLOW,MASSENTHALPY,PHYSP
 
 class RealVariable :
 	//template specialisation 
-	public BaseVariable <double>
+	public BaseVariable < double >
 {
 public:
 	//default constructor instantiates BaseVariable as <double>
-	RealVariable();  
-	
+	RealVariable();
+
+
 	//constructor for known single element double
 	RealVariable(double thedb) :BaseVariable<double>(thedb){};
-	
+
 	//constructor using known value and it's an array
 	template < size_t N >
 	RealVariable(double const (&thevalue)[N]) :BaseVariable<double>(thevalue){};
+
+	bool IsKnown() { return _is_known; }
+	bool IsCalculated(){ return _is_calculated; }
+
+	void IsKnown(bool thebool) { _is_known = thebool; }
+	void IsCalculated(bool thebool){ _is_calculated = thebool; }
+
+	double GetValue(int i) { return _getvalue(i); }
+	double* GetValues(){return _getvalues();}
+	double GetValue(){ return _getvalue(); }
+
+	void SetValue(double thevalue);
+	void SetValue(int i, double thevalue);
+	void SetValues(int N, double* thevalue);
 
 	//Destructor
 	~RealVariable();
 private:
 	RealVariableType _variable_type;  //pressure, temperature etc
-	bool _is_known; // is known or not. toggle this when setting/clearing variables
-	bool _is_calculated=false; //as in is it dependent or independent (specified or calculated)
+	bool _is_known=false; // is known or not. toggle this when setting/clearing variables
+	bool _is_calculated=true; //as in is it dependent or independent (specified or calculated)
 };
 
 

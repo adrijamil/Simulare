@@ -49,17 +49,19 @@ public:
 		return _size;
 	}
 
+
+protected:
 	//Setting the value by passing an array
-	void SetValues(int N, T* thevalue)
+	void _setvalues(int N, T* thevalue)
 	{
-		if (!(N==(sizeof(_value) / sizeof(*_value)))) //if my array is a different size then redim it. 
+		if (!(N == (sizeof(_value) / sizeof(*_value)))) //if my array is a different size then redim it. 
 		{
 			_size = N;
 			_value = new T[N];
 		}
-		
 
-		for (int i = 0;i< N ; i++)
+
+		for (int i = 0; i< N; i++)
 		{
 			_value[i] = thevalue[i];
 		}
@@ -67,19 +69,19 @@ public:
 
 
 	//setting a value for a single element
-	void SetValue(T thevalue){ *_value = thevalue; }; //setval single element
+	void _setvalue(T thevalue){ *_value = thevalue; }; //setval single element
 
-	void SetValue(int i, T thevalue){ _value[i] = thevalue; }
+	void _setvalue(int i, T thevalue){ _value[i] = thevalue; }
 
-	T* GetValues(){ return  _value; };  // to get an array
-	T GetValue(){ return *_value; };// to get the single value //otherwise gotta treat element as array of 1. this is not nice.
-	T GetValue(int i)
+	T* _getvalues(){ return  _value; };  // to get an array
+	T _getvalue(){ return *_value; };// to get the single value //otherwise gotta treat element as array of 1. this is not nice.
+	T _getvalue(int i)
 	{
 		T theElement;
 		theElement = _value[i];
 		return theElement;
 	};
-protected:
+
 	T* _value; //pointer to value
 	int _size=1;//size of array. by default its 1
 };

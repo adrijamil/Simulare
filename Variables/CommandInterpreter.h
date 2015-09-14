@@ -19,5 +19,6 @@ private:
 	void StreamSetup(string thecmd);
 	SimCase* _activecase;
 	void CaseSetup(string thesetupcmd);
+
 };
 

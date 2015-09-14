@@ -33,19 +33,26 @@ public:
 
 	RealVariable* Pressure(){ return _pressure; };
 	RealVariable* Temperature(){ return _temperature; };
-
+	RealVariable* MolarEnthalpy(){ return _molenthalpy; };
+	RealVariable* MolarEntropy(){ return _molentropy; };
+	RealVariable* MassFlow(){ return _mass_flow_rate; };
 	
 protected:
 	RealVariable* _composition = new RealVariable;
+
+	RealVariable* _mass_flow_rate = new RealVariable;
+	RealVariable* _molenthalpy = new RealVariable;
+	RealVariable* _molentropy = new RealVariable;
 
 	// keep a reference.then when building the stream can just connect(ie stream pressure refers to phase pressure as well)
 	//all these fuckers will be initialised by the stream object (phases and stream members point to the same variables). 
 	string _BD_name;
 	RealVariable* _pressure;
 	RealVariable* _temperature;
-	RealVariable* _mass_flow_rate;
-	RealVariable* _massenthalpy;
-	RealVariable* _physprops; // keep this as an array to be filled by another class (not the thermo engine)
+
+
+
+	RealVariable* _physprops; // keep this as an array to be filled by another class (not the thermo engine)// array of RealVariable that is
 	int* _proppack; //keep a reference to a property package object. make it later. 
 
 };

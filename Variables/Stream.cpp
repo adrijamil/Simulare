@@ -49,8 +49,57 @@ Stream::~Stream()
 bool Stream::Solve()
 {
 	//check DOF then call appropriate flash
-	PTFlashMe();
+
+	//calc specs
+	int nspecs=0;
+
+	if (!_pressure->IsCalculated())
+	{
+		nspecs = nspecs + 1;
+	}
+
+	if (!_temperature->IsCalculated())
+	{
+		nspecs = nspecs + 1;
+	}
+
+	if (!_phases[0]->PhaseMoleFraction()->IsCalculated())
+	{
+		nspecs = nspecs + 1;
+	}
+
+	if (!_molenthalpy->IsCalculated())
+	{
+		nspecs = nspecs + 1;
+	}
+
+	if (!_molentropy->IsCalculated())
+	{
+		nspecs = nspecs + 1;
+	}
+
+	if (!_composition->IsCalculated())
+	{
+		nspecs = nspecs + 1;
+	}
+
+	if ((nspecs > 3))
+	{
+		cout << "Specifation error";
+		return false;
+	}
+
+	if ((!(_pressure->IsCalculated())) && (!(_temperature->IsCalculated())))
+	{
+		if ((_pressure->IsKnown()) && (_temperature->IsKnown()))
+		{
+			PTFlashMe();
+		}
+	}
+	
 	return true;
+	
+
 }
 
 
@@ -78,7 +127,4 @@ void Stream::Output()
 	{
 		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
 	}
-
-
-
 }

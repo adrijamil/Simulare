@@ -233,6 +233,7 @@ void CommandInterpreter::StreamSetup(string thecmd)
 		}
 
 		_activecase->GetStream(strname)->Composition()->SetValues(myncomps, molecomps);
+		_activecase->GetStream(strname)->Composition()->IsCalculated(false);
 
 		
 		_activecase->GetStream(strname)->Normalise();
@@ -249,6 +250,7 @@ void CommandInterpreter::StreamSetup(string thecmd)
 
 		tempdb = stod(myreply);
 		_activecase->GetStream(strname)->Temperature()->SetValue(tempdb);
+		_activecase->GetStream(strname)->Temperature()->IsCalculated(false);
 
 
 		if (thecmd == "NONE")
@@ -262,6 +264,7 @@ void CommandInterpreter::StreamSetup(string thecmd)
 		}
 		tempdb = stod(myreply);
 		_activecase->GetStream(strname)->Pressure()->SetValue(tempdb);
+		_activecase->GetStream(strname)->Pressure()->IsCalculated(false);
 
 		cout << "Stream Added";
 		_activecase->Solve();
