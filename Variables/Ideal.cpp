@@ -12,6 +12,7 @@ double Ideal::_RR(double vfrac, double* comps,int NComp)
 	for (int i = 0; i < NComp; i++)
 	{
 		sum = sum+(comps[i] * (_Ki[i] - 1)) / (1 + vfrac*(_Ki[i] - 1));
+	//	cout << comps[i] << "\n";
 	}
 	return sum;
 }
@@ -55,7 +56,10 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	//total composition
 	Zi = new double[ncomp];
 	Zi = theStream->Composition()->GetValues();
-
+	//cout << "\n";
+	//cout << Zi[0] << "\n";
+	//cout << Zi[1] << "\n";
+	//cout << Zi[2] << "\n";
 
 	//phase composition
 	Xi = new double[ncomp];
@@ -72,6 +76,7 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 		//this is the Lee-Kesler method 
 		Pvap = thePP->GetComponent(i).Pc*(exp(5.92714 - 6.09648 / Tr - 1.28862*log(Tr) + 0.169347*pow(Tr, 6) + thePP->GetComponent(i).Acentric*(15.2518 - 15.6875 / Tr - 13.4721*log(Tr) + 0.43577*pow(Tr, 6))));
 		_Ki[i] = Pvap / P;
+		//cout << _Ki[i]<< "\n";
 	}
 	
 
@@ -91,9 +96,9 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 		flo = _RR(lo, Zi, ncomp);
 		fmid = _RR(mid, Zi, ncomp);
 
-		//cout << iter << "\n" << "\n";
-		//cout << hi << " " << lo << " " << mid << "\n";
-	//	cout << fhi << " " << flo << " " << fmid;
+	//	cout << iter << "\n" << "\n";
+	//	cout << hi << " " << lo << " " << mid << "\n";
+		//cout << fhi << " " << flo << " " << fmid;
 
 		if ((fhi*fmid) > 0) //if fmid and fhi same sign
 		{
@@ -116,9 +121,12 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	//calculate phase compositions
 	for (int i = 0; i < ncomp; i++)
 	{
+
 		Xi[i] = Zi[i]/(1+vfrac*(_Ki[i]-1));
-		theStream->Phases(0)->Composition()->SetValue(i, Xi[i]);
-		theStream->Phases(1)->Composition()->SetValue(i, _Ki[i] * Xi[i]);
+		//cout << Xi[i] << "\n";
+
+		theStream->Phases(1)->Composition()->SetValue(i, Xi[i]);
+		theStream->Phases(0)->Composition()->SetValue(i, _Ki[i] * Xi[i]);
 		//Yi[i] = _Ki[i] * Xi[i];
 	}
 

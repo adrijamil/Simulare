@@ -50,8 +50,7 @@ public:
 	}
 
 	//Setting the value by passing an array
-	template <class T, size_t N >
-	void SetValue(T const (&thevalue)[N])
+	void SetValues(int N, T* thevalue)
 	{
 		if (!(N==(sizeof(_value) / sizeof(*_value)))) //if my array is a different size then redim it. 
 		{

@@ -12,7 +12,9 @@ class SimCase :
 	public FlowSheet
 {
 public:
-	SimCase(){
+	SimCase(string thename){
+		_casename = thename;
+
 		_name = "MAIN"; 
 		_default_package = 0;
 		thePPBuilder = new PropPackBuilder;
@@ -23,12 +25,18 @@ public:
 	{
 		int ncomps;
 		ncomps =N;
+		std::string thecomp;
 
 		thePPBuilder->BuidPackage();
 		
 		for (int i = 0; i < 3; i++)
 		{
-			thePPBuilder->AddComponent(components[i]);
+			thecomp = components[i];
+			if (thecomp.compare("none") != 0)
+			{
+				thePPBuilder->AddComponent(thecomp);
+			}
+			
 		}
 
 		thePPBuilder->SetFlashMethod(flashmethod);
@@ -37,14 +45,12 @@ public:
 	}
 
 
-	Stream* Stream(string name)
-	{
-		return 0;
-	}
+
 
 	~SimCase();
 private:
 	PropPackBuilder* thePPBuilder;
+	string _casename;
 
 	
 

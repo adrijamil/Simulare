@@ -128,7 +128,7 @@ void PropPack::AddComponent(string thecompname)
 	//	_components[_ncomps - 1].Pc = mycomp->Pc;
 	//	_components[_ncomps - 1].Tc = mycomp->Tc;
 	//}
-	cout << _components[_ncomps - 1].Name;
+	//cout << _components[_ncomps - 1].Name;
 
 }
 

@@ -10,7 +10,9 @@
 //#include "RealVariable.h"
 //#include "UnitConvertor.h"
 //#include "Fluid.h"
-#include "SimCase.h"
+//#include "SimCase.h"
+#include "CommandInterpreter.h"
+
 
 //#include "RefPropFunctions.h"
 
@@ -175,28 +177,39 @@ int _tmain(int argc, _TCHAR* argv[])
 //dabool=fs1.Solve();
 
 
-SimCase mycase;
-string mycompstrings[3];
-mycompstrings[0] = "METHANE";
-mycompstrings[1] = "ETHANE";
-mycompstrings[2] = "BENZENE";
+//SimCase mycase;
+//string mycompstrings[3];
+//mycompstrings[0] = "METHANE";
+//mycompstrings[1] = "ETHANE";
+//mycompstrings[2] = "BENZENE";
+//
+//double mycomps[3];
+//mycomps[0] = 0.333333;
+//mycomps[1] = 0.333333333;
+//mycomps[2] = 0.333333333;
+//
+//mycase.Setup(REFPROP, mycompstrings);
+//
+//mycase.AddStream("strm1");
+//mycase.GetStream("strm1")->Composition()->SetValue(mycomps);
+//mycase.GetStream("strm1")->Pressure()->SetValue(101.325);
+//mycase.GetStream("strm1")->Temperature()->SetValue(200);
 
-double mycomps[3];
-mycomps[0] = 0.333333;
-mycomps[1] = 0.333333333;
-mycomps[2] = 0.333333333;
 
-mycase.Setup(REFPROP, mycompstrings);
+CommandInterpreter mycase("myinputfile.txt");
 
-mycase.AddStream("strm1");
-mycase.GetStream("strm1")->Composition()->SetValue(mycomps);
-mycase.GetStream("strm1")->Pressure()->SetValue(101.325);
-mycase.GetStream("strm1")->Temperature()->SetValue(200);
+string mycommand;
+mycommand = "";
+bool isexit=false;
 
 
+while (!isexit)
+{
+	cin >> mycommand;
+	mycase.SendCommand(mycommand);
+}
 
-mycase.Solve();
-
+cout << "Exiting. Press enter.";
 	getchar();
 
 	return 0;

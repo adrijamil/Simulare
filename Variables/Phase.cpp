@@ -19,7 +19,8 @@ void Phase::SetParent(Fluid* parentstrm)
 	
 	delete	_temperature;
 	_temperature = parentstrm->Temperature();
-	
-	cout << parentstrm->Pressure();
-	cout << _pressure;
+
+
+	//cout << parentstrm->Pressure();
+	//cout << _pressure;
 }

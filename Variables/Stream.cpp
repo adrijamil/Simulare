@@ -50,18 +50,37 @@ bool Stream::Solve()
 {
 	//check DOF then call appropriate flash
 	PTFlashMe();
+	return true;
+}
+
+
+
+
+void Stream::Output()
+{
+	int myncomps;
+	myncomps = _proppack->NComps();
 
 	cout << "\n";
-	cout << _name << "\n";
-	cout << "GasPhase" << "\n";
-	cout << _phases[0]->Composition()->GetValue(0)<<"\n";
-	cout << _phases[0]->Composition()->GetValue(1) << "\n";
-	cout << _phases[0]->Composition()->GetValue(2) << "\n";
-	
-	cout << "LiqPhase" << "\n";
-	cout << _phases[1]->Composition()->GetValue(0) << "\n";
-	cout << _phases[1]->Composition()->GetValue(1) << "\n";
-	cout << _phases[1]->Composition()->GetValue(2) << "\n";
+	cout << _name<< "\n";
 
-	return true;
+	cout << "Pressure  " << Pressure()->GetValue()<< "\n";
+	cout << "Temperature  " << Temperature()->GetValue() << "\n";
+	cout << "Vfrac  " << VapourFraction()->GetValue() << "\n";
+	cout << "GasPhase  " << "\n";
+	for (int k = 0; k < myncomps; k++)
+	{
+
+		cout << _proppack->GetComponent(k).Name << "  " << _phases[0]->Composition()->GetValue(k) << "\n";
+	}
+
+	cout << "\n";
+	cout << "LiquidPhase" << "\n";
+	for (int k = 0; k < myncomps; k++)
+	{
+		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
+	}
+
+
+
 }

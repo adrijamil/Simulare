@@ -33,8 +33,7 @@ public:
 
 	RealVariable* Pressure(){ return _pressure; };
 	RealVariable* Temperature(){ return _temperature; };
-	
-	int NComponents; //implement this
+
 	
 protected:
 	RealVariable* _composition = new RealVariable;

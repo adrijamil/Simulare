@@ -76,10 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="myinputfile.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseVariable.h" />
+    <ClInclude Include="CommandInterpreter.h" />
     <ClInclude Include="FlashMethod.h" />
     <ClInclude Include="FlowSheet.h" />
     <ClInclude Include="Fluid.h" />
@@ -100,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseVariable.cpp" />
+    <ClCompile Include="CommandInterpreter.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
     <ClCompile Include="FlowSheet.cpp" />
     <ClCompile Include="Fluid.cpp" />

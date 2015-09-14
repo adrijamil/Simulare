@@ -40,7 +40,7 @@ class Stream :
 public:
 	Stream();
 	Stream(string daname);
-
+	RealVariable* VapourFraction(){ return _phases[0]->PhaseMoleFraction(); };
 	~Stream();
 
 	Phase* Phases(int i)
@@ -51,13 +51,16 @@ public:
 	void PTFlashMe(){ _proppack->PT_Flash(this); };
 	void SetPropertyPackage(PropPack* thePP);
 	
-
+	int NComps(){ return _proppack->NComps(); }
 	bool Solve();
 
+	void Output();
 
 private:
 	Phase* _phases[3];
 	PropPack* _proppack;
+
+
 	
 
 };

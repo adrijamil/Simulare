@@ -28,7 +28,7 @@ public:
 
 	void Add(FSObject* thechild);
 	void Remove(){};//to be implemented
-
+	int NComps(){ return _default_package->NComps(); };
 	void AddStream(string strname)
 	{
 		Stream* strm = new Stream(strname);
@@ -55,6 +55,20 @@ public:
 		}
 
 		return strmptr;
+	}
+
+	void Output()
+	{	
+		Stream* strmptr;
+		strmptr = 0;
+		for (int i = 0; i < _nchildren; i++)
+		{
+			{
+				strmptr = dynamic_cast<Stream *>(_children[i]);  //downcasting to stream type. later if unit ops how?
+				strmptr->Output();
+
+			}
+		}
 	}
 protected:
 	FSObject** _children; //array of pointers to objects  
