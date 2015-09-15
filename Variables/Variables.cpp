@@ -196,7 +196,7 @@ int _tmain(int argc, _TCHAR* argv[])
 //mycase.GetStream("strm1")->Temperature()->SetValue(200);
 
 
-CommandInterpreter mycase("myinputfile.txt");
+CommandInterpreter mycase("inputfile2.txt");
 
 string mycommand;
 mycommand = "";

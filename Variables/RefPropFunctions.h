@@ -32,13 +32,14 @@ typedef void(__stdcall *fp_SETUPdllTYPE)(long &, char*, char*, char*, long &, ch
 
 typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, double &, long &, char*, long);
 
+typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 
 
 
 //create the function for use in c++
 fp_SETUPdllTYPE SETUPdll;
 fp_TPFLSHdllTYPE TPFLSHdll;
-
+fp_TQFLSHdllTYPE TQFLSHdll;
 #endif
 
 
@@ -127,7 +128,7 @@ fp_TPFLSHdllTYPE TPFLSHdll;
 //typedef void(__stdcall *fp_THERMdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &);
 //typedef void(__stdcall *fp_THFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_TPRHOdllTYPE)(double &, double &, double *, long &, long &, double &, long &, char*, long);
-//typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+
 //typedef void(__stdcall *fp_TRNPRPdllTYPE)(double &, double &, double *, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_TSFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_VIRBdllTYPE)(double &, double *, double &);
@@ -222,7 +223,7 @@ fp_TPFLSHdllTYPE TPFLSHdll;
 //fp_THFLSHdllTYPE THFLSHdll;
 
 //fp_TPRHOdllTYPE TPRHOdll;
-//fp_TQFLSHdllTYPE TQFLSHdll;
+
 //fp_TRNPRPdllTYPE TRNPRPdll;
 //fp_TSFLSHdllTYPE TSFLSHdll;
 //fp_VIRBdllTYPE VIRBdll;

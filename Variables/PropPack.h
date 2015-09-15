@@ -56,6 +56,12 @@ public:
 		{
 			_flashmethod->PT_Flash(thestream,this);
 		};// i need P, T and x. Output H, vf and a bunch of props.
+
+	virtual void TQ_Flash(Stream* thestream)
+	{
+		_flashmethod->TQ_Flash(thestream, this);
+	};// i need P, T and x. Output H, vf and a bunch of props.
+
 	virtual void AddComponent(string thecompname);
 
 

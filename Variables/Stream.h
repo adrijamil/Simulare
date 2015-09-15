@@ -52,6 +52,7 @@ public:
 	}
 
 	void PTFlashMe(){ _proppack->PT_Flash(this); };
+	void TQFlashMe(){ _proppack->TQ_Flash(this); }
 	void SetPropertyPackage(PropPack* thePP);
 	
 	int NComps(){ return _proppack->NComps(); }

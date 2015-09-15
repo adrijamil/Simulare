@@ -4,6 +4,8 @@
 CommandInterpreter::CommandInterpreter(string theinputfile)
 {
 	string mystring;
+	string str1, str2, str3, str4;
+
 	fstream myfile;
 	string mylongstring;
 
@@ -11,44 +13,39 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 	isdone = false;
 	//std::stringstream  mypartstream;
 	myfile.open(theinputfile);
-	while (isdone == false)
+	while (myfile.good())
 	{
 		getline(myfile, mystring);
-		if (mystring == "DONE")
+		if (mystring == "PROPPACK") //go into parsing for proppack setup
 		{
-			isdone = true;
-			mylongstring.append("DONE");
-			mylongstring.append("\n");
+			getline(myfile, str1);//this will be flash method
+			getline(myfile, str2);//this will be components
+			str2.append(",DONE");
+			CaseSetup(str1, str2);
 		}
 
-		if (isdone == false)
+		else if (mystring == "STREAM")
 		{
+			getline(myfile, str1);//this will be the name
+			do
+			{
+				getline(myfile, str2);
+				if (str3 != "")
+				{
+					str3.append("\n");
+				}
+				str3.append(str2);
+				
+			} while (str2!="");
+			str3.append("DONE");
+			StreamSetup(str1, str3);
+			str3 = "";
 
-			mylongstring.append(mystring);
-			mylongstring.append("\n");
-		}
-	}
-
-	CaseSetup(mylongstring);
-	mylongstring = "";
-
-	getline(myfile, mystring);//skip "STREAMS"
-	while (getline(myfile, mystring))
-	{
-		//getline(myfile, mystring);
-		if (mystring == "DONE")
-		{
-			StreamSetup(mylongstring);
-			mylongstring = "";
-			
-		}
-		else
-		{
-
-			mylongstring.append(mystring);
-			mylongstring.append("\n");
 		}
 	}
+
+	_activecase->Solve();
+	_activecase->Output();
 
 	myfile.close();
 	//rapidxml serial;
@@ -56,7 +53,7 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 }
 CommandInterpreter::CommandInterpreter()
 { 
-	CaseSetup("NONE");
+	CaseSetup("NONE","");
 }
 
 
@@ -73,7 +70,7 @@ void CommandInterpreter::SendCommand(string thecommand)
 	string strname;
 	if (thecommand == "ADDSTREAM")
 	{
-		StreamSetup("NONE");
+		StreamSetup("NONE","");
 	}
 	else if (thecommand == "OUTPUT")
 	{
@@ -94,7 +91,7 @@ void CommandInterpreter::OutputAll()
 }
 
 
-void CommandInterpreter::CaseSetup(string thesetupcmd)
+void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 {
 	
 	string reply;
@@ -103,9 +100,9 @@ void CommandInterpreter::CaseSetup(string thesetupcmd)
 	//make option to load case
 	//string* compnames;
 	string compnames[20];
-
+	std::istringstream  mypartstream(thecomps);
 	int ncomps;
-	std::istringstream  mypartstream(thesetupcmd);
+	//std::istringstream  mypartstream(thesetupcmd);
 	for (int k = 0; k < 20; k++)
 	{
 		compnames[k] = "none";
@@ -118,23 +115,19 @@ void CommandInterpreter::CaseSetup(string thesetupcmd)
 
 	while (!issetup)
 	{
-		if (thesetupcmd == "NONE")
+		if (theflash == "")
 		{
 			cout << "Select IDEAL or REFPROP: \n";
-			cin >> reply;
-		}
-		else
-		{
-			getline(mypartstream, reply);
+			cin >> theflash;
 		}
 
-		if (reply == "IDEAL")
+		if (theflash == "IDEAL")
 		{
 			cout << "IDEAL selected.\n";
 			theflashtype = IDEAL;
 			issetup = true;
 		}
-		else if (reply == "REFPROP")
+		else if (theflash == "REFPROP")
 		{
 			cout << "REFPROP selected.\n";
 			theflashtype = REFPROP;
@@ -145,6 +138,7 @@ void CommandInterpreter::CaseSetup(string thesetupcmd)
 			cout << "I give up.\n";
 			issetup = true;
 		}
+
 		else
 		{
 			cout << "Does not compute.\n";
@@ -156,15 +150,14 @@ void CommandInterpreter::CaseSetup(string thesetupcmd)
 	while (!issetup)
 	{
 		
-		
-		if (thesetupcmd == "NONE")
+		if (thecomps == "")
 		{
 			cout << "Add a component. All caps please. \n";
 			cin >> reply;
 		}
 		else
 		{
-			getline(mypartstream, reply);
+			getline(mypartstream, reply,',');
 		}
 
 		if (reply == "DONE")
@@ -176,7 +169,6 @@ void CommandInterpreter::CaseSetup(string thesetupcmd)
 
 		compnames[ncomps] = reply;
 		ncomps = ncomps + 1;
-		//FSObject** newchildren;
 		cout << reply << " has been added. Add another component or enter DONE to finish \n";
 		}
 	}
@@ -188,86 +180,128 @@ void CommandInterpreter::CaseSetup(string thesetupcmd)
 }
 
 
-void CommandInterpreter::StreamSetup(string thecmd)
+void CommandInterpreter::StreamSetup(string thename, string thespecs)
 {
-	string myreply;
-	string strname;
-	
+	//string myreply;
+	//string strname;
+	//
 	int myncomps;
+	
+	int i;
+	bool issetup;
+	
 	double tempdb;
-	std::istringstream  mypartstream(thecmd);
-
-
+	std::istringstream  mypartstream(thespecs);
+	
+	string param;
+	string thevar;
+	
+	issetup = false;
 	//set stream name
-	if (thecmd == "NONE")
+	if (thename == "")
 	{
-		cout << "Enter stream name";
-		cin >> strname;
+		cout << "Enter stream name \n";
+		cin >> thename;
 	}
-	else
+
+	_activecase->AddStream(thename); //default proppack will be used
+	myncomps = _activecase->GetStream(thename)->NComps();
+	double* molecomps = new double[myncomps];
+
+	while (issetup==false)
 	{
-		getline(mypartstream, strname);
-	}
-	_activecase->AddStream(strname); //default proppack will be used
-
-
-	myncomps = _activecase->GetStream(strname)->NComps();
-	//double* molecomps = new double[myncomps];
-	double* molecomps =new double[myncomps];
-	//molecomps = (double*)realloc(molecomps, sizeof(*molecomps)*myncomps);
-	 //*molecomps = new double[myncomps];
-		for (int i = 0; i < myncomps; i++)
+		if (thespecs != "")
 		{
-			if (thecmd == "NONE")
+			getline(mypartstream, param, ' ');
+		}
+		else
+		{
+			cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION OR DONE \n";
+			cin >> param;
+
+		}
+
+		if (param == "PRESSURE")
+		{
+			if (thespecs != "")
 			{
-				cout << "Enter composition for component" << i + 1;
-				cin >> myreply;
+				getline(mypartstream, thevar);
 			}
 			else
 			{
-				getline(mypartstream, myreply);
+				cout << "Enter pressure in kPa \n";
+				cin >> thevar;
+			}
+		
+			tempdb = stod(thevar);
+			_activecase->GetStream(thename)->Pressure()->SetValue(tempdb);
+			_activecase->GetStream(thename)->Pressure()->IsCalculated(false);
+		}
+		else if (param == "TEMPERATURE")
+		{	
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter temperature in Kelvin \n";
+				cin >> thevar;
 			}
 			
-			molecomps[i] = stod(myreply);
-			//_activecase->GetStream(strname)->Composition()->SetValue(i,molecomps[i]);
+			tempdb = stod(thevar);
+			_activecase->GetStream(thename)->Temperature()->SetValue(tempdb);
+			_activecase->GetStream(thename)->Temperature()->IsCalculated(false);
+
 		}
-
-		_activecase->GetStream(strname)->Composition()->SetValues(myncomps, molecomps);
-		_activecase->GetStream(strname)->Composition()->IsCalculated(false);
-
-		
-		_activecase->GetStream(strname)->Normalise();
-
-		if (thecmd == "NONE")
+		else if (param == "VAPOURFRACTION")
 		{
-			cout << "Enter temperature in Kelvin";
-			cin >> myreply;
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter vapour fraction (0 - 1) \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_activecase->GetStream(thename)->VapourFraction()->SetValue(tempdb);
+			_activecase->GetStream(thename)->VapourFraction()->IsCalculated(false);
+
 		}
-		else
+		else if (param == "COMPOSITION")
+		{	
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter molar composition. eg 0.2,0.3,0.5 \n";
+				cin >> thevar;
+			}
+			//getline(mypartstream, thevar);
+			//tempdb = stod(thevar);
+			//_activecase->GetStream(thename)->Temperature()->SetValue(tempdb);
+			//_activecase->GetStream(thename)->Temperature()->IsCalculated(false);
+			//getline(mypartstream, thevar);
+			std::istringstream  compstream(thevar);
+			i = 0;
+				while (compstream.good())
+				{
+					getline(compstream, thevar,',');
+					molecomps[i] = stod(thevar);
+					i = i + 1;
+				}
+				_activecase->GetStream(thename)->Composition()->SetValues(myncomps, molecomps);
+				_activecase->GetStream(thename)->Normalise();
+		}
+		else if (param == "DONE")
 		{
-			getline(mypartstream, myreply);
+			issetup = true;
 		}
-
-		tempdb = stod(myreply);
-		_activecase->GetStream(strname)->Temperature()->SetValue(tempdb);
-		_activecase->GetStream(strname)->Temperature()->IsCalculated(false);
-
-
-		if (thecmd == "NONE")
-		{
-			cout << "Enter pressure in kPa";
-			cin >> myreply;
-		}
-		else
-		{
-			getline(mypartstream, myreply);
-		}
-		tempdb = stod(myreply);
-		_activecase->GetStream(strname)->Pressure()->SetValue(tempdb);
-		_activecase->GetStream(strname)->Pressure()->IsCalculated(false);
-
-		cout << "Stream Added";
-		_activecase->Solve();
-		_activecase->GetStream(strname)->Output();
+	}
 
 }

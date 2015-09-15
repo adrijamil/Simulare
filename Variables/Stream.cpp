@@ -96,6 +96,13 @@ bool Stream::Solve()
 			PTFlashMe();
 		}
 	}
+	else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_temperature->IsCalculated())))
+	{
+		if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_temperature->IsKnown()))
+		{
+			TQFlashMe();
+		}
+	}
 	
 	return true;
 	

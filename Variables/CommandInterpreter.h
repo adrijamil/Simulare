@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 #include "SimCase.h"
 class CommandInterpreter
 {
@@ -16,9 +17,9 @@ public:
 	
 private:
 	void OutputAll();
-	void StreamSetup(string thecmd);
+	void StreamSetup(string thename, string thespecs);
 	SimCase* _activecase;
-	void CaseSetup(string thesetupcmd);
+	void CaseSetup(string theflash, string thecomps);
 
 };
 

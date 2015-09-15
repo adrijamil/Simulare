@@ -89,7 +89,7 @@
 //THFLSHdll = (fp_THFLSHdllTYPE)GetProcAddress(RefpropdllInstance, "THFLSHdll");
 //TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RefpropdllInstance, "TPFLSHdll");
 //TPRHOdll = (fp_TPRHOdllTYPE)GetProcAddress(RefpropdllInstance, "TPRHOdll");
-//TQFLSHdll = (fp_TQFLSHdllTYPE)GetProcAddress(RefpropdllInstance, "TQFLSHdll");
+
 //TRNPRPdll = (fp_TRNPRPdllTYPE)GetProcAddress(RefpropdllInstance, "TRNPRPdll");
 //TSFLSHdll = (fp_TSFLSHdllTYPE)GetProcAddress(RefpropdllInstance, "TSFLSHdll");
 //VIRBdll = (fp_VIRBdllTYPE)GetProcAddress(RefpropdllInstance, "VIRBdll");
@@ -127,6 +127,7 @@ RefPropPack::RefPropPack()
 
 	SETUPdll = (fp_SETUPdllTYPE)GetProcAddress(RefProp_dll_instance, "SETUPdll");
 	TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TPFLSHdll");
+	TQFLSHdll = (fp_TQFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TQFLSHdll");
 //	cout << "\n" << "setupdll  " << SETUPdll << "\n";
 }
 
@@ -225,6 +226,60 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 
 }
 
+
+void RefPropPack::TQ_Flash(Stream* theStream, PropPack* thePP)
+{
+
+	//setup arrays to be dynamic
+	long  ierr,kq;
+	char 	herr[errormessagelength + 1];
+	double t, p, d, dl, dv, q, e, h, s, cv, cp, w;
+	double x[ncmax], xliq[ncmax], xvap[ncmax];
+	double mw;
+
+	int ncomps;
+	ncomps = thePP->NComps();
+
+	//extract components and compositions
+
+	t = theStream->Temperature()->GetValue();
+	q = theStream->VapourFraction()->GetValue();
+
+	for (int k = 0; k < ncomps; k++)
+	{
+		x[k] = theStream->Composition()->GetValue(k);
+	}
+	//x = thestream->Composition()->GetValues();
+
+	//setupdll - initialise the fluid
+	// do PT flash
+	//...Calculate pressure (p), internal energy (e), enthalpy (h), entropy (s),
+	//.....isochoric (cv) and isobaric (cp) heat capacities, speed of sound (w),
+	//from VB version Private Declare Sub TQFLSHdll Lib "REFPROP.DLL" (t As Double, q As Double, x As Double, kq As Long, p As Double, d As Double, Dl As Double, Dv As Double, xliq As Double, xvap As Double, e As Double, h As Double, s As Double, Cv As Double, Cp As Double, w As Double, ierr As Long, ByVal herr As String, ln As Long)
+
+	kq = 2;
+
+	TQFLSHdll(t, q, x, kq, p,d,dl, dv, xliq, xvap, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+//	typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+
+	//cout<< herr;
+
+	//send back to stream
+	for (int k = 0; k < ncomps; k++)
+	{
+		theStream->Phases(0)->Composition()->SetValue(k, xvap[k]);
+		theStream->Phases(1)->Composition()->SetValue(k, xliq[k]);
+		//Yi[i] = _Ki[i] * Xi[i];
+	}
+
+	//put it into the stream
+	
+	theStream->Pressure()->SetValue(p);
+
+	theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
+	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+
+}
 
 
 RefPropPack::~RefPropPack()

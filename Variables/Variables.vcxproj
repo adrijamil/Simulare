@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="inputfile2.txt" />
     <Text Include="myinputfile.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>

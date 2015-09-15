@@ -50,7 +50,7 @@ public:
 	void Setup(PropPack* thePP);
 
 	void PT_Flash(Stream* theStream, PropPack* thePP);
-
+	void TQ_Flash(Stream* theStream, PropPack* thePP);
 private:
 	HMODULE RefProp_dll_instance;
 	string _fluids_path;
