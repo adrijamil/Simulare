@@ -16,21 +16,17 @@ void PropertyCalc::SetParent(PropPack* thePP)
 void PropertyCalc::AddProperty(PropertyCalc* thechild)
 {
 	_nchildren = _nchildren + 1; //update count
-	//thechild->SetParent(_parent);
-	PropertyCalc* newchildren;
-	if (_nchildren == 1)
-	{
-		_children = thechild;
-	}
-	else
-	{
-		newchildren = (PropertyCalc*)realloc(_children, _nchildren* sizeof(*thechild)); //allocate new array
+	PropertyCalc** newchildren;
+	cout << "\n";
 
-		if (newchildren != NULL) //if it's null then realloc tak jadi
-		{
-			_children = newchildren;
-			_children[_nchildren - 1] = *thechild;
-		}
+	//realloc is similar to redim preserve. members of array are preserved and sent to new array (newchildren)
+	//should be possible to reallocate straight to itself ie _children = (FSObject**)realloc(...... but this is safer. can catch errors.
+	newchildren = (PropertyCalc**)realloc(_children, _nchildren* sizeof(*thechild)); //allocate new array
+
+	if (newchildren != NULL) //if it's null then realloc tak jadi
+	{
+		_children = newchildren;
+		_children[_nchildren - 1] = &(*thechild);
 	}
 	//realloc is similar to redim preserve. members of array are preserved and sent to new array (newchildren)
 	//should be possible to reallocate straight to itself ie _children = (FSObject**)realloc(...... but this is safer. can catch errors.
@@ -49,7 +45,7 @@ void PropertyCalc::Calculate(Stream* thestream)
 	{
 		for (int i = 0; i < _nchildren; i++)
 		{
-			theprop = &_children[i];
+			theprop = _children[i];
 
 			theprop->Calculate(thestream);
 		}

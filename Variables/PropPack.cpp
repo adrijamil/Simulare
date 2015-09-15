@@ -76,6 +76,9 @@ void PropPack::AddComponent(string thecompname)
 				getline(mystream, mystring, ',');
 				mycomp->Acentric = atof(mystring.c_str());
 
+				getline(mystream, mystring, ',');
+				mycomp->StdIdealLiqDens = atof(mystring.c_str());
+
 				mycsv.seekg(0,mycsv.end); //go to end to terminate while loop
 			}
 			position = mystream.cur;

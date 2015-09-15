@@ -36,7 +36,8 @@ public:
 	RealVariable* MolarEnthalpy(){ return _molenthalpy; };
 	RealVariable* MolarEntropy(){ return _molentropy; };
 	RealVariable* MassFlow(){ return _mass_flow_rate; };
-	
+	RealVariable* MolarDensity(){ return _molardensity; };
+	RealVariable* MassDensity(){ return _massdensity; };
 protected:
 	RealVariable* _composition = new RealVariable;
 
@@ -44,6 +45,9 @@ protected:
 	RealVariable* _molenthalpy = new RealVariable;
 	RealVariable* _molentropy = new RealVariable;
 	RealVariable* _molecularweight = new RealVariable;
+	RealVariable* _molardensity = new RealVariable;
+	RealVariable* _massdensity = new RealVariable;
+
 	// keep a reference.then when building the stream can just connect(ie stream pressure refers to phase pressure as well)
 	//all these fuckers will be initialised by the stream object (phases and stream members point to the same variables). 
 	string _BD_name;

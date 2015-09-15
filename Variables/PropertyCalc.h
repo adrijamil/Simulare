@@ -21,7 +21,7 @@ public:
 protected:
 	string _name;
 	PropPack* _parent;
-	PropertyCalc* _children;
+	PropertyCalc** _children;
 	int _nchildren;
 };
 

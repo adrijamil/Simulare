@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="BaseVariable.h" />
     <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="DensityCalc.h" />
     <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="FlashMethod.h" />
     <ClInclude Include="FlowSheet.h" />
@@ -106,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="BaseVariable.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
+    <ClCompile Include="DensityCalc.cpp" />
     <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
     <ClCompile Include="FlowSheet.cpp" />

@@ -42,6 +42,7 @@ struct Component
 	double Tc;
 	double Pc;
 	double Acentric;
+	double StdIdealLiqDens;
 };
 
 enum FlashTypeEnum  {IDEAL,REFPROP};

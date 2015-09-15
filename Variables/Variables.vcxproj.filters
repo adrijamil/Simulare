@@ -87,6 +87,9 @@
     <ClInclude Include="MolWtCalc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DensityCalc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -147,6 +150,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MolWtCalc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DensityCalc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -121,12 +121,17 @@ void Stream::Output()
 	cout << "\n";
 	cout << _name<< "\n";
 
-	cout << "Pressure  " << Pressure()->GetValue()<< "\n";
-	cout << "Temperature  " << Temperature()->GetValue() << "\n";
-	cout << "Mw  " << MolecularWeight()->GetValue() << "\n";
-	cout << "Vfrac  " << VapourFraction()->GetValue() << "\n";
+	cout << "Pressure  [kPa]" << Pressure()->GetValue()<< "\n";
+	cout << "Temperature  [K]" << Temperature()->GetValue() << "\n";
+	cout << "Mw  [g/mol] " << MolecularWeight()->GetValue() << "\n";
+	cout << "MassDensity  [kg/m3]" << MassDensity()->GetValue() << "\n";
+	cout << "MolarDensity  [mol/m3]" << MolarDensity()->GetValue() << "\n";
+
+	cout << "Vfrac  " << VapourFraction()->GetValue() << "\n\n";
 	cout << "GasPhase  " << "\n";
-	cout << "Mw  " << _phases[0]->MolecularWeight()->GetValue() << "\n";
+	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
+	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
+	cout << "MolarDensity  [mol/m3] " << _phases[0]->MolarDensity()->GetValue() << "\n";
 	for (int k = 0; k < myncomps; k++)
 	{
 
@@ -136,6 +141,8 @@ void Stream::Output()
 	cout << "\n";
 	cout << "LiquidPhase" << "\n";
 	cout << "Mw  " << _phases[1]->MolecularWeight()->GetValue() << "\n";
+	cout << "MassDensity  [kg/m3]" << _phases[1]->MassDensity()->GetValue() << "\n";
+	cout << "MolarDensity  [mol/m3]" << _phases[1]->MolarDensity()->GetValue() << "\n";
 	for (int k = 0; k < myncomps; k++)
 	{
 		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
