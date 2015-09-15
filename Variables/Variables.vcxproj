@@ -83,12 +83,14 @@
   <ItemGroup>
     <ClInclude Include="BaseVariable.h" />
     <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="FlashMethod.h" />
     <ClInclude Include="FlowSheet.h" />
     <ClInclude Include="Fluid.h" />
     <ClInclude Include="FSObject.h" />
     <ClInclude Include="Ideal.h" />
     <ClInclude Include="Phase.h" />
+    <ClInclude Include="PropertyCalc.h" />
     <ClInclude Include="PropPack.h" />
     <ClInclude Include="PropPackBuilder.h" />
     <ClInclude Include="RealVariable.h" />
@@ -104,12 +106,14 @@
   <ItemGroup>
     <ClCompile Include="BaseVariable.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
+    <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
     <ClCompile Include="FlowSheet.cpp" />
     <ClCompile Include="Fluid.cpp" />
     <ClCompile Include="FSObject.cpp" />
     <ClCompile Include="Ideal.cpp" />
     <ClCompile Include="Phase.cpp" />
+    <ClCompile Include="PropertyCalc.cpp" />
     <ClCompile Include="PropPack.cpp" />
     <ClCompile Include="PropPackBuilder.cpp" />
     <ClCompile Include="RealVariable.cpp" />

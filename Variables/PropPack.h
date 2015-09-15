@@ -25,6 +25,8 @@
 #include <iostream>
 #include <string>
 #include "FlashMethod.h"
+#include "PropertyCalc.h"
+
 
 using namespace std;
 
@@ -51,6 +53,8 @@ class PropPack
 public:
 	 PropPack();
 	~PropPack();
+	PropertyCalc* Properties(){ return _propertycalculation; }
+
 	void SetMethod(FlashTypeEnum theFlashType);
 	virtual void PT_Flash(Stream* thestream)
 		{
@@ -70,11 +74,17 @@ public:
 
 	Component GetComponent(int i){ return _components[i]; }
 	void Setup(){ _flashmethod->Setup(this); }
+	void AddProperty(PropertyCalc* thepropcalc);
+
 protected:
 	string _name;
 	Component* _components; //make it fixed first
 	int _ncomps;
+	int _nprops;
+
 	FlashMethod* _flashmethod;
+	PropertyCalc* _propertycalculation; //
+
 };
 
 

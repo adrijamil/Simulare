@@ -104,6 +104,9 @@ bool Stream::Solve()
 		}
 	}
 	
+
+	_proppack->Properties()->Calculate(this);
+
 	return true;
 	
 
@@ -120,8 +123,10 @@ void Stream::Output()
 
 	cout << "Pressure  " << Pressure()->GetValue()<< "\n";
 	cout << "Temperature  " << Temperature()->GetValue() << "\n";
+	cout << "Mw  " << MolecularWeight()->GetValue() << "\n";
 	cout << "Vfrac  " << VapourFraction()->GetValue() << "\n";
 	cout << "GasPhase  " << "\n";
+	cout << "Mw  " << _phases[0]->MolecularWeight()->GetValue() << "\n";
 	for (int k = 0; k < myncomps; k++)
 	{
 
@@ -130,6 +135,7 @@ void Stream::Output()
 
 	cout << "\n";
 	cout << "LiquidPhase" << "\n";
+	cout << "Mw  " << _phases[1]->MolecularWeight()->GetValue() << "\n";
 	for (int k = 0; k < myncomps; k++)
 	{
 		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";

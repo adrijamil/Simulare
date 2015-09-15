@@ -40,6 +40,8 @@ public:
 		}
 
 		thePPBuilder->SetFlashMethod(flashmethod);
+		
+
 		_default_package = thePPBuilder->GetPackage();
 
 	}
