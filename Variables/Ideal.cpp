@@ -25,17 +25,7 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	double Pvap;
 	
 	double Tr;
-	double tol;
-	double delta;
-	
-	double hi;
-	double lo;
-	double mid;
 
-	double fhi;
-	double flo;
-	double fmid;
-	
 	double vfrac;
 
 	int iter; 
@@ -45,8 +35,7 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	double* Xi;
 	int ncomp = thePP->NComps();
 	maxiter = 1000;
-	delta = 100;
-	tol = 0.01;
+	
 
 	//get stream inputs
 	P = theStream->Pressure()->GetValue();
@@ -85,36 +74,9 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	//could lump procedures like this into a library
 	//cout << _Ki[0] << " " << _Ki[1] << " " << _Ki[2];
 
-	hi = 1;
-	lo = 0;
-	mid = 0.5;
 
-	iter = 0;
-	while (delta > tol)
-	{
-		fhi = _RR(hi, Zi, ncomp);
-		flo = _RR(lo, Zi, ncomp);
-		fmid = _RR(mid, Zi, ncomp);
-
-	//	cout << iter << "\n" << "\n";
-	//	cout << hi << " " << lo << " " << mid << "\n";
-		//cout << fhi << " " << flo << " " << fmid;
-
-		if ((fhi*fmid) > 0) //if fmid and fhi same sign
-		{
-			hi = mid;
-		}
-		else
-		{
-			lo = mid;
-		}
-		mid = (hi + lo) / 2;
-		delta =abs(hi - lo);
-		
-		iter = iter + 1;
-	}
 	
-	vfrac = mid;
+	vfrac = _solveRR( Zi, ncomp);
 	//cout << "calculated vfrac = " << mid;
 
 
@@ -138,6 +100,140 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 
 }
 
+double Ideal::_solveRR(double* comps, int NComp)
+{
+	double hi = 1;
+	double lo = 0;
+	double mid = 0.5;
+
+	double fhi;
+	double flo;
+	double fmid;
+
+	int iter = 0;
+	double delta, tol;
+	delta = 100;
+	tol = 0.001;
+
+	while (delta > tol)
+	{
+		fhi = _RR(hi, comps, NComp);
+		flo = _RR(lo, comps, NComp);
+		fmid = _RR(mid, comps, NComp);
+
+		if (fhi < 0 && flo < 0)
+		{
+			return 0;
+		}
+		if (fhi > 0 && flo > 0)
+		{
+			return 1;
+		}
+
+		//	cout << iter << "\n" << "\n";
+		//	cout << hi << " " << lo << " " << mid << "\n";
+		//cout << fhi << " " << flo << " " << fmid;
+
+		if ((fhi*fmid) > 0) //if fmid and fhi same sign
+		{
+			hi = mid;
+		}
+		else
+		{
+			lo = mid;
+		}
+		mid = (hi + lo) / 2;
+		delta = abs(hi - lo);
+
+		iter = iter + 1;
+	}
+	return mid;
+
+}
+
+void Ideal::TQ_Flash(Stream* theStream, PropPack* thePP)
+{
+	//use secant
+	//if Vf=1 then first guess=Pvap lowest
+	//if Vf=0 then first guess=Pvap highest
+	//else interpolate
+	double* Zi;
+	int ncomp;
+	ncomp = thePP->NComps();
+	double Pvaphigh, Pvaplow, Pvap, T, Tr, Vfspec, P, VfCalc_1, VfCalc_2, P_1,P_2;
+	int Niter = 0;
+
+	T = theStream->Temperature()->GetValue();
+	Vfspec = theStream->VapourFraction()->GetValue();
+	Pvaplow = 1e10;
+	Pvaphigh = -1e10;
+	double delta, tol;
+	delta = 100;
+	tol = 0.01;
+	Zi = new double[ncomp];
+	Zi = theStream->Composition()->GetValues();
+
+	for (int i = 0; i < ncomp; i++)
+	{
+		Tr = T / thePP->GetComponent(i).Tc;
+		Pvap = thePP->GetComponent(i).Pc*(exp(5.92714 - 6.09648 / Tr - 1.28862*log(Tr) + 0.169347*pow(Tr, 6) + thePP->GetComponent(i).Acentric*(15.2518 - 15.6875 / Tr - 13.4721*log(Tr) + 0.43577*pow(Tr, 6))));
+
+		if (Pvap > Pvaphigh)
+		{
+			Pvaphigh = Pvap;
+		}
+		if (Pvap < Pvaplow)
+		{
+			Pvaplow = Pvap;
+		}
+	}
+
+	P = Pvaphigh - Vfspec*(Pvaphigh - Pvaplow);
+	P_1 = P;
+
+	VfCalc_1 = Vfspec;
+	 while (delta > tol)
+	{
+		for (int i = 0; i < ncomp; i++)
+		{
+			Tr = T / thePP->GetComponent(i).Tc;
+			//this is the Lee-Kesler method 
+			Pvap = thePP->GetComponent(i).Pc*(exp(5.92714 - 6.09648 / Tr - 1.28862*log(Tr) + 0.169347*pow(Tr, 6) + thePP->GetComponent(i).Acentric*(15.2518 - 15.6875 / Tr - 13.4721*log(Tr) + 0.43577*pow(Tr, 6))));
+			_Ki[i] = Pvap / P;
+			//cout << _Ki[i]<< "\n";
+		}
+
+		VfCalc_2 = VfCalc_1;
+		VfCalc_1 = _solveRR(Zi, ncomp);
+
+		delta = abs(VfCalc_1 - Vfspec);
+
+		cout << delta<<"  " << P << "\n";
+		
+		if (P_1 == P)
+		{
+			P_2 = P_1;
+			P_1 = P;
+			P = P + 10;
+		}
+		else
+		{
+			P_2 = P_1;
+			P_1 = P;
+			P = P_1 - VfCalc_1*(P_1 - P_2) / (abs(VfCalc_1 - Vfspec) - abs(VfCalc_2 - Vfspec));
+			if (P < 0.1)
+			{
+				P = 0.1;
+
+			}
+		}
+		
+		Niter = Niter + 1;
+		
+	}
+
+
+}
 
 
 Ideal::~Ideal()

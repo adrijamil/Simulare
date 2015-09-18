@@ -138,7 +138,7 @@ void RefPropPack::Setup(PropPack* thePP)
 	string fluidstring;
 
 	long i, ierr;
-	char hf[refpropcharlength*ncmax], hrf[lengthofreference + 1],
+	char hf[refpropcharlength*ncmax+20], hrf[lengthofreference + 1],
 		herr[errormessagelength + 1], hfmix[refpropcharlength + 1];
 //	double x[ncmax];
 	i = thePP->NComps();
@@ -223,6 +223,8 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 
 	theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
 	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+
+
 
 }
 
