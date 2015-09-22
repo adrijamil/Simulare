@@ -60,6 +60,7 @@ public:
 	virtual void PT_Flash(Stream* thestream)
 		{
 			_flashmethod->PT_Flash(thestream,this);
+
 		};// i need P, T and x. Output H, vf and a bunch of props.
 
 	virtual void TQ_Flash(Stream* thestream)

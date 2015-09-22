@@ -151,6 +151,7 @@ void PropPack::SetMethod(FlashTypeEnum theFlashType)
 		_flashmethod = new RefPropPack;
 		break;
 	}
+
 }
 
 

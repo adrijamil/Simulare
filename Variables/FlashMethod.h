@@ -35,6 +35,7 @@ public:
 protected:
 
 	string _name; 
+	PropPack* _proppack;
 };
 
 #endif

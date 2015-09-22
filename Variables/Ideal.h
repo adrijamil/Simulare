@@ -33,6 +33,7 @@ public:
 	//need a reference to PropPack to get NComp and possibly other shit
 	void PT_Flash(Stream* theStream, PropPack* thePP);
 	void TQ_Flash(Stream* theStream, PropPack* thePP);
+	void Setup(PropPack* thePP);
 	//{
 	//	cout << "im flashing" <<thestream->Name() << "overrided by"<<_name;
 	//};// i need P, T and x. Output H, vf and a bunch of props.
@@ -40,6 +41,7 @@ private:
 	double* _Ki;
 	double _RR(double vfrac,double* comps, int NComp);
 	double _solveRR(double* comps, int NComp);
+	void _calcKis(double p, double t);
 };
 
 #endif

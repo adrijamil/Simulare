@@ -179,7 +179,11 @@ void RefPropPack::Setup(PropPack* thePP)
 		refpropcharlength*ncmax, refpropcharlength,
 		lengthofreference, errormessagelength);
 	if (ierr != 0) printf("%s\n", herr);
+
+	_proppack = thePP;
 }
+
+
 
 void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 {

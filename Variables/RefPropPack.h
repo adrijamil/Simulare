@@ -54,6 +54,8 @@ public:
 private:
 	HMODULE RefProp_dll_instance;
 	string _fluids_path;
+	//void _setupdll();
+
 
 };
 
