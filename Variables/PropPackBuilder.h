@@ -1,4 +1,3 @@
-
 #ifndef __PROPPACKBUILDER_H_INCLUDED__
 #define __PROPPACKBUILDER_H_INCLUDED__
 
@@ -20,7 +19,7 @@ public:
 	}
 	virtual void SetFlashMethod(FlashTypeEnum theflashtype)
 	{
-		
+
 		_current_proppack->SetMethod(theflashtype);
 
 		//refprop still neeeds this

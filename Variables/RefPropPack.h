@@ -42,6 +42,7 @@ const long maxcoefs = 50;
 class RefPropPack :
 	public FlashMethod
 {
+	friend class RPEnergyCalc;
 public:
 	RefPropPack();
 	

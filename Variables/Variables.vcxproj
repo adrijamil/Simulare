@@ -98,6 +98,7 @@
     <ClInclude Include="RealVariable.h" />
     <ClInclude Include="RefPropFunctions.h" />
     <ClInclude Include="RefPropPack.h" />
+    <ClInclude Include="RPEnergyCalc.h" />
     <ClInclude Include="RPMassDensityCalc.h" />
     <ClInclude Include="SimCase.h" />
     <ClInclude Include="Solver.h" />

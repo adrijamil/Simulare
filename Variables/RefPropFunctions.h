@@ -29,14 +29,14 @@
 
 //typedef creates a type alias called fp_SETUPdll which takes inputs in () and returns a void
 typedef void(__stdcall *fp_SETUPdllTYPE)(long &, char*, char*, char*, long &, char*, long, long, long, long);
-
 typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, double &, long &, char*, long);
-
 typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_THERMdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &);
 
 
 
 //create the function for use in c++
+fp_THERMdllTYPE THERMdll;
 fp_SETUPdllTYPE SETUPdll;
 fp_TPFLSHdllTYPE TPFLSHdll;
 fp_TQFLSHdllTYPE TQFLSHdll;
@@ -125,7 +125,7 @@ fp_TQFLSHdllTYPE TQFLSHdll;
 //typedef void(__stdcall *fp_THERM0dllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &, double &);
 //typedef void(__stdcall *fp_THERM2dllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &);
 //typedef void(__stdcall *fp_THERM3dllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &);
-//typedef void(__stdcall *fp_THERMdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &);
+
 //typedef void(__stdcall *fp_THFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_TPRHOdllTYPE)(double &, double &, double *, long &, long &, double &, long &, char*, long);
 

@@ -270,6 +270,19 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 	theStream->Phases(0)->MolarDensity()->SetValue(dv/0.001);
 	theStream->Phases(1)->MolarDensity()->SetValue(dl/0.001);
 
+	theStream->MolarEnthalpy()->SetValue(h);
+	theStream->MolarEntropy()->SetValue(s);
+	
+
+	double  hjt;
+
+	THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
+	theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
+	theStream->Phases(0)->MolarEntropy()->SetValue(s);
+
+	THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
+	theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
+	theStream->Phases(1)->MolarEntropy()->SetValue(s);
 }
 
 
@@ -329,6 +342,22 @@ void RefPropPack::TQ_Flash(Stream* theStream, PropPack* thePP)
 	theStream->Phases(0)->MolarDensity()->SetValue(dv/0.001);
 	theStream->Phases(1)->MolarDensity()->SetValue(dl/0.001);
 
+	theStream->MolarEnthalpy()->SetValue(h);
+	theStream->MolarEntropy()->SetValue(s);
+
+
+	double  hjt;
+	
+	//x = theStream->Phases(0)->Composition()->GetValues();
+	
+	THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
+	theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
+	theStream->Phases(0)->MolarEntropy()->SetValue(s);
+
+	THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
+	theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
+	theStream->Phases(1)->MolarEntropy()->SetValue(s);
+
 }
 
 
@@ -345,6 +374,6 @@ void RefPropPack::_LoadDLL()
 	SETUPdll = (fp_SETUPdllTYPE)GetProcAddress(RefProp_dll_instance, "SETUPdll");
 	TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TPFLSHdll");
 	TQFLSHdll = (fp_TQFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TQFLSHdll");
-
+	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RefProp_dll_instance, "THERMdll");
 }
 
