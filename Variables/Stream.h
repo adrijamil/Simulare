@@ -14,7 +14,7 @@
 
 // SPECIAL NOTES:	
 // 1. Static initialisation of Phases to 3 phases. Phases then need to know whether they exist or not. \
-//    Alternatively we can use a dynamic array of phases and take phase in and out. this seems slicker but is it?
+//    Alternatively we can use a dynamic array of phases and take phase in and ouHi Adri, your access code is 6269495708t. this seems slicker but is it?
 
 // ===============================
 // Change History: - put name, date and description of change

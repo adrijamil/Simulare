@@ -3,6 +3,8 @@
 #define __PROPPACKBUILDER_H_INCLUDED__
 
 #include "PropPack.h"
+#include "MolWtCalc.h"
+#include "DensityCalc.h"
 
 class PropPackBuilder
 {
@@ -16,8 +18,23 @@ public:
 	{
 		_current_proppack = new PropPack;
 	}
-	virtual void SetFlashMethod(FlashTypeEnum theflashtype){ _current_proppack->SetMethod(theflashtype); }
+	virtual void SetFlashMethod(FlashTypeEnum theflashtype)
+	{
+		
+		_current_proppack->SetMethod(theflashtype);
+
+		//refprop still neeeds this
+		MolWtCalc* newcalc = new MolWtCalc;
+		_current_proppack->AddProperty(newcalc);
+
+		if (theflashtype == IDEAL)
+		{
+			DensityCalc* newcalc = new DensityCalc;
+			_current_proppack->AddProperty(newcalc);
+		}
+	}
 	virtual void AddComponent(string componentname){ _current_proppack->AddComponent(componentname); }
+	virtual void AddPropertyCalc(string theproperty);
 	virtual void EditPackage(PropPack* existingpackage){ _current_proppack = existingpackage; }
 
 	virtual PropPack* GetPackage(){

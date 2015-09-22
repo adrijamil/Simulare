@@ -53,7 +53,8 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 }
 CommandInterpreter::CommandInterpreter()
 { 
-	CaseSetup("NONE","");
+	CaseSetup("","");
+
 }
 
 
@@ -70,11 +71,16 @@ void CommandInterpreter::SendCommand(string thecommand)
 	string strname;
 	if (thecommand == "ADDSTREAM")
 	{
-		StreamSetup("NONE","");
+		StreamSetup("","");
 	}
 	else if (thecommand == "OUTPUT")
 	{
 		OutputAll();
+	}
+	else if (thecommand == "SOLVE")
+	{
+		_activecase->Solve();
+
 	}
 }
 
@@ -303,5 +309,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			issetup = true;
 		}
 	}
+	cout << thename << " has been added.\n";
+
 
 }

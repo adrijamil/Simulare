@@ -8,6 +8,7 @@ using namespace std;
 
 PropPack::PropPack()
 {
+	_propertycalculation = new PropertyCalc;
 
 }
 
@@ -75,6 +76,9 @@ void PropPack::AddComponent(string thecompname)
 				getline(mystream, mystring, ',');
 				mycomp->Acentric = atof(mystring.c_str());
 
+				getline(mystream, mystring, ',');
+				mycomp->StdIdealLiqDens = atof(mystring.c_str());
+
 				mycsv.seekg(0,mycsv.end); //go to end to terminate while loop
 			}
 			position = mystream.cur;
@@ -87,11 +91,6 @@ void PropPack::AddComponent(string thecompname)
 	_ncomps = _ncomps + 1; //update count
 	Component* newcomps=new Component[_ncomps];
 
-	//cout << sizeof(*mycomp) << "\n";
-	//cout << sizeof(_components) << "\n";
-	//realloc is similar to redim preserve. members of array are preserved and sent to new array (newchildren)
-	//should be possible to reallocate straight to itself ie _children = (FSObject**)realloc(...... but this is safer. can catch errors.
-	//_components = (Component*)realloc(_components, _ncomps* sizeof(*mycomp)); //allocate new array
 
 	for (int k = 0; k < _ncomps - 1; k++)
 	{
@@ -99,37 +98,43 @@ void PropPack::AddComponent(string thecompname)
 	}
 
 	newcomps[_ncomps-1] = *mycomp;
-	//memcpy(mycomp, newcomps[_ncomps-1], sizeof *mycomp);
 
 	 _components = new Component[_ncomps];
-	//_components[_ncomps-1].Name = mycomp->Name;
-	//_components[_ncomps - 1] = *mycomp;
+
 	for (int k = 0; k < _ncomps ; k++)
 	{
 		_components[k] = newcomps[k];
-		//_components[k].Name = newcomps[k].Name;
-		//_components[k].ID = newcomps[k].ID;
-		//_components[k].Acentric = newcomps[k].Acentric;
-		//_components[k].Pc = newcomps[k].Pc;
-		//_components[k].Tc = newcomps[k].Tc;
-		//_components[k].Mw = newcomps[k].Mw;
+
 
 	}
 
-	//if (_components != NULL) //if it's null then realloc tak jadi
-	//{
-	//	//_components = newcomps;
-	//	//memcpy(&mycomp, &_components[_ncomps - 1], sizeof(mycomp));
-	//	//cout << _components[_ncomps - 1].Name;
-	//	_components[_ncomps - 1].Name = mycomp->Name;
-	//	_components[_ncomps - 1].ID = mycomp->ID;
-	//	_components[_ncomps - 1].Mw = mycomp->Mw;
-	//	_components[_ncomps - 1].Acentric = mycomp->Acentric;
-	//	_components[_ncomps - 1].Pc = mycomp->Pc;
-	//	_components[_ncomps - 1].Tc = mycomp->Tc;
-	//}
-	//cout << _components[_ncomps - 1].Name;
+}
 
+
+void  PropPack::AddProperty(PropertyCalc* thepropcalc)
+{	
+	thepropcalc->SetParent(this);
+	_propertycalculation->AddProperty(thepropcalc);
+
+//	_nprops = _nprops + 1; //update count
+//	PropertyCalc* newprops = new PropertyCalc[_nprops];
+//
+//
+//
+//	for (int k = 0; k < _ncomps - 1; k++)
+//	{
+//		newprops[k] = _propertycalculation[k];
+//	}
+//
+//	newprops[_nprops - 1] = *thepropcalc;
+//
+//	_propertycalculation = new PropertyCalc[_ncomps];
+//
+//	for (int k = 0; k < _ncomps; k++)
+//	{
+//		_propertycalculation[k] = newprops[k];
+//
+//	}
 }
 
 void PropPack::SetMethod(FlashTypeEnum theFlashType)
@@ -138,12 +143,15 @@ void PropPack::SetMethod(FlashTypeEnum theFlashType)
 	{
 	case IDEAL:
 		_flashmethod = new Ideal;
+		//if ideal then need to add propertycalcs
+		
 
 		break;
 	case REFPROP:
 		_flashmethod = new RefPropPack;
 		break;
 	}
+
 }
 
 

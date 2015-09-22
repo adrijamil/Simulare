@@ -47,14 +47,16 @@ public:
 	
 	~RefPropPack();
 
-	void Setup(PropPack* thePP);
+	bool Setup(PropPack* thePP);
 
 	void PT_Flash(Stream* theStream, PropPack* thePP);
 	void TQ_Flash(Stream* theStream, PropPack* thePP);
 private:
-	HMODULE RefProp_dll_instance;
+	HINSTANCE RefProp_dll_instance;
 	string _fluids_path;
+	//void _setupdll();
 
+	void _LoadDLL();
 };
 
 #endif

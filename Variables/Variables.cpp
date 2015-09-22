@@ -197,7 +197,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 CommandInterpreter mycase("inputfile2.txt");
-
+//CommandInterpreter mycase;
 string mycommand;
 mycommand = "";
 bool isexit=false;
@@ -206,7 +206,15 @@ bool isexit=false;
 while (!isexit)
 {
 	cin >> mycommand;
-	mycase.SendCommand(mycommand);
+	if (mycommand == "EXIT")
+	{
+		isexit = true;
+	}
+	else
+	{
+		mycase.SendCommand(mycommand);
+	}
+	
 }
 
 cout << "Exiting. Press enter.";

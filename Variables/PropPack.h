@@ -25,6 +25,8 @@
 #include <iostream>
 #include <string>
 #include "FlashMethod.h"
+#include "PropertyCalc.h"
+
 
 using namespace std;
 
@@ -40,6 +42,7 @@ struct Component
 	double Tc;
 	double Pc;
 	double Acentric;
+	double StdIdealLiqDens;
 };
 
 enum FlashTypeEnum  {IDEAL,REFPROP};
@@ -51,10 +54,13 @@ class PropPack
 public:
 	 PropPack();
 	~PropPack();
+	PropertyCalc* Properties(){ return _propertycalculation; }
+
 	void SetMethod(FlashTypeEnum theFlashType);
 	virtual void PT_Flash(Stream* thestream)
 		{
 			_flashmethod->PT_Flash(thestream,this);
+
 		};// i need P, T and x. Output H, vf and a bunch of props.
 
 	virtual void TQ_Flash(Stream* thestream)
@@ -69,12 +75,32 @@ public:
 	int NComps(){ return _ncomps; }
 
 	Component GetComponent(int i){ return _components[i]; }
-	void Setup(){ _flashmethod->Setup(this); }
+	void Setup()
+	{
+		bool SetupOk;
+		SetupOk = _flashmethod->Setup(this);
+		if (SetupOk == false)
+		{
+			Reload(REFPROP);//correct this, should rmb type
+		}
+	}
+	void AddProperty(PropertyCalc* thepropcalc);
+	void Reload(FlashTypeEnum theFlashType)
+	{
+		cout << "I'm reloading" << "\n";
+		delete _flashmethod;
+		SetMethod(theFlashType);
+		Setup();
+	}
 protected:
 	string _name;
 	Component* _components; //make it fixed first
 	int _ncomps;
+	int _nprops;
+
 	FlashMethod* _flashmethod;
+	PropertyCalc* _propertycalculation; //
+
 };
 
 

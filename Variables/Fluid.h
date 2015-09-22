@@ -30,19 +30,23 @@ public:
 	void Normalise();
 	
 	RealVariable* Composition(){ return _composition; };
-
+	RealVariable* MolecularWeight(){ return _molecularweight; };
 	RealVariable* Pressure(){ return _pressure; };
 	RealVariable* Temperature(){ return _temperature; };
 	RealVariable* MolarEnthalpy(){ return _molenthalpy; };
 	RealVariable* MolarEntropy(){ return _molentropy; };
 	RealVariable* MassFlow(){ return _mass_flow_rate; };
-	
+	RealVariable* MolarDensity(){ return _molardensity; };
+	RealVariable* MassDensity(){ return _massdensity; };
 protected:
 	RealVariable* _composition = new RealVariable;
 
 	RealVariable* _mass_flow_rate = new RealVariable;
 	RealVariable* _molenthalpy = new RealVariable;
 	RealVariable* _molentropy = new RealVariable;
+	RealVariable* _molecularweight = new RealVariable;
+	RealVariable* _molardensity = new RealVariable;
+	RealVariable* _massdensity = new RealVariable;
 
 	// keep a reference.then when building the stream can just connect(ie stream pressure refers to phase pressure as well)
 	//all these fuckers will be initialised by the stream object (phases and stream members point to the same variables). 
@@ -50,9 +54,9 @@ protected:
 	RealVariable* _pressure;
 	RealVariable* _temperature;
 
+	
 
-
-	RealVariable* _physprops; // keep this as an array to be filled by another class (not the thermo engine)// array of RealVariable that is
+	RealVariable* _properties; // keep this as an array to be filled by another class (not the thermo engine)// array of RealVariable that is
 	int* _proppack; //keep a reference to a property package object. make it later. 
 
 };
