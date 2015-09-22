@@ -41,7 +41,7 @@ bool FlowSheet::Solve()
 	//if no children do this
 	if (_nchildren == 0)
 	{
-		std::cout << "fuckme I'm A \n";
+		//std::cout << "fuckme I'm A \n";
 	}
 	else// if got children solve all of them
 	{

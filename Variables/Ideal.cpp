@@ -301,9 +301,11 @@ void Ideal::_calcKis(double p, double t)
 
 }
 
-void Ideal::Setup(PropPack* thePP)
+bool Ideal::Setup(PropPack* thePP)
 {
 	_proppack = thePP;
+	return true;
+
 }
 
 Ideal::~Ideal()

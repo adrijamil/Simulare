@@ -30,7 +30,7 @@ public:
 	FlashMethod();
 	virtual void PT_Flash(Stream* theStream, PropPack* thePP){};
 	virtual void TQ_Flash(Stream* theStream, PropPack* thePP){};
-	virtual void Setup(PropPack* thePP){};
+	virtual bool Setup(PropPack* thePP){ return false; };
 	virtual ~FlashMethod();
 protected:
 

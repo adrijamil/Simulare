@@ -75,9 +75,23 @@ public:
 	int NComps(){ return _ncomps; }
 
 	Component GetComponent(int i){ return _components[i]; }
-	void Setup(){ _flashmethod->Setup(this); }
+	void Setup()
+	{
+		bool SetupOk;
+		SetupOk = _flashmethod->Setup(this);
+		if (SetupOk == false)
+		{
+			Reload(REFPROP);//correct this, should rmb type
+		}
+	}
 	void AddProperty(PropertyCalc* thepropcalc);
-
+	void Reload(FlashTypeEnum theFlashType)
+	{
+		cout << "I'm reloading" << "\n";
+		delete _flashmethod;
+		SetMethod(theFlashType);
+		Setup();
+	}
 protected:
 	string _name;
 	Component* _components; //make it fixed first
