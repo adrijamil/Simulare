@@ -266,7 +266,9 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 	theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
 	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
 
-
+	theStream->MolarDensity()->SetValue(d/0.001);
+	theStream->Phases(0)->MolarDensity()->SetValue(dv/0.001);
+	theStream->Phases(1)->MolarDensity()->SetValue(dl/0.001);
 
 }
 
@@ -322,6 +324,10 @@ void RefPropPack::TQ_Flash(Stream* theStream, PropPack* thePP)
 
 	theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
 	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+
+	theStream->MolarDensity()->SetValue(d/0.001);
+	theStream->Phases(0)->MolarDensity()->SetValue(dv/0.001);
+	theStream->Phases(1)->MolarDensity()->SetValue(dl/0.001);
 
 }
 

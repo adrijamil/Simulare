@@ -5,7 +5,7 @@
 #include "PropPack.h"
 #include "MolWtCalc.h"
 #include "DensityCalc.h"
-
+#include "RPMassDensityCalc.h"
 class PropPackBuilder
 {
 public:
@@ -30,6 +30,11 @@ public:
 		if (theflashtype == IDEAL)
 		{
 			DensityCalc* newcalc = new DensityCalc;
+			_current_proppack->AddProperty(newcalc);
+		}
+		else if (theflashtype == REFPROP)
+		{
+			RPMassDensityCalc* newcalc = new RPMassDensityCalc;
 			_current_proppack->AddProperty(newcalc);
 		}
 	}

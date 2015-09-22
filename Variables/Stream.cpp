@@ -124,6 +124,7 @@ void Stream::Output()
 	cout << "Pressure  [kPa]" << Pressure()->GetValue()<< "\n";
 	cout << "Temperature  [K]" << Temperature()->GetValue() << "\n";
 	cout << "Mw  [g/mol] " << MolecularWeight()->GetValue() << "\n";
+	//RealVariable* rv = MassDensity();
 	cout << "MassDensity  [kg/m3]" << MassDensity()->GetValue() << "\n";
 	cout << "MolarDensity  [mol/m3]" << MolarDensity()->GetValue() << "\n";
 
