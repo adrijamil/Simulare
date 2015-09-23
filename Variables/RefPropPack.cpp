@@ -4,8 +4,6 @@
 #include <exception>
 #include <Windows.h>
 
-
-
 // Then get pointers into the dll to the actual functions.
 //ABFL1dll = (fp_ABFL1dllTYPE)GetProcAddress(RefpropdllInstance, "ABFL1dll");
 //ABFL2dll = (fp_ABFL2dllTYPE)GetProcAddress(RefpropdllInstance, "ABFL2dll");
@@ -103,10 +101,25 @@
 
 typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, double &, long &, char*, long);
 typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);\
+typedef void(__stdcall *fp_PQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+
+
+typedef void(__stdcall *fp_PSFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_THFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_PHFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_TSFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+
 
 
 fp_TPFLSHdllTYPE TPFLSHdll;
 fp_TQFLSHdllTYPE TQFLSHdll;
+fp_PQFLSHdllTYPE PQFLSHdll;
+
+fp_PSFLSHdllTYPE PSFLSHdll;
+fp_TSFLSHdllTYPE TSFLSHdll;
+fp_THFLSHdllTYPE THFLSHdll;
+fp_PHFLSHdllTYPE PHFLSHdll;
+
 
 RefPropPack::RefPropPack()
 {
@@ -114,8 +127,15 @@ RefPropPack::RefPropPack()
 	//define functions to pointer
 	TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "TPFLSHdll");
 	TQFLSHdll = (fp_TQFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "TQFLSHdll");
-}
+	PSFLSHdll = (fp_PSFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "PSFLSHdll");
 
+	TSFLSHdll = (fp_TSFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "TSFLSHdll");
+	THFLSHdll = (fp_THFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THFLSHdll");
+	PSFLSHdll = (fp_PSFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "PSFLSHdll");
+	PHFLSHdll = (fp_PHFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "PHFLSHdll");
+	PQFLSHdll = (fp_PQFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "PQFLSHdll");
+
+}
 
 bool RefPropPack::Setup(PropPack* thePP)
 {
@@ -196,16 +216,6 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 	theStream->MolarEnthalpy()->SetValue(h);
 	theStream->MolarEntropy()->SetValue(s);
 	
-
-	double  hjt;
-
-	//THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
-	//theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
-	//theStream->Phases(0)->MolarEntropy()->SetValue(s);
-
-	//THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
-	//theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
-	//theStream->Phases(1)->MolarEntropy()->SetValue(s);
 }
 
 
@@ -238,8 +248,8 @@ void RefPropPack::TQ_Flash(Stream* theStream, PropPack* thePP)
 	//.....isochoric (cv) and isobaric (cp) heat capacities, speed of sound (w),
 	//from VB version Private Declare Sub TQFLSHdll Lib "REFPROP.DLL" (t As Double, q As Double, x As Double, kq As Long, p As Double, d As Double, Dl As Double, Dv As Double, xliq As Double, xvap As Double, e As Double, h As Double, s As Double, Cv As Double, Cp As Double, w As Double, ierr As Long, ByVal herr As String, ln As Long)
 
-	kq = 2;
-
+	kq = 1;
+	//kq is basis, 1 is mol,2 is mass
 	TQFLSHdll(t, q, x, kq, p,d,dl, dv, xliq, xvap, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
 //	typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 
@@ -268,24 +278,73 @@ void RefPropPack::TQ_Flash(Stream* theStream, PropPack* thePP)
 	theStream->MolarEntropy()->SetValue(s);
 
 
-	double  hjt;
-	
-	//x = theStream->Phases(0)->Composition()->GetValues();
-	
-	//THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
-	//theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
-	//theStream->Phases(0)->MolarEntropy()->SetValue(s);
 
-	//THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
-	//theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
-	//theStream->Phases(1)->MolarEntropy()->SetValue(s);
+	
+	
+	
 
 }
 
+void RefPropPack::PQ_Flash(Stream* theStream, PropPack* thePP)
+{
 
+	//setup arrays to be dynamic
+	long  ierr, kq;
+	char 	herr[errormessagelength + 1];
+	double t, p, d, dl, dv, q, e, h, s, cv, cp, w;
+	double x[ncmax], xliq[ncmax], xvap[ncmax];
+
+	int ncomps;
+	ncomps = thePP->NComps();
+
+	//extract components and compositions
+
+	p = theStream->Pressure()->GetValue();
+	q = theStream->VapourFraction()->GetValue();
+
+	for (int k = 0; k < ncomps; k++)
+	{
+		x[k] = theStream->Composition()->GetValue(k);
+	}
+	//x = thestream->Composition()->GetValues();
+
+	//setupdll - initialise the fluid
+	// do PT flash
+	//...Calculate pressure (p), internal energy (e), enthalpy (h), entropy (s),
+	//.....isochoric (cv) and isobaric (cp) heat capacities, speed of sound (w),
+	//typedef void(__stdcall *fp_PQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+	// from FORTRAN: subroutine PQFLSH(p, q, z, kq, t, D, Dl, Dv, x, y, e, h, s, cv, cp, w, ierr, herr)
+	//kq is basis, 1 is mol,2 is mass
+	kq = 1;
+
+	PQFLSHdll( p, q,x, kq, t,d, dl, dv,xliq, xvap, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+
+	//cout<< herr;
+
+	//send back to stream
+	for (int k = 0; k < ncomps; k++)
+	{
+		theStream->Phases(0)->Composition()->SetValue(k, xvap[k]);
+		theStream->Phases(1)->Composition()->SetValue(k, xliq[k]);
+		//Yi[i] = _Ki[i] * Xi[i];
+	}
+
+	//put it into the stream
+
+	theStream->Temperature()->SetValue(t);
+
+
+	theStream->MolarDensity()->SetValue(d / 0.001);
+	theStream->Phases(0)->MolarDensity()->SetValue(dv / 0.001);
+	theStream->Phases(1)->MolarDensity()->SetValue(dl / 0.001);
+
+	theStream->MolarEnthalpy()->SetValue(h);
+	theStream->MolarEntropy()->SetValue(s);
+
+}
 RefPropPack::~RefPropPack()
 {
-	//FreeLibrary(RefProp_dll_instance);
+
 
 }
 

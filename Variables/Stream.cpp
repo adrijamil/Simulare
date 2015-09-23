@@ -103,6 +103,13 @@ bool Stream::Solve()
 			TQFlashMe();
 		}
 	}
+	else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_pressure->IsCalculated())))
+	{
+		if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_pressure->IsKnown()))
+		{
+			PQFlashMe();
+		}
+	}
 	
 
 	_proppack->Properties()->Calculate(this);

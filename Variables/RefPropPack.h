@@ -42,7 +42,7 @@ public:
 	~RefPropPack();
 
 	bool Setup(PropPack* thePP);
-
+	void PQ_Flash(Stream* theStream, PropPack* thePP);
 	void PT_Flash(Stream* theStream, PropPack* thePP);
 	void TQ_Flash(Stream* theStream, PropPack* thePP);
 private:

@@ -33,6 +33,12 @@ typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &
 typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 typedef void(__stdcall *fp_THERMdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &);
 
+typedef void(__stdcall *fp_THFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_PSFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_PHFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_PQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_TSFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+
 
 
 //create the function for use in c++
@@ -40,6 +46,12 @@ fp_THERMdllTYPE THERMdll;
 fp_SETUPdllTYPE SETUPdll;
 fp_TPFLSHdllTYPE TPFLSHdll;
 fp_TQFLSHdllTYPE TQFLSHdll;
+
+fp_TSFLSHdllTYPE TSFLSHdll;
+fp_THFLSHdllTYPE THFLSHdll;
+fp_PSFLSHdllTYPE PSFLSHdll;
+fp_PHFLSHdllTYPE PHFLSHdll;
+fp_PQFLSHdllTYPE PQFLSHdll;
 #endif
 
 
@@ -94,13 +106,12 @@ fp_TQFLSHdllTYPE TQFLSHdll;
 //typedef void(__stdcall *fp_PDFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_PEFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_PHFL1dllTYPE)(double &, double &, double *, long &, double &, double &, long &, char*, long);
-//typedef void(__stdcall *fp_PHFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
-//typedef void(__stdcall *fp_PQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+//
+//
 //typedef void(__stdcall *fp_PREOSdllTYPE)(long &);
 //typedef void(__stdcall *fp_PRESSdllTYPE)(double &, double &, double *, double &);
 //typedef void(__stdcall *fp_PSFL1dllTYPE)(double &, double &, double *, long &, double &, double &, long &, char*, long);
-//typedef void(__stdcall *fp_PSFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
-//typedef void(__stdcall *fp_PUREFLDdllTYPE)(long &);
+////typedef void(__stdcall *fp_PUREFLDdllTYPE)(long &);
 //typedef void(__stdcall *fp_QMASSdllTYPE)(double &, double *, double *, double &, double *, double *, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_QMOLEdllTYPE)(double &, double *, double *, double &, double *, double *, double &, double &, long &, char*, long);
 //typedef void(__stdcall *fp_SATDdllTYPE)(double &, double *, long &, long &, double &, double &, double &, double &, double *, double *, long &, char*, long);
@@ -126,11 +137,11 @@ fp_TQFLSHdllTYPE TQFLSHdll;
 //typedef void(__stdcall *fp_THERM2dllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &);
 //typedef void(__stdcall *fp_THERM3dllTYPE)(double &, double &, double *, double &, double &, double &, double &, double &, double &, double &, double &, double &, double &);
 
-//typedef void(__stdcall *fp_THFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+//
 //typedef void(__stdcall *fp_TPRHOdllTYPE)(double &, double &, double *, long &, long &, double &, long &, char*, long);
 
 //typedef void(__stdcall *fp_TRNPRPdllTYPE)(double &, double &, double *, double &, double &, long &, char*, long);
-//typedef void(__stdcall *fp_TSFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+//
 //typedef void(__stdcall *fp_VIRBdllTYPE)(double &, double *, double &);
 //typedef void(__stdcall *fp_VIRCdllTYPE)(double &, double *, double &);
 //typedef void(__stdcall *fp_WMOLdllTYPE)(double *, double &);
@@ -188,12 +199,12 @@ fp_TQFLSHdllTYPE TQFLSHdll;
 //fp_PDFLSHdllTYPE PDFLSHdll;
 //fp_PEFLSHdllTYPE PEFLSHdll;
 //fp_PHFL1dllTYPE PHFL1dll;
-//fp_PHFLSHdllTYPE PHFLSHdll;
-//fp_PQFLSHdllTYPE PQFLSHdll;
+
+//
 //fp_PREOSdllTYPE PREOSdll;
 //fp_PRESSdllTYPE PRESSdll;
 //fp_PSFL1dllTYPE PSFL1dll;
-//fp_PSFLSHdllTYPE PSFLSHdll;
+//
 //fp_PUREFLDdllTYPE PUREFLDdll;
 //fp_QMASSdllTYPE QMASSdll;
 //fp_QMOLEdllTYPE QMOLEdll;
@@ -220,12 +231,12 @@ fp_TQFLSHdllTYPE TQFLSHdll;
 //fp_THERM2dllTYPE THERM2dll;
 //fp_THERM3dllTYPE THERM3dll;
 //fp_THERMdllTYPE THERMdll;
-//fp_THFLSHdllTYPE THFLSHdll;
+//
 
 //fp_TPRHOdllTYPE TPRHOdll;
 
 //fp_TRNPRPdllTYPE TRNPRPdll;
-//fp_TSFLSHdllTYPE TSFLSHdll;
+//
 //fp_VIRBdllTYPE VIRBdll;
 //fp_VIRCdllTYPE VIRCdll;
 //fp_WMOLdllTYPE WMOLdll;
