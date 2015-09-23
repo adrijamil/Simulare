@@ -97,10 +97,8 @@ protected:
 	Component* _components; //make it fixed first
 	int _ncomps;
 	int _nprops;
-
 	FlashMethod* _flashmethod;
 	PropertyCalc* _propertycalculation; //
-
 };
 
 

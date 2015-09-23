@@ -22,20 +22,13 @@
 #include <stdio.h>
 #include <iostream>
 
-
+#include "RPManager.h"
 #include "FlashMethod.h"
 #include "Stream.h"
 
 
 using namespace std;
 //can I put this constants here?
-const long refpropcharlength = 255;
-const long filepathlength = 255;
-const long lengthofreference = 3;
-const long errormessagelength = 255;
-const long ncmax = 20;		// Note: ncmax is the max number of components
-const long numparams = 72;
-const long maxcoefs = 50;
 
 
 
@@ -53,11 +46,10 @@ public:
 	void PT_Flash(Stream* theStream, PropPack* thePP);
 	void TQ_Flash(Stream* theStream, PropPack* thePP);
 private:
-	HINSTANCE RefProp_dll_instance;
+	RPManager* themanager;
 	string _fluids_path;
 	//void _setupdll();
 
-	void _LoadDLL();
 };
 
 #endif

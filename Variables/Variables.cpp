@@ -2,7 +2,7 @@
 //
 // standard includes
 #include "stdafx.h"
-
+#include "RPManager.h"
 
 
 // custom includes
@@ -26,6 +26,8 @@ using namespace std;
 
 //global class
 //UnitConvertor *UnitConvertor::s_instance = 0;
+
+RPManager* RPManager::_instance = 0;
 
 int _tmain(int argc, _TCHAR* argv[])
 {

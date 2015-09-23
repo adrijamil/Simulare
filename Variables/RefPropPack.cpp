@@ -1,28 +1,9 @@
 #include "stdafx.h"
 #include "RefPropPack.h"
-#include "RefPropFunctions.h" //if I put this line in the header file a linker error will happen
+//#include "RefPropFunctions.h" //if I put this line in the header file a linker error will happen
 #include <exception>
 #include <Windows.h>
 
-
-std::string GetLastErrorAsString()
-{
-	//Get the error message, if any.
-	DWORD errorMessageID = ::GetLastError();
-	if (errorMessageID == 0)
-		return std::string(); //No error message has been recorded
-
-	LPSTR messageBuffer = nullptr;
-	size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
-
-	std::string message(messageBuffer, size);
-
-	//Free the buffer.
-	LocalFree(messageBuffer);
-
-	return message;
-}
 
 
 // Then get pointers into the dll to the actual functions.
@@ -120,37 +101,29 @@ std::string GetLastErrorAsString()
 //XMASSdll = (fp_XMASSdllTYPE)GetProcAddress(RefpropdllInstance, "XMASSdll");
 //XMOLEdll = (fp_XMOLEdllTYPE)GetProcAddress(RefpropdllInstance, "XMOLEdll");
 
+typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, double &, long &, char*, long);
+typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);\
+
+
+fp_TPFLSHdllTYPE TPFLSHdll;
+fp_TQFLSHdllTYPE TQFLSHdll;
 
 RefPropPack::RefPropPack()
 {
-	//define where fluids are- change to point to "C:\\Program Files (x86)\\REFPROP\\
-	
 	_fluids_path = "D:\\East101\\Adri\\devprojects\\theSeed\\RefProp\\fluids\\";
-
-
-	//maybe lump this in a setup proc// then lump that in a proppack factory
-	//load an instance of the dll
-	
-	
-	//HINSTANCE RefProp_dll_instance = NULL;
-	//FreeLibrary(RefProp_dll_instance);
-
-
-//	cout << "\n" << "setupdll  " << SETUPdll << "\n";
+	//define functions to pointer
+	TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "TPFLSHdll");
+	TQFLSHdll = (fp_TQFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "TQFLSHdll");
 }
 
 
 bool RefPropPack::Setup(PropPack* thePP)
 {
+	long i;
+	i = thePP->NComps();
 
 	string fluidstring;
-	int n_attempts=0;
-	long i, ierr;
-	char hf[refpropcharlength*ncmax+20], hrf[lengthofreference + 1],
-		herr[errormessagelength + 1], hfmix[refpropcharlength + 1];
 
-	i = thePP->NComps();
-	ierr = 0;
 	fluidstring = "";
 	for (int k = 0; k < i; k++)
 	{
@@ -162,63 +135,13 @@ bool RefPropPack::Setup(PropPack* thePP)
 		fluidstring = fluidstring+ thePP->GetComponent(k).Name+".FLD";
 	}
 
-	strcpy_s(hf, fluidstring.c_str());
 
+	bool issetup;
 
-		strcpy_s(hfmix, (_fluids_path + "HMX.BNC").c_str());
-	strcpy_s(hrf, "DEF");
-	strcpy_s(herr, "Ok");
-
-	
-
-
-tryagain:
-	_LoadDLL();
-	try {
-		SETUPdll(i, hf, hfmix, hrf, ierr, herr,
-			refpropcharlength*ncmax, refpropcharlength,
-			lengthofreference, errormessagelength);
-	}
-	catch (...) {   // catch block will only be executed under /EHa
-	
-		cout << "Caught an exception in catch(...)." << endl;
-		return false;
-
-		//FreeLibrary(RefProp_dll_instance);
-		//
-		//_proppack->Reload(REFPROP);
-
-		////delete RefProp_dll_instance;
-		////RefProp_dll_instance = new HINSTANCE;
-		//RefProp_dll_instance = (HINSTANCE)GetModuleHandle(NULL);
-		//RefProp_dll_instance = NULL;
-		//SETUPdll = NULL;
-		//TPFLSHdll = NULL;
-		//TQFLSHdll = NULL;
-
-		//n_attempts = n_attempts + 1;
-		//if (n_attempts < 10)
-		//	{
-		//		goto tryagain;
-		//	}
-	}
-	if (ierr != 0) printf("%s\n", herr);
-
-	
-
-	//RefProp_dll_instance = LoadLibraryEx("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL", NULL, LOAD_LIBRARY_AS_IMAGE_RESOURCE);
-
-
-	//create a method to check if instance is still valid/setup
-
-
-
-	//Map the function defined in RefPropFunctions.h to the function which exists in the dll
-
-	
+	issetup = RPManager::Instance()->Setup(fluidstring, i);
 
 	_proppack = thePP;
-	return true;
+	return issetup;  //why so can try again if it fails
 }
 
 
@@ -276,13 +199,13 @@ void RefPropPack::PT_Flash(Stream* theStream, PropPack* thePP)
 
 	double  hjt;
 
-	THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
-	theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
-	theStream->Phases(0)->MolarEntropy()->SetValue(s);
+	//THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
+	//theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
+	//theStream->Phases(0)->MolarEntropy()->SetValue(s);
 
-	THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
-	theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
-	theStream->Phases(1)->MolarEntropy()->SetValue(s);
+	//THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
+	//theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
+	//theStream->Phases(1)->MolarEntropy()->SetValue(s);
 }
 
 
@@ -294,7 +217,6 @@ void RefPropPack::TQ_Flash(Stream* theStream, PropPack* thePP)
 	char 	herr[errormessagelength + 1];
 	double t, p, d, dl, dv, q, e, h, s, cv, cp, w;
 	double x[ncmax], xliq[ncmax], xvap[ncmax];
-	double mw;
 
 	int ncomps;
 	ncomps = thePP->NComps();
@@ -350,13 +272,13 @@ void RefPropPack::TQ_Flash(Stream* theStream, PropPack* thePP)
 	
 	//x = theStream->Phases(0)->Composition()->GetValues();
 	
-	THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
-	theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
-	theStream->Phases(0)->MolarEntropy()->SetValue(s);
+	//THERMdll(t, d, xvap, p, e, h, s, cv, cp, w, hjt);
+	//theStream->Phases(0)->MolarEnthalpy()->SetValue(h);
+	//theStream->Phases(0)->MolarEntropy()->SetValue(s);
 
-	THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
-	theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
-	theStream->Phases(1)->MolarEntropy()->SetValue(s);
+	//THERMdll(t, d, xliq, p, e, h, s, cv, cp, w, hjt);
+	//theStream->Phases(1)->MolarEnthalpy()->SetValue(h);
+	//theStream->Phases(1)->MolarEntropy()->SetValue(s);
 
 }
 
@@ -367,13 +289,4 @@ RefPropPack::~RefPropPack()
 
 }
 
-void RefPropPack::_LoadDLL()
-{
-
-	RefProp_dll_instance = LoadLibrary("C:\\Program Files (x86)\\REFPROP\\REFPROP.DLL");
-	SETUPdll = (fp_SETUPdllTYPE)GetProcAddress(RefProp_dll_instance, "SETUPdll");
-	TPFLSHdll = (fp_TPFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TPFLSHdll");
-	TQFLSHdll = (fp_TQFLSHdllTYPE)GetProcAddress(RefProp_dll_instance, "TQFLSHdll");
-	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RefProp_dll_instance, "THERMdll");
-}
 

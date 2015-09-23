@@ -99,6 +99,7 @@
     <ClInclude Include="RefPropFunctions.h" />
     <ClInclude Include="RefPropPack.h" />
     <ClInclude Include="RPEnergyCalc.h" />
+    <ClInclude Include="RPManager.h" />
     <ClInclude Include="RPMassDensityCalc.h" />
     <ClInclude Include="SimCase.h" />
     <ClInclude Include="Solver.h" />
@@ -123,6 +124,10 @@
     <ClCompile Include="PropPackBuilder.cpp" />
     <ClCompile Include="RealVariable.cpp" />
     <ClCompile Include="RefPropPack.cpp" />
+    <ClCompile Include="RPEnergyCalc.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="RPManager.cpp" />
     <ClCompile Include="RPMassDensityCalc.cpp" />
     <ClCompile Include="SimCase.cpp" />
     <ClCompile Include="Solver.cpp" />
