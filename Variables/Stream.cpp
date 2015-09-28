@@ -116,6 +116,38 @@ bool Stream::Solve()
 			thetype = PQ;
 		}
 	}
+	else if ((!(_molenthalpy->IsCalculated())) && (!(_pressure->IsCalculated())))
+	{
+		if ((_molenthalpy->IsKnown()) && (_pressure->IsKnown()))
+		{
+			//PQFlashMe();
+			thetype = PH;
+		}
+	}
+	else if ((!(_molentropy->IsCalculated())) && (!(_pressure->IsCalculated())))
+	{
+		if ((_molentropy->IsKnown()) && (_pressure->IsKnown()))
+		{
+			//PQFlashMe();
+			thetype = PS;
+		}
+	}
+	else if ((!(_molentropy->IsCalculated())) && (!(_temperature->IsCalculated())))
+	{
+		if ((_molentropy->IsKnown()) && (_temperature->IsKnown()))
+		{
+			//PQFlashMe();
+			thetype = TS;
+		}
+	}
+	else if ((!(_molenthalpy->IsCalculated())) && (!(_temperature->IsCalculated())))
+	{
+		if ((_molenthalpy->IsKnown()) && (_temperature->IsKnown()))
+		{
+			//PQFlashMe();
+			thetype = TH;
+		}
+	}
 	
 	//Flash(thetype);
 	_proppack->Flash(this, thetype);

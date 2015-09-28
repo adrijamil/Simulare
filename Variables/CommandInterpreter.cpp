@@ -222,7 +222,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 		}
 		else
 		{
-			cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION OR DONE \n";
+			cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION, ENTHALPY OR DONE \n";
 			cin >> param;
 
 		}
@@ -268,7 +268,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			}
 			else
 			{
-				cout << "Enter vapour fraction (0 - 1) \n";
+				cout << "Enter vapour fraction (molar) (0 - 1) \n";
 				cin >> thevar;
 			}
 
@@ -303,6 +303,40 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 				}
 				_activecase->GetStream(thename)->Composition()->SetValues(myncomps, molecomps);
 				_activecase->GetStream(thename)->Normalise();
+		}
+		else if (param == "ENTHALPY")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter molar enthalpy in J/mol \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_activecase->GetStream(thename)->MolarEnthalpy()->SetValue(tempdb);
+			_activecase->GetStream(thename)->MolarEnthalpy()->IsCalculated(false);
+
+		}
+		else if (param == "ENTROPY")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter molar entropy in J/mol \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_activecase->GetStream(thename)->MolarEntropy()->SetValue(tempdb);
+			_activecase->GetStream(thename)->MolarEntropy()->IsCalculated(false);
+
 		}
 		else if (param == "DONE")
 		{
