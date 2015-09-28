@@ -23,7 +23,7 @@ using namespace std;
 //forward declare these guys. dont need to access. for now.
 class Stream;
 class PropPack;
-
+enum FlashTypeEnum { PT, PH, PQ, PS, TQ, TS, TH }; //7 types
 class FlashMethod
 {
 public:
@@ -31,6 +31,8 @@ public:
 	virtual void PT_Flash(Stream* theStream, PropPack* thePP){};
 	virtual void TQ_Flash(Stream* theStream, PropPack* thePP){};
 	virtual void PQ_Flash(Stream* theStream, PropPack* thePP){};
+	virtual void PS_Flash(Stream* theStream, PropPack* thePP){};
+	virtual void Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum theflashtype){};
 	virtual bool Setup(PropPack* thePP){ return false; };
 	virtual ~FlashMethod();
 protected:

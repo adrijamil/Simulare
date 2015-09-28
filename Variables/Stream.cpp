@@ -51,6 +51,8 @@ bool Stream::Solve()
 	//check DOF then call appropriate flash
 
 	//calc specs
+	FlashTypeEnum thetype;
+
 	int nspecs=0;
 
 	if (!_pressure->IsCalculated())
@@ -93,24 +95,30 @@ bool Stream::Solve()
 	{
 		if ((_pressure->IsKnown()) && (_temperature->IsKnown()))
 		{
-			PTFlashMe();
+			//PTFlashMe();
+			thetype = PT;
+
 		}
 	}
 	else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_temperature->IsCalculated())))
 	{
 		if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_temperature->IsKnown()))
 		{
-			TQFlashMe();
+			//TQFlashMe();
+			thetype = TQ;
 		}
 	}
 	else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_pressure->IsCalculated())))
 	{
 		if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_pressure->IsKnown()))
 		{
-			PQFlashMe();
+			//PQFlashMe();
+			thetype = PQ;
 		}
 	}
 	
+	//Flash(thetype);
+	_proppack->Flash(this, thetype);
 
 	_proppack->Properties()->Calculate(this);
 
@@ -128,22 +136,22 @@ void Stream::Output()
 	cout << "\n";
 	cout << _name<< "\n";
 
-	cout << "Pressure  [kPa]" << Pressure()->GetValue()<< "\n";
-	cout << "Temperature  [K]" << Temperature()->GetValue() << "\n";
+	cout << "Pressure  [kPa] " << Pressure()->GetValue()<< "\n";
+	cout << "Temperature  [K] " << Temperature()->GetValue() << "\n";
 	cout << "Mw  [g/mol] " << MolecularWeight()->GetValue() << "\n";
 	//RealVariable* rv = MassDensity();
-	cout << "MassDensity  [kg/m3]" << MassDensity()->GetValue() << "\n";
-	cout << "MolarDensity  [mol/m3]" << MolarDensity()->GetValue() << "\n";
-	cout << "MolarEnthalpy  [J/mol]" << MolarEnthalpy()->GetValue() << "\n";
-	cout << "MolarEntropy  [J/mol/K]" << MolarEntropy()->GetValue() << "\n";
+	cout << "MassDensity  [kg/m3] " << MassDensity()->GetValue() << "\n";
+	cout << "MolarDensity  [mol/m3] " << MolarDensity()->GetValue() << "\n";
+	cout << "MolarEnthalpy  [J/mol] " << MolarEnthalpy()->GetValue() << "\n";
+	cout << "MolarEntropy  [J/mol/K] " << MolarEntropy()->GetValue() << "\n";
 	cout << "Vfrac  " << VapourFraction()->GetValue() << "\n\n";
 
 	cout << "GasPhase  " << "\n";
 	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
 	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
 	cout << "MolarDensity  [mol/m3] " << _phases[0]->MolarDensity()->GetValue() << "\n";
-	cout << "MolarEnthalpy  [J/mol]" << _phases[0]->MolarEnthalpy()->GetValue() << "\n";
-	cout << "MolarEntropy  [J/mol/K]" << _phases[0]->MolarEntropy()->GetValue() << "\n";
+	cout << "MolarEnthalpy  [J/mol] " << _phases[0]->MolarEnthalpy()->GetValue() << "\n";
+	cout << "MolarEntropy  [J/mol/K] " << _phases[0]->MolarEntropy()->GetValue() << "\n";
 	for (int k = 0; k < myncomps; k++)
 	{
 
@@ -153,10 +161,10 @@ void Stream::Output()
 	cout << "\n";
 	cout << "LiquidPhase" << "\n";
 	cout << "Mw  " << _phases[1]->MolecularWeight()->GetValue() << "\n";
-	cout << "MassDensity  [kg/m3]" << _phases[1]->MassDensity()->GetValue() << "\n";
-	cout << "MolarDensity  [mol/m3]" << _phases[1]->MolarDensity()->GetValue() << "\n";
-	cout << "MolarEnthalpy  [J/mol]" << _phases[1]->MolarEnthalpy()->GetValue() << "\n";
-	cout << "MolarEntropy  [J/mol/K]" << _phases[1]->MolarEntropy()->GetValue() << "\n";
+	cout << "MassDensity  [kg/m3] " << _phases[1]->MassDensity()->GetValue() << "\n";
+	cout << "MolarDensity  [mol/m3] " << _phases[1]->MolarDensity()->GetValue() << "\n";
+	cout << "MolarEnthalpy  [J/mol] " << _phases[1]->MolarEnthalpy()->GetValue() << "\n";
+	cout << "MolarEntropy  [J/mol/K] " << _phases[1]->MolarEntropy()->GetValue() << "\n";
 	for (int k = 0; k < myncomps; k++)
 	{
 		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";

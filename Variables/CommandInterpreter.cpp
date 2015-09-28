@@ -101,7 +101,7 @@ void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 {
 	
 	string reply;
-	FlashTypeEnum theflashtype;
+	FlashMethodEnum theflashmethod;
 	//create new case by default
 	//make option to load case
 	//string* compnames;
@@ -130,13 +130,13 @@ void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 		if (theflash == "IDEAL")
 		{
 			cout << "IDEAL selected.\n";
-			theflashtype = IDEAL;
+			theflashmethod = IDEAL;
 			issetup = true;
 		}
 		else if (theflash == "REFPROP")
 		{
 			cout << "REFPROP selected.\n";
-			theflashtype = REFPROP;
+			theflashmethod = REFPROP;
 			issetup = true;
 		}
 		else if (reply == "exit")
@@ -180,7 +180,7 @@ void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 	}
 
 
-	_activecase->Setup(theflashtype, compnames);
+	_activecase->Setup(theflashmethod, compnames);
 
 	cout << "Case has been setup. \n";
 }

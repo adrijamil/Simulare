@@ -103,7 +103,6 @@ typedef void(__stdcall *fp_TPFLSHdllTYPE)(double &, double &, double *, double &
 typedef void(__stdcall *fp_TQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);\
 typedef void(__stdcall *fp_PQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 
-
 typedef void(__stdcall *fp_PSFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 typedef void(__stdcall *fp_THFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
 typedef void(__stdcall *fp_PHFLSHdllTYPE)(double &, double &, double *, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
@@ -114,8 +113,8 @@ typedef void(__stdcall *fp_TSFLSHdllTYPE)(double &, double &, double *, long &, 
 fp_TPFLSHdllTYPE TPFLSHdll;
 fp_TQFLSHdllTYPE TQFLSHdll;
 fp_PQFLSHdllTYPE PQFLSHdll;
-
 fp_PSFLSHdllTYPE PSFLSHdll;
+
 fp_TSFLSHdllTYPE TSFLSHdll;
 fp_THFLSHdllTYPE THFLSHdll;
 fp_PHFLSHdllTYPE PHFLSHdll;
@@ -131,7 +130,6 @@ RefPropPack::RefPropPack()
 
 	TSFLSHdll = (fp_TSFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "TSFLSHdll");
 	THFLSHdll = (fp_THFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THFLSHdll");
-	PSFLSHdll = (fp_PSFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "PSFLSHdll");
 	PHFLSHdll = (fp_PHFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "PHFLSHdll");
 	PQFLSHdll = (fp_PQFLSHdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "PQFLSHdll");
 
@@ -342,6 +340,66 @@ void RefPropPack::PQ_Flash(Stream* theStream, PropPack* thePP)
 	theStream->MolarEntropy()->SetValue(s);
 
 }
+
+void RefPropPack::PS_Flash(Stream* theStream, PropPack* thePP)
+{
+
+	//setup arrays to be dynamic
+	long  ierr, kq;
+	char 	herr[errormessagelength + 1];
+	double t, p, d, dl, dv, q, e, h, s, cv, cp, w;
+	double x[ncmax], xliq[ncmax], xvap[ncmax];
+
+	int ncomps;
+	ncomps = thePP->NComps();
+
+	//extract components and compositions
+
+	p = theStream->Pressure()->GetValue();
+	q = theStream->VapourFraction()->GetValue();
+
+	for (int k = 0; k < ncomps; k++)
+	{
+		x[k] = theStream->Composition()->GetValue(k);
+	}
+	//x = thestream->Composition()->GetValues();
+
+	//setupdll - initialise the fluid
+	// do PT flash
+	//...Calculate pressure (p), internal energy (e), enthalpy (h), entropy (s),
+	//.....isochoric (cv) and isobaric (cp) heat capacities, speed of sound (w),
+	//typedef void(__stdcall *fp_PQFLSHdllTYPE)(double &, double &, double *, long &, double &, double &, double &, double &, double *, double *, double &, double &, double &, double &, double &, double &, long &, char*, long);
+	// from FORTRAN: subroutine PQFLSH(p, q, z, kq, t, D, Dl, Dv, x, y, e, h, s, cv, cp, w, ierr, herr)
+	//kq is basis, 1 is mol,2 is mass
+	kq = 1;
+
+	PQFLSHdll(p, q, x, kq, t, d, dl, dv, xliq, xvap, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+
+	//cout<< herr;
+
+	//send back to stream
+	for (int k = 0; k < ncomps; k++)
+	{
+		theStream->Phases(0)->Composition()->SetValue(k, xvap[k]);
+		theStream->Phases(1)->Composition()->SetValue(k, xliq[k]);
+		//Yi[i] = _Ki[i] * Xi[i];
+	}
+
+	//put it into the stream
+
+	theStream->Temperature()->SetValue(t);
+
+
+	theStream->MolarDensity()->SetValue(d / 0.001);
+	theStream->Phases(0)->MolarDensity()->SetValue(dv / 0.001);
+	theStream->Phases(1)->MolarDensity()->SetValue(dl / 0.001);
+
+	theStream->MolarEnthalpy()->SetValue(h);
+	theStream->MolarEntropy()->SetValue(s);
+
+}
+
+
 RefPropPack::~RefPropPack()
 {
 
@@ -349,3 +407,133 @@ RefPropPack::~RefPropPack()
 }
 
 
+void RefPropPack::Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum theflashtype)
+{
+	long  ierr,kq;
+	char 	herr[errormessagelength + 1];
+	double t, p, d, dl, dv, q, e, h, s, cv, cp, w;
+	double x[ncmax], xliq[ncmax], xvap[ncmax];
+	long kr;
+	kr = 1;
+
+	//kr--flag specifying desired root for multi - valued inputs :
+	//1 = return lower density root
+	//2 = return higher density root
+	//to be investigated
+
+
+	int ncomps;
+	ncomps = thePP->NComps();
+	kq = 1;//1 means molar phase fraction, 2 is mass
+	//extract components and compositions
+	for (int k = 0; k < ncomps; k++)
+	{
+		x[k] = theStream->Composition()->GetValue(k); //getvalues doesnt work?
+	}
+
+
+	if (theflashtype == PT)
+	{
+		t = theStream->Temperature()->GetValue();
+		p = theStream->Pressure()->GetValue();
+		TPFLSHdll(t, p, x, d, dl, dv, xliq, xvap, q, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+
+		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
+		theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+		
+		theStream->MolarEnthalpy()->SetValue(h);
+		theStream->MolarEntropy()->SetValue(s);
+	}
+	else if (theflashtype==PH)
+	{
+		h = theStream->MolarEnthalpy()->GetValue();
+		p = theStream->Pressure()->GetValue();
+		PHFLSHdll(p, h, x,t, d, dl, dv, xliq, xvap, q, e, s, cv, cp, w, ierr, herr, errormessagelength);
+
+		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
+		theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+
+		theStream->Temperature()->SetValue(t);
+		theStream->MolarEntropy()->SetValue(s);
+	}
+	else if (theflashtype == PQ)
+	{
+		q = theStream->VapourFraction()->GetValue();
+		p = theStream->Pressure()->GetValue();
+		PQFLSHdll( p,q, x,kq,t,d, dl, dv, xliq, xvap, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+
+		theStream->Temperature()->SetValue(t);
+		theStream->MolarEnthalpy()->SetValue(h);
+		theStream->MolarEntropy()->SetValue(s);
+
+	}
+	else if (theflashtype == PS)
+	{
+		s = theStream->MolarEntropy()->GetValue();
+		p = theStream->Pressure()->GetValue();
+		PSFLSHdll( p,s, x,t, d, dl, dv, xliq, xvap, q, e, h, cv, cp, w, ierr, herr, errormessagelength);
+
+		theStream->Temperature()->SetValue(t);
+		theStream->MolarEnthalpy()->SetValue(h);
+		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
+		theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+
+
+	}
+	else if (theflashtype == TQ)
+	{
+		t = theStream->Temperature()->GetValue();
+		q = theStream->VapourFraction()->GetValue();
+		TQFLSHdll(t,q, x,kq,p, d, dl, dv, xliq, xvap, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
+
+		theStream->Pressure()->SetValue(p);
+		theStream->MolarEnthalpy()->SetValue(h);
+		theStream->MolarEntropy()->SetValue(s);
+	}
+	else if (theflashtype == TS)
+	{
+		
+		t = theStream->Temperature()->GetValue();
+		s = theStream->MolarEntropy()->GetValue();
+		TSFLSHdll(t,s, x,kr,p, d, dl, dv, xliq, xvap, q, e, h, cv, cp, w, ierr, herr, errormessagelength);
+
+		theStream->Pressure()->SetValue(p);
+		theStream->MolarEnthalpy()->SetValue(h);
+		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
+		theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+	}
+	else if (theflashtype == TH)
+	{
+		t = theStream->Temperature()->GetValue();
+		h = theStream->MolarEnthalpy()->GetValue();
+		THFLSHdll(t, h, x,kr,p, d, dl, dv, xliq, xvap, q, e,  s, cv, cp, w, ierr, herr, errormessagelength);
+
+		theStream->Pressure()->SetValue(p);
+		theStream->MolarEntropy()->SetValue(s);
+		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
+		theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
+	}
+
+	//setupdll - initialise the fluid
+	// do PT flash
+	//...Calculate pressure (p), internal energy (e), enthalpy (h), entropy (s),
+	//.....isochoric (cv) and isobaric (cp) heat capacities, speed of sound (w),
+	
+	//cout<< herr;
+
+
+	//these apply to all flashtypes
+	//send back to stream
+	for (int k = 0; k < ncomps; k++)
+	{
+		theStream->Phases(0)->Composition()->SetValue(k, xvap[k]);
+		theStream->Phases(1)->Composition()->SetValue(k, xliq[k]);
+	}
+
+	//put it into the stream
+	theStream->MolarDensity()->SetValue(d / 0.001);
+	theStream->Phases(0)->MolarDensity()->SetValue(dv / 0.001);
+	theStream->Phases(1)->MolarDensity()->SetValue(dl / 0.001);
+
+	
+}

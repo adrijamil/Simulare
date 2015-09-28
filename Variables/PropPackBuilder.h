@@ -18,21 +18,21 @@ public:
 	{
 		_current_proppack = new PropPack;
 	}
-	virtual void SetFlashMethod(FlashTypeEnum theflashtype)
+	virtual void SetFlashMethod(FlashMethodEnum theflashmethod)
 	{
 
-		_current_proppack->SetMethod(theflashtype);
+		_current_proppack->SetMethod(theflashmethod);
 
 		//refprop still neeeds this
 		MolWtCalc* newcalc = new MolWtCalc;
 		_current_proppack->AddProperty(newcalc);
 
-		if (theflashtype == IDEAL)
+		if (theflashmethod == IDEAL)
 		{
 			DensityCalc* newcalc = new DensityCalc;
 			_current_proppack->AddProperty(newcalc);
 		}
-		else if (theflashtype == REFPROP)
+		else if (theflashmethod == REFPROP)
 		{
 			RPMassDensityCalc* newcalc = new RPMassDensityCalc;
 			_current_proppack->AddProperty(newcalc);

@@ -137,9 +137,9 @@ void  PropPack::AddProperty(PropertyCalc* thepropcalc)
 //	}
 }
 
-void PropPack::SetMethod(FlashTypeEnum theFlashType)
+void PropPack::SetMethod(FlashMethodEnum theFlashMethod)
 {
-	switch (theFlashType)
+	switch (theFlashMethod)
 	{
 	case IDEAL:
 		_flashmethod = new Ideal;

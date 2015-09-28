@@ -44,8 +44,8 @@ struct Component
 	double Acentric;
 	double StdIdealLiqDens;
 };
-
-enum FlashTypeEnum  {IDEAL,REFPROP};
+//enum FlashTypeEnum { PT, PH, PQ,PS,TQ,TS,TH}; //7 types
+enum FlashMethodEnum  {IDEAL,REFPROP};
 enum ComponentNameEnum  { METHANE, ETHANE,BENZENE };
 using namespace std;
 //template<typename T = Stream>
@@ -56,7 +56,11 @@ public:
 	~PropPack();
 	PropertyCalc* Properties(){ return _propertycalculation; }
 
-	void SetMethod(FlashTypeEnum theFlashType);
+	void SetMethod(FlashMethodEnum theFlashMethod);
+	virtual void Flash(Stream* theStream,  FlashTypeEnum theflashtype)
+	{
+		_flashmethod->Flash(theStream, this, theflashtype);
+	}
 	virtual void PT_Flash(Stream* thestream)
 		{
 			_flashmethod->PT_Flash(thestream,this);
@@ -71,6 +75,11 @@ public:
 	virtual void PQ_Flash(Stream* thestream)
 	{
 		_flashmethod->PQ_Flash(thestream, this);
+	};// i need P, T and x. Output H, vf and a bunch of props.
+
+	virtual void PS_Flash(Stream* thestream)
+	{
+		_flashmethod->PS_Flash(thestream, this);
 	};// i need P, T and x. Output H, vf and a bunch of props.
 
 	virtual void AddComponent(string thecompname);
@@ -90,11 +99,11 @@ public:
 		}
 	}
 	void AddProperty(PropertyCalc* thepropcalc);
-	void Reload(FlashTypeEnum theFlashType)
+	void Reload(FlashMethodEnum theFlashMethod)
 	{
 		cout << "I'm reloading" << "\n";
 		delete _flashmethod;
-		SetMethod(theFlashType);
+		SetMethod(theFlashMethod);
 		Setup();
 	}
 protected:

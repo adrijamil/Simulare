@@ -21,7 +21,7 @@ public:
 	}
 
 	template <class string, size_t N >
-	void Setup(FlashTypeEnum flashmethod, string const (&components)[N])
+	void Setup(FlashMethodEnum flashmethod, string const (&components)[N])
 	{
 		int ncomps;
 		ncomps =N;

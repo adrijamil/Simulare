@@ -42,8 +42,10 @@ public:
 	~RefPropPack();
 
 	bool Setup(PropPack* thePP);
+	void Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum theflashtype);
 	void PQ_Flash(Stream* theStream, PropPack* thePP);
 	void PT_Flash(Stream* theStream, PropPack* thePP);
+	void PS_Flash(Stream* theStream, PropPack* thePP);
 	void TQ_Flash(Stream* theStream, PropPack* thePP);
 private:
 	RPManager* themanager;
