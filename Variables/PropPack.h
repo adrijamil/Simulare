@@ -21,12 +21,12 @@
 
 #ifndef __PROPPACK_H_INCLUDED__
 #define __PROPPACK_H_INCLUDED__
-
+#include "HandledException.h"
 #include <iostream>
 #include <string>
 #include "FlashMethod.h"
 #include "PropertyCalc.h"
-
+#include "ErrorLogger.h"
 
 using namespace std;
 
@@ -57,9 +57,19 @@ public:
 	PropertyCalc* Properties(){ return _propertycalculation; }
 
 	void SetMethod(FlashMethodEnum theFlashMethod);
-	virtual void Flash(Stream* theStream,  FlashTypeEnum theflashtype)
+	virtual void Flash(Stream* theStream, FlashTypeEnum theflashtype)
 	{
-		_flashmethod->Flash(theStream, this, theflashtype);
+		try
+		{
+			_flashmethod->Flash(theStream, this, theflashtype);
+		}
+		catch (HandledException& e)
+		{
+			//cout  << e.what() << '\n';
+			ErrorLogger* logger=ErrorLogger::Instance();
+			logger->Handle(e);
+		}
+		
 	}
 	virtual void PT_Flash(Stream* thestream)
 		{

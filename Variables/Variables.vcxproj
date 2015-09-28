@@ -85,6 +85,8 @@
     <ClInclude Include="BaseVariable.h" />
     <ClInclude Include="CommandInterpreter.h" />
     <ClInclude Include="DensityCalc.h" />
+    <ClInclude Include="ErrorLogger.h" />
+    <ClInclude Include="HandledException.h" />
     <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="FlashMethod.h" />
     <ClInclude Include="FlowSheet.h" />
@@ -112,6 +114,8 @@
     <ClCompile Include="BaseVariable.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
     <ClCompile Include="DensityCalc.cpp" />
+    <ClCompile Include="ErrorLogger.cpp" />
+    <ClCompile Include="HandledException.cpp" />
     <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
     <ClCompile Include="FlowSheet.cpp" />

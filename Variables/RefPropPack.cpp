@@ -421,7 +421,7 @@ void RefPropPack::Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum thefla
 	//2 = return higher density root
 	//to be investigated
 
-
+	
 	int ncomps;
 	ncomps = thePP->NComps();
 	kq = 1;//1 means molar phase fraction, 2 is mass
@@ -438,11 +438,19 @@ void RefPropPack::Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum thefla
 		p = theStream->Pressure()->GetValue();
 		TPFLSHdll(t, p, x, d, dl, dv, xliq, xvap, q, e, h, s, cv, cp, w, ierr, herr, errormessagelength);
 
+
+		if (!ierr == 0)
+		{
+			string str(herr);
+			throw HandledException(str);
+		}
 		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
 		theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
 		
 		theStream->MolarEnthalpy()->SetValue(h);
 		theStream->MolarEntropy()->SetValue(s);
+
+
 	}
 	else if (theflashtype==PH)
 	{
