@@ -86,14 +86,25 @@ public:
 	}
 
 	void Output()
-	{	
+	{
+
 		Stream* strmptr;
+		Valve* vlvptr;
 		strmptr = 0;
 		for (int i = 0; i < _nchildren; i++)
 		{
 			{
 				strmptr = dynamic_cast<Stream *>(_children[i]);  //downcasting to stream type. later if unit ops how?
-				strmptr->Output();
+				if (strmptr == NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
+				{
+					vlvptr = dynamic_cast<Valve *>(_children[i]);
+					vlvptr->Output();
+				}
+				else
+				{
+					strmptr->Output();
+				}
+				
 			}
 		}
 	}

@@ -12,6 +12,7 @@ public:
 	bool IsSolved(){ return _issolved; }
 	Valve();
 	Valve(string name);
+	void Output(){ cout << _name<<"is solved"; };// later show something like pressure drop
 	~Valve();
 private:
 	RealVariable* _k_resistance = new RealVariable;
