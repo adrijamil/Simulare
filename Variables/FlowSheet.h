@@ -15,15 +15,23 @@
 
 #include "Stream.h"
 #include "Valve.h"
+#include "SolveStack.h"
 #include "FSObject.h"
+enum UnitOpEnum {VALVE,NINI};
 
-enum UnitOpEnum {VALVE,NIN};
+
+
 
 class FlowSheet :
 	public FSObject
 {
 public:
-	FlowSheet(){ _nchildren = 0; };
+	FlowSheet()
+	{
+		_nchildren = 0;
+		_stack = new SolveStack;
+
+	};
 	~FlowSheet();
 
 	bool Solve();
@@ -100,7 +108,7 @@ protected:
 	int _nchildren;
 	string _name;
 	PropPack* _default_package;
-	FSObject* _stack; //decouple this guy from stack
+	SolveStack* _stack; //decouple this guy from stack
 };
 
 #endif

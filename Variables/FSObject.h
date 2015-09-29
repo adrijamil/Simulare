@@ -24,7 +24,7 @@ public:
 	}
 
 	~FSObject();
-	virtual bool Solve()=0;
+	virtual bool Solve(){ return false; };
 	
 	string Name() { return _name; }
 
