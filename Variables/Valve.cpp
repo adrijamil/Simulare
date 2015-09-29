@@ -18,6 +18,11 @@ Valve::~Valve()
 
 bool Valve::Solve()
 {
+	if (_issolved == true)
+	{
+		return true;
+
+	}
 	bool flowpassed = false;
 	bool pressuresolved = false;
 	bool comppassed = false;
@@ -164,6 +169,8 @@ double p2, p1, k;
 
 	if (flowpassed&&pressuresolved)
 	{
+		_issolved = true;
+
 		retval = true;
 	}
 	return retval;

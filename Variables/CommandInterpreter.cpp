@@ -320,6 +320,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 					i = i + 1;
 				}
 				_activecase->GetStream(thename)->Composition()->SetValues(myncomps, molecomps);
+				_activecase->GetStream(thename)->Composition()->IsCalculated(false);
 				_activecase->GetStream(thename)->Normalise();
 		}
 		else if (param == "ENTHALPY")
@@ -408,8 +409,8 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 		cin >> thename;
 	}
 
-	_activecase->AddUnitOp(VALVE,thename); //default proppack will be used
-	thevalve = dynamic_cast<Valve *>(_activecase->GetUnitOp(thename));
+
+	thevalve = new Valve(thename);
 
 	while (issetup == false)
 	{
@@ -485,6 +486,8 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 			issetup = true;
 		}
 	}
+	_activecase->AddUnitOp(thevalve);
+
 	cout << thename << " has been added.\n";
 
 

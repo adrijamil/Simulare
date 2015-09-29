@@ -80,15 +80,9 @@ public:
 
 		return UnitOpPtr;
 	}
-	void AddUnitOp(UnitOpEnum theUO,string thename)
+	void AddUnitOp(UnitOp* theop)
 	{
-		switch (theUO)
-		{
-		case UnitOpEnum::VALVE:
-			Valve* valve = new Valve(thename);
-			Add(valve);
-			break;
-		}
+		Add(theop);
 	}
 
 	void Output()

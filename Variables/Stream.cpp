@@ -48,6 +48,11 @@ Stream::~Stream()
 
 bool Stream::Solve()
 {
+	if (_issolved == true)
+	{
+		return true;
+
+	}
 	//check DOF then call appropriate flash
 
 	//calc specs
@@ -85,7 +90,7 @@ bool Stream::Solve()
 		nspecs = nspecs + 1;
 	}
 
-	if ((nspecs > 3))
+	if ((nspecs != 3))
 	{
 		cout << "Specifation error";
 		return false;
@@ -153,9 +158,9 @@ bool Stream::Solve()
 	_proppack->Flash(this, thetype);
 
 	_proppack->Properties()->Calculate(this);
+	_issolved = true;
 
 	return true;
-	
 
 }
 
