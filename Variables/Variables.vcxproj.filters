@@ -105,12 +105,12 @@
     <ClInclude Include="ErrorLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UnitOp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Variables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BaseVariable.cpp">
@@ -183,6 +183,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ErrorLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitOp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

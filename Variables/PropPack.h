@@ -69,7 +69,6 @@ public:
 			ErrorLogger* logger=ErrorLogger::Instance();
 			logger->Handle(e);
 		}
-		
 	}
 	virtual void PT_Flash(Stream* thestream)
 		{
