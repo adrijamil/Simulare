@@ -10,11 +10,8 @@ public:
 	CommandInterpreter();
 	CommandInterpreter(string theinputfile);
 	~CommandInterpreter();
-
 	void SendCommand(string thecommand);
 	void ReadInputFile(string thefilepath);
-	
-	
 private:
 	void OutputAll();
 	void StreamSetup(string thename, string thespecs);

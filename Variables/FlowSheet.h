@@ -58,22 +58,30 @@ public:
 
 		return strmptr;
 	}
+	UnitOp* GetUnitOp(string daname)
+	{
+		UnitOp* UnitOpPtr;
+		UnitOpPtr = 0;
+		for (int i = 0; i < _nchildren; i++)
+		{
+			if (_children[i]->Name() == daname)
+			{
+				UnitOpPtr = dynamic_cast<UnitOp *>(_children[i]);  //downcasting 
+			}
+		}
 
-	//void AddOperation(UnitOpEnum theUO)
-	//{
-	//	switch (theUO)
-	//	{
-	//	case UnitOpEnum::VALVE:
-	//		Valve* valve = new Valve;
-	//		
-	//		Add(valve);
-	//	break;
-	//	default:
-	//	break;
-	//	}
-
-	//	
-	//}
+		return UnitOpPtr;
+	}
+	void AddUnitOp(UnitOpEnum theUO,string thename)
+	{
+		switch (theUO)
+		{
+		case UnitOpEnum::VALVE:
+			Valve* valve = new Valve(thename);
+			Add(valve);
+			break;
+		}
+	}
 
 	void Output()
 	{	
@@ -84,7 +92,6 @@ public:
 			{
 				strmptr = dynamic_cast<Stream *>(_children[i]);  //downcasting to stream type. later if unit ops how?
 				strmptr->Output();
-
 			}
 		}
 	}
@@ -93,6 +100,7 @@ protected:
 	int _nchildren;
 	string _name;
 	PropPack* _default_package;
+	FSObject* _stack; //decouple this guy from stack
 };
 
 #endif

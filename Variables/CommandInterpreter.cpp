@@ -42,24 +42,24 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 			str3 = "";
 
 		}
-		//else if (mystring == "VALVE")
-		//{
-		//	getline(myfile, str1);//this will be the name
-		//	do
-		//	{
-		//		getline(myfile, str2);
-		//		if (str3 != "")
-		//		{
-		//			str3.append("\n");
-		//		}
-		//		str3.append(str2);
+		else if (mystring == "VALVE")
+		{
+			getline(myfile, str1);//this will be the name
+			do
+			{
+				getline(myfile, str2);
+				if (str3 != "")
+				{
+					str3.append("\n");
+				}
+				str3.append(str2);
 
-		//	} while (str2 != "");
-		//	str3.append("DONE");
-		//	ValveSetup(str1, str3);
-		//	str3 = "";
+			} while (str2 != "");
+			str3.append("DONE");
+			ValveSetup(str1, str3);
+			str3 = "";
 
-		//}
+		}
 	}
 
 	_activecase->Solve();
@@ -240,7 +240,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 		}
 		else
 		{
-			cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION, ENTHALPY OR DONE \n";
+			cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION, ENTHALPY, MASSFLOW OR DONE \n";
 			cin >> param;
 
 		}
@@ -356,6 +356,23 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			_activecase->GetStream(thename)->MolarEntropy()->IsCalculated(false);
 
 		}
+		else if (param == "MASSFLOW")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter mass flow kg/h \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_activecase->GetStream(thename)->MassFlow()->SetValue(tempdb);
+			_activecase->GetStream(thename)->MassFlow()->IsCalculated(false);
+
+		}
 		else if (param == "DONE")
 		{
 			issetup = true;
@@ -366,3 +383,109 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 
 }
 
+void CommandInterpreter::ValveSetup(string thename, string thespecs)
+{
+	//string myreply;
+	//string strname;
+	Valve* thevalve;
+
+	int myncomps;
+
+	int i;
+	bool issetup;
+
+	double tempdb;
+	std::istringstream  mypartstream(thespecs);
+
+	string param;
+	string thevar;
+
+	issetup = false;
+	//set stream name
+	if (thename == "")
+	{
+		cout << "Enter valve name \n";
+		cin >> thename;
+	}
+
+	_activecase->AddUnitOp(VALVE,thename); //default proppack will be used
+	thevalve = dynamic_cast<Valve *>(_activecase->GetUnitOp(thename));
+
+	while (issetup == false)
+	{
+		//connect inlet
+		if (thespecs != "")
+		{
+			getline(mypartstream, param, '\n');
+		}
+		else
+		{
+			cout << "Enter inlet stream name \n";
+			cin >> param;
+		}
+		thevalve->Connect(_activecase->GetStream(param), INLET);
+		
+		//connect outlet
+		if (thespecs != "")
+		{
+			getline(mypartstream, param, '\n');
+		}
+		else
+		{
+			cout << "Enter outlet stream name \n";
+			cin >> param;
+		}
+		thevalve->Connect(_activecase->GetStream(param), OUTLET);
+
+		if (thespecs != "")
+		{
+			getline(mypartstream, param, ' ');
+		}
+		else
+		{
+			cout << "Enter specs: K, PRESSUREDROP OR DONE \n";
+			cin >> param;
+		}
+
+		if (param == "K")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter k in kpa-kg/h \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			
+			thevalve->K_Resistance()->SetValue(tempdb);
+			thevalve->K_Resistance()->IsCalculated(false);
+		}
+		else if (param == "PRESSUREDROP")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter k in kpa-kg/h \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			thevalve->PressureDrop()->SetValue(tempdb);
+			thevalve->PressureDrop()->IsCalculated(false);
+		}
+		else if (param == "DONE")
+		{
+			issetup = true;
+		}
+	}
+	cout << thename << " has been added.\n";
+
+
+}

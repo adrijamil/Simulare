@@ -26,8 +26,6 @@ void FlowSheet::Add(FSObject* theobject)
 		 _children = newchildren; 
 		_children[_nchildren-1] = &(*theobject);
 	 }
-
-
 }
 
 

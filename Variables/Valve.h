@@ -11,6 +11,7 @@ public:
 	bool CanSolve();
 	bool IsSolved(){ return _issolved; }
 	Valve();
+	Valve(string name);
 	~Valve();
 private:
 	RealVariable* _k_resistance = new RealVariable;

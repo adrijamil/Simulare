@@ -7,6 +7,11 @@ Valve::Valve()
 }
 
 
+Valve::Valve(string name)
+{
+	_name = name;
+}
+
 Valve::~Valve()
 {
 }
@@ -15,11 +20,13 @@ bool Valve::Solve()
 {
 	bool flowpassed = false;
 	bool pressuresolved = false;
+	bool comppassed = false;
 	bool retval = false;
 	int nflowspecs = 0;
+	double* X;
+	int ncomps;
 	double F=-32767;
 	
-
 	if (_inletstreams == 0 || _outletstreams == 0)
 	{
 		return false;
@@ -29,6 +36,8 @@ bool Valve::Solve()
 	RealVariable* P2 = _outletstreams->Pressure();
 	RealVariable* F1 = _inletstreams->Pressure();
 	RealVariable* F2 = _outletstreams->Pressure();
+	RealVariable* X1 = _inletstreams->Composition();
+	RealVariable* X2 = _outletstreams->Composition();
 
 	//check flow
 
@@ -46,6 +55,25 @@ bool Valve::Solve()
 	if (F1->IsKnown() && F2->IsKnown())
 	{
 		flowpassed = true;
+	}
+
+	ncomps = _inletstreams->NComps();
+
+	//check composition
+	if (X1->IsKnown() && X2->IsCalculated())
+	{
+		X = X1->GetValues();
+		X2->SetValues(3, X);
+	}
+	else if (X2->IsKnown() && X1->IsCalculated())
+	{
+		X = X2->GetValues();
+		X1->SetValues(3, X);
+	}
+
+	if (X1->IsKnown() && X2->IsKnown())
+	{
+		comppassed = true;
 	}
 
 	if (P1->IsKnown())
