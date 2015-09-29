@@ -14,8 +14,10 @@
 #define __FLOWSHEET_H_INCLUDED__
 
 #include "Stream.h"
+#include "Valve.h"
 #include "FSObject.h"
 
+enum UnitOpEnum {VALVE,NIN};
 
 class FlowSheet :
 	public FSObject
@@ -56,6 +58,22 @@ public:
 
 		return strmptr;
 	}
+
+	//void AddOperation(UnitOpEnum theUO)
+	//{
+	//	switch (theUO)
+	//	{
+	//	case UnitOpEnum::VALVE:
+	//		Valve* valve = new Valve;
+	//		
+	//		Add(valve);
+	//	break;
+	//	default:
+	//	break;
+	//	}
+
+	//	
+	//}
 
 	void Output()
 	{	

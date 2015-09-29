@@ -27,15 +27,12 @@ public:
 	virtual bool Solve()=0;
 	
 	string Name() { return _name; }
-	//void Add(FSObject* thechild);
-	//void Remove(){};
+
 
 
 protected:
 	string _name;;
-	//int* _interface; //link this to some kinda interface object 
-	//FSObject** _children; //array of pointers to objects
-	//int _nchildren;
+
 };
 
 #endif

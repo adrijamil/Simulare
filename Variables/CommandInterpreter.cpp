@@ -42,6 +42,24 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 			str3 = "";
 
 		}
+		//else if (mystring == "VALVE")
+		//{
+		//	getline(myfile, str1);//this will be the name
+		//	do
+		//	{
+		//		getline(myfile, str2);
+		//		if (str3 != "")
+		//		{
+		//			str3.append("\n");
+		//		}
+		//		str3.append(str2);
+
+		//	} while (str2 != "");
+		//	str3.append("DONE");
+		//	ValveSetup(str1, str3);
+		//	str3 = "";
+
+		//}
 	}
 
 	_activecase->Solve();
@@ -347,3 +365,4 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 
 
 }
+

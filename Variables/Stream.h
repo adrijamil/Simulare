@@ -59,7 +59,7 @@ public:
 	
 	int NComps(){ return _proppack->NComps(); }
 	bool Solve();
-
+	bool IsSolved(){ return _issolved; }
 	void Output();
 
 private:
@@ -67,9 +67,7 @@ private:
 
 	Phase* _phases[3];
 	PropPack* _proppack;
-
-
-	
+	bool _issolved;
 
 };
 #endif

@@ -110,6 +110,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UnitConvertor.h" />
     <ClInclude Include="UnitOp.h" />
+    <ClInclude Include="Valve.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseVariable.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="UnitConvertor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="UnitOp.cpp" />
+    <ClCompile Include="Valve.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

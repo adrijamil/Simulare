@@ -35,13 +35,15 @@ public:
 	RealVariable* Temperature(){ return _temperature; };
 	RealVariable* MolarEnthalpy(){ return _molenthalpy; };
 	RealVariable* MolarEntropy(){ return _molentropy; };
-	RealVariable* MassFlow(){ return _mass_flow_rate; };
+	RealVariable* MassFlow(){ return _massflowrate; };
+	RealVariable* MolarFlow(){ return _molarflowrate; };
 	RealVariable* MolarDensity(){ return _molardensity; };
 	RealVariable* MassDensity(){ return _massdensity; };
+	
 protected:
 	RealVariable* _composition = new RealVariable;
-
-	RealVariable* _mass_flow_rate = new RealVariable;
+	RealVariable* _molarflowrate=new RealVariable;
+	RealVariable* _massflowrate = new RealVariable;
 	RealVariable* _molenthalpy = new RealVariable;
 	RealVariable* _molentropy = new RealVariable;
 	RealVariable* _molecularweight = new RealVariable;

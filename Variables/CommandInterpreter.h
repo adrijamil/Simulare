@@ -20,6 +20,6 @@ private:
 	void StreamSetup(string thename, string thespecs);
 	SimCase* _activecase;
 	void CaseSetup(string theflash, string thecomps);
-
+	void ValveSetup(string thename, string thespecs);
 };
 
