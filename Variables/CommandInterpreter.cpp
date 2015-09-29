@@ -411,32 +411,33 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 
 
 	thevalve = new Valve(thename);
+	//connect inlet
+	if (thespecs != "")
+	{
+		getline(mypartstream, param, '\n');
+	}
+	else
+	{
+		cout << "Enter inlet stream name \n";
+		cin >> param;
+	}
+	thevalve->Connect(_activecase->GetStream(param), INLET);
+
+	//connect outlet
+	if (thespecs != "")
+	{
+		getline(mypartstream, param, '\n');
+	}
+	else
+	{
+		cout << "Enter outlet stream name \n";
+		cin >> param;
+	}
+	thevalve->Connect(_activecase->GetStream(param), OUTLET);
 
 	while (issetup == false)
 	{
-		//connect inlet
-		if (thespecs != "")
-		{
-			getline(mypartstream, param, '\n');
-		}
-		else
-		{
-			cout << "Enter inlet stream name \n";
-			cin >> param;
-		}
-		thevalve->Connect(_activecase->GetStream(param), INLET);
 		
-		//connect outlet
-		if (thespecs != "")
-		{
-			getline(mypartstream, param, '\n');
-		}
-		else
-		{
-			cout << "Enter outlet stream name \n";
-			cin >> param;
-		}
-		thevalve->Connect(_activecase->GetStream(param), OUTLET);
 
 		if (thespecs != "")
 		{

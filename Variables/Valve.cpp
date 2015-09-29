@@ -23,6 +23,7 @@ bool Valve::Solve()
 		return true;
 
 	}
+	bool enthalpypassed = false;
 	bool flowpassed = false;
 	bool pressuresolved = false;
 	bool comppassed = false;
@@ -31,18 +32,23 @@ bool Valve::Solve()
 	double* X;
 	int ncomps;
 	double F=-32767;
+	double H;
+
 	
 	if (_inletstreams == 0 || _outletstreams == 0)
 	{
 		return false;
 	}
 
+	//pass variable pointers
 	RealVariable* P1 = _inletstreams->Pressure();
 	RealVariable* P2 = _outletstreams->Pressure();
-	RealVariable* F1 = _inletstreams->Pressure();
-	RealVariable* F2 = _outletstreams->Pressure();
+	RealVariable* F1 = _inletstreams->MassFlow();
+	RealVariable* F2 = _outletstreams->MassFlow();
 	RealVariable* X1 = _inletstreams->Composition();
 	RealVariable* X2 = _outletstreams->Composition();
+	RealVariable* H1 = _inletstreams->MolarEnthalpy();
+	RealVariable* H2 = _outletstreams->MolarEnthalpy();
 
 	//check flow
 
@@ -50,6 +56,7 @@ bool Valve::Solve()
 	{
 		F = F1->GetValue();
 		F2->SetValue(F);
+
 	}
 	else if (F2->IsKnown() && F2->IsCalculated())
 	{
@@ -64,7 +71,23 @@ bool Valve::Solve()
 
 	ncomps = _inletstreams->NComps();
 
-	//check composition
+	//check enthalpy
+	if (H1->IsKnown() && H2->IsCalculated())
+	{
+		H = H1->GetValue();
+		H2->SetValue(H);
+	}
+	else if (H2->IsKnown() && H1->IsCalculated())
+	{
+		H = H1->GetValue();
+		H1->SetValue(H);
+	}
+
+	if (H2->IsKnown() && H1->IsKnown())
+	{
+		enthalpypassed = true;
+	}
+
 	if (X1->IsKnown() && X2->IsCalculated())
 	{
 		X = X1->GetValues();
@@ -97,7 +120,7 @@ bool Valve::Solve()
 				if (_k_resistance->IsCalculated())
 				{
 					CalcMode = FP1P2;
-					retval = true;
+
 				}
 			}
 		}
@@ -106,7 +129,7 @@ bool Valve::Solve()
 			if (_k_resistance->IsKnown())
 			{
 				CalcMode = FKP1;
-				retval = true;
+
 			}
 		}
 	}
@@ -117,7 +140,7 @@ bool Valve::Solve()
 			if (_k_resistance->IsKnown())
 			{
 				CalcMode = FKP2;
-				retval = true;
+
 			}
 		}
 	}
@@ -167,7 +190,7 @@ double p2, p1, k;
 		break;
 	}
 
-	if (flowpassed&&pressuresolved)
+	if (flowpassed&&pressuresolved&&enthalpypassed)
 	{
 		_issolved = true;
 

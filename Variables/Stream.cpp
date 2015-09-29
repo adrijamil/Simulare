@@ -60,32 +60,32 @@ bool Stream::Solve()
 
 	int nspecs=0;
 
-	if (!_pressure->IsCalculated())
+	if (_pressure->IsKnown())
 	{
 		nspecs = nspecs + 1;
 	}
 
-	if (!_temperature->IsCalculated())
+	if (_temperature->IsKnown())
 	{
 		nspecs = nspecs + 1;
 	}
 
-	if (!_phases[0]->PhaseMoleFraction()->IsCalculated())
+	if (_phases[0]->PhaseMoleFraction()->IsKnown())
 	{
 		nspecs = nspecs + 1;
 	}
 
-	if (!_molenthalpy->IsCalculated())
+	if (_molenthalpy->IsKnown())
 	{
 		nspecs = nspecs + 1;
 	}
 
-	if (!_molentropy->IsCalculated())
+	if (_molentropy->IsKnown())
 	{
 		nspecs = nspecs + 1;
 	}
 
-	if (!_composition->IsCalculated())
+	if (_composition->IsKnown())
 	{
 		nspecs = nspecs + 1;
 	}
@@ -96,63 +96,63 @@ bool Stream::Solve()
 		return false;
 	}
 
-	if ((!(_pressure->IsCalculated())) && (!(_temperature->IsCalculated())))
-	{
+	//if ((!(_pressure->IsCalculated())) && (!(_temperature->IsCalculated())))
+	//{
 		if ((_pressure->IsKnown()) && (_temperature->IsKnown()))
 		{
 			//PTFlashMe();
 			thetype = PT;
 
 		}
-	}
-	else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_temperature->IsCalculated())))
-	{
-		if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_temperature->IsKnown()))
+	//}
+	//else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_temperature->IsCalculated())))
+	//{
+		else if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_temperature->IsKnown()))
 		{
 			//TQFlashMe();
 			thetype = TQ;
 		}
-	}
-	else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_pressure->IsCalculated())))
-	{
-		if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_pressure->IsKnown()))
+	//}
+	//else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_pressure->IsCalculated())))
+	//{
+		else if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_pressure->IsKnown()))
 		{
 			//PQFlashMe();
 			thetype = PQ;
 		}
-	}
-	else if ((!(_molenthalpy->IsCalculated())) && (!(_pressure->IsCalculated())))
-	{
-		if ((_molenthalpy->IsKnown()) && (_pressure->IsKnown()))
+	//}
+	//else if ((!(_molenthalpy->IsCalculated())) && (!(_pressure->IsCalculated())))
+	//{
+		else if ((_molenthalpy->IsKnown()) && (_pressure->IsKnown()))
 		{
 			//PQFlashMe();
 			thetype = PH;
 		}
-	}
-	else if ((!(_molentropy->IsCalculated())) && (!(_pressure->IsCalculated())))
-	{
-		if ((_molentropy->IsKnown()) && (_pressure->IsKnown()))
+	//}
+	//else if ((!(_molentropy->IsCalculated())) && (!(_pressure->IsCalculated())))
+	//{
+		else if ((_molentropy->IsKnown()) && (_pressure->IsKnown()))
 		{
 			//PQFlashMe();
 			thetype = PS;
 		}
-	}
-	else if ((!(_molentropy->IsCalculated())) && (!(_temperature->IsCalculated())))
-	{
-		if ((_molentropy->IsKnown()) && (_temperature->IsKnown()))
+	//}
+	//else if ((!(_molentropy->IsCalculated())) && (!(_temperature->IsCalculated())))
+	//{
+		else if ((_molentropy->IsKnown()) && (_temperature->IsKnown()))
 		{
 			//PQFlashMe();
 			thetype = TS;
 		}
-	}
-	else if ((!(_molenthalpy->IsCalculated())) && (!(_temperature->IsCalculated())))
-	{
-		if ((_molenthalpy->IsKnown()) && (_temperature->IsKnown()))
+	//}
+	//else if ((!(_molenthalpy->IsCalculated())) && (!(_temperature->IsCalculated())))
+	//{
+		else if ((_molenthalpy->IsKnown()) && (_temperature->IsKnown()))
 		{
 			//PQFlashMe();
 			thetype = TH;
 		}
-	}
+	//}
 	
 	//Flash(thetype);
 	_proppack->Flash(this, thetype);
@@ -160,7 +160,7 @@ bool Stream::Solve()
 	_proppack->Properties()->Calculate(this);
 	_issolved = true;
 
-	return true;
+	return _issolved;
 
 }
 
