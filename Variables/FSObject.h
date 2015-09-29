@@ -22,14 +22,9 @@ public:
 
 		_name = " ";
 	}
-
 	~FSObject();
 	virtual bool Solve() = 0;// { return false; };
-	
 	string Name() { return _name; }
-
-
-
 protected:
 	string _name;;
 

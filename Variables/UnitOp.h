@@ -17,7 +17,7 @@ public:
 	~UnitOp();
 	virtual void Connect(Stream* thestream, ConnectionType InOrOut);
 	virtual bool Solve()=0;
-	virtual bool CanSolve()=0;
+
 
 protected:
 	Stream* _inletstreams=0;

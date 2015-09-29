@@ -8,11 +8,11 @@ public:
 	bool Solve();
 	RealVariable* K_Resistance(){ return _k_resistance; }
 	RealVariable* PressureDrop(){ return _pressuredrop; }
-	bool CanSolve();
+
 	bool IsSolved(){ return _issolved; }
 	Valve();
 	Valve(string name);
-	void Output(){ cout << _name<<"is solved"; };// later show something like pressure drop
+	void Output();// later show something like pressure drop
 	~Valve();
 private:
 	RealVariable* _k_resistance = new RealVariable;
