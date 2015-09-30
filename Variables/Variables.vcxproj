@@ -89,6 +89,7 @@
     <ClInclude Include="DensityCalc.h" />
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="HandledException.h" />
+    <ClInclude Include="HeatBalance.h" />
     <ClInclude Include="MassMolFlowCalc.h" />
     <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="FlashMethod.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="DensityCalc.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="HandledException.cpp" />
+    <ClCompile Include="HeatBalance.cpp" />
     <ClCompile Include="MassMolFlowCalc.cpp" />
     <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="FlashMethod.cpp" />

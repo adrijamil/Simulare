@@ -126,6 +126,9 @@
     <ClInclude Include="MassMolFlowCalc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeatBalance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -225,6 +228,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MassMolFlowCalc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeatBalance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

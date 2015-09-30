@@ -9,10 +9,7 @@ public:
 	bool Solve();
 	ComponentBalance();
 	~ComponentBalance();
-private:
-	RealVariable** InletFlows;
-	RealVariable** OutletFlows;
-	RealVariable** InletComps;
-	RealVariable** OutletComps;
+
+
 };
 
