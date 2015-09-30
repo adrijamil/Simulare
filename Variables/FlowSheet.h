@@ -15,6 +15,7 @@
 
 #include "Stream.h"
 #include "Valve.h"
+#include "Heater.h"
 #include "SolveStack.h"
 #include "FSObject.h"
 
@@ -90,22 +91,31 @@ public:
 
 		Stream* strmptr;
 		Valve* vlvptr;
+		Heater* heatptr;
+
 		strmptr = 0;
 		for (int i = 0; i < _nchildren; i++)
 		{
+			
+			strmptr = dynamic_cast<Stream *>(_children[i]);  //downcasting to stream type. later if unit ops how?
+			if (strmptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
 			{
-				strmptr = dynamic_cast<Stream *>(_children[i]);  //downcasting to stream type. later if unit ops how?
-				if (strmptr == NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
-				{
-					vlvptr = dynamic_cast<Valve *>(_children[i]);
-					vlvptr->Output();
-				}
-				else
-				{
-					strmptr->Output();
-				}
-				
+				strmptr->Output();
+				continue;
 			}
+			vlvptr = dynamic_cast<Valve *>(_children[i]);
+			if (vlvptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
+			{
+				vlvptr->Output();
+				continue;
+			}
+			heatptr = dynamic_cast<Heater *>(_children[i]);
+			if (heatptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
+			{
+				heatptr->Output();
+				continue;
+			}
+			
 		}
 	}
 protected:

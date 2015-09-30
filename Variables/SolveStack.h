@@ -51,7 +51,7 @@ public:
 				i = _count-1;
 				solvepasses++;
 			}
-			if (solvepasses == _count+1)// at most for n items you need n passes. add one for luck.
+			if (solvepasses == _count*5)// at most for n items you need n passes. add one for luck.
 			{
 				break;
 			}

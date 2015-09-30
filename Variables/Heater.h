@@ -8,7 +8,7 @@ public:
 	bool Solve();
 	RealVariable* K_Resistance(){ return _k_resistance; }
 	RealVariable* PressureDrop(){ return _pressuredrop; }
-
+	RealVariable* HeatInput(){ return _heatinput; }
 	bool IsSolved(){ return _issolved; }
 	Heater();
 	Heater(string name);

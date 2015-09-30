@@ -29,6 +29,7 @@ Heater::Heater(string name)
 	ComponentBalance* BF1 = new ComponentBalance;
 	_bridgefunction->AddBridge(BF1);
 	HeatBalance* BF2 = new HeatBalance;
+	BF2->SetHeatInput(_heatinput);
 	_bridgefunction->AddBridge(BF2);
 	SimpleResistanceEquation* BF3 = new SimpleResistanceEquation;
 	BF3->SetResistance(_k_resistance);
@@ -71,4 +72,5 @@ void Heater::Output()
 	cout << _name << "\n";
 	cout << "K resistance  [kPa-kg/h] " << K_Resistance()->GetValue() << "\n";
 	cout << "Pressure Drop  [kPa] " << PressureDrop()->GetValue() << "\n";
+	cout << "Heat Input  [W] " << HeatInput()->GetValue() << "\n";
 }

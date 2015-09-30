@@ -18,5 +18,6 @@ private:
 	SimCase* _activecase;
 	void CaseSetup(string theflash, string thecomps);
 	void ValveSetup(string thename, string thespecs);
+	void HeaterSetup(string thename, string thespecs);
 };
 
