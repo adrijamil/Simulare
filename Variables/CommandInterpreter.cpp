@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CommandInterpreter.h"
 
+using namespace std;
 
 CommandInterpreter::CommandInterpreter(string theinputfile)
 {
@@ -133,11 +134,12 @@ void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 		compnames[k] = "none";
 	}
 
+	thePPBuilder->BuildPackage();
 
 	_activecase = new SimCase("Case1");
 	bool issetup = false;
-	cout << "Setting up property package.\n";
-
+	std::cout << "Setting up property package.\n";
+	
 	while (!issetup)
 	{
 		if (theflash == "")
@@ -624,11 +626,11 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	//string myreply;
 	//string strname;
 	
-	if (thename == "VALVE")
+	if (theop == "VALVE")
 	{
 		_theuobuilder->BuildUnitOp(VALVE);
 	}
-	else if (thename == "HEATER")
+	else if (theop == "HEATER")
 	{
 		_theuobuilder->BuildUnitOp(HEATER);
 	}
