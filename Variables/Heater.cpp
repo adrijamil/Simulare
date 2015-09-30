@@ -17,7 +17,6 @@ Heater::Heater()
 	BF3->SetResistance(_k_resistance);
 	BF3->SetPressureDrop(_pressuredrop);
 	_bridgefunction->AddBridge(BF3);
-
 }
 
 
@@ -35,7 +34,6 @@ Heater::Heater(string name)
 	BF3->SetResistance(_k_resistance);
 	BF3->SetPressureDrop(_pressuredrop);
 	_bridgefunction->AddBridge(BF3);
-
 }
 
 Heater::~Heater()
