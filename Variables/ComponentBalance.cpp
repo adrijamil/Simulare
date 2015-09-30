@@ -40,7 +40,7 @@ bool ComponentBalance::Solve()
 		}
 		else
 		{
-			UnknownF = _parent->GetStream(i, INLET)->MolarFlow();
+			UnknownF = _parent->GetStream(i, OUTLET)->MolarFlow();
 		}
 	}
 
@@ -48,11 +48,11 @@ bool ComponentBalance::Solve()
 	{
 		for (int i = 0; i < nin; i++)
 		{
-			sumF = sumF + _parent->GetStream(i, INLET)->MolarFlow()->GetValue();
+			if (_parent->GetStream(i, INLET)->MolarFlow()->IsKnown()){ sumF = sumF + _parent->GetStream(i, INLET)->MolarFlow()->GetValue(); }
 		}
 		for (int i = 0; i < nout; i++)
 		{
-			sumF = sumF - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
+			if (_parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown()){ sumF = sumF + _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue(); }
 		}
 		if (UnknownF != 0){ UnknownF->SetValue(sumF); }
 		flowpassed = true;
@@ -101,12 +101,20 @@ passcompositions:
 	{
 		if (!_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
 		{
-			_parent->GetStream(i, INLET)->Composition()->SetValues(ncomps, X);
+			_parent->GetStream(i, OUTLET)->Composition()->SetValues(ncomps, X);
 		}
 	}
 	comppassed = true;
 	
-	return true;
+	if (comppassed&&flowpassed)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
 }
 
 

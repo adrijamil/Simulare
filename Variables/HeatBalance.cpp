@@ -66,7 +66,7 @@ bool HeatBalance::Solve()
 		}
 		else
 		{
-			UnknownStrm = _parent->GetStream(i, INLET);
+			UnknownStrm = _parent->GetStream(i, OUTLET);
 		}
 	}
 
@@ -74,11 +74,18 @@ bool HeatBalance::Solve()
 	{
 		for (int i = 0; i < nin; i++)
 		{
-			sumH = sumH + _parent->GetStream(i, INLET)->MolarFlow()->GetValue()*_parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue();
+			if (UnknownStrm != _parent->GetStream(i, INLET))
+			{
+				sumH = sumH + _parent->GetStream(i, INLET)->MolarFlow()->GetValue()*_parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue();
+			}
+			
 		}
 		for (int i = 0; i < nout; i++)
 		{
-			sumH = sumH - _parent->GetStream(i, INLET)->MolarFlow()->GetValue()*_parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue();
+			if (UnknownStrm != _parent->GetStream(i, OUTLET))
+			{
+				sumH = sumH + _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue()*_parent->GetStream(i, OUTLET)->MolarEnthalpy()->GetValue();
+			}
 		}
 		if (HeatInput != 0){ sumH = sumH+HeatInput->GetValue(); }
 		if (UnknownStrm != 0)

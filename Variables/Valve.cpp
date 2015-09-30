@@ -1,15 +1,29 @@
 #include "stdafx.h"
 #include "Valve.h"
-
+#include "ComponentBalance.h"
+#include "HeatBalance.h"
 
 Valve::Valve()
 {
+	_bridgefunction = new BridgeFunction;
+	_bridgefunction->SetParent(this);
+	ComponentBalance* BF1 = new ComponentBalance;
+	_bridgefunction->AddBridge(BF1);
+	HeatBalance* BF2 = new HeatBalance;
+	_bridgefunction->AddBridge(BF2);
 }
 
 
 Valve::Valve(string name)
 {
 	_name = name;
+	_bridgefunction = new BridgeFunction;
+	_bridgefunction->SetParent(this);
+	ComponentBalance* BF1 = new ComponentBalance;
+	_bridgefunction->AddBridge(BF1);
+	HeatBalance* BF2 = new HeatBalance;
+	_bridgefunction->AddBridge(BF2);
+
 }
 
 Valve::~Valve()
@@ -23,34 +37,38 @@ bool Valve::Solve()
 		return true;
 
 	}
+
+	bool bridgesolved;
+	bool retval=false;
+	bridgesolved = _bridgefunction->Solve();
 	bool enthalpypassed = false;
 	bool flowpassed = false;
 	bool pressuresolved = false;
-	bool comppassed = false;
-	bool retval = false;
-	int nflowspecs = 0;
-	double* X;
-	int ncomps;
+	//bool comppassed = false;
+	//bool retval = false;
+	//int nflowspecs = 0;
+	//double* X;
+	//int ncomps;
 	double F=-32767;
-	double H;
+	//double H;
 
-	
-	if (_inletstreams == 0 || _outletstreams == 0)
-	{
-		return false;
-	}
+	//
+	//if (_inletstreams == 0 || _outletstreams == 0)
+	//{
+	//	return false;
+	//}
 
-	//pass variable pointers
+	////pass variable pointers
 	RealVariable* P1 = _inletstreams[0]->Pressure();
 	RealVariable* P2 = _outletstreams[0]->Pressure();
 	RealVariable* F1 = _inletstreams[0]->MassFlow();
 	RealVariable* F2 = _outletstreams[0]->MassFlow();
-	RealVariable* X1 = _inletstreams[0]->Composition();
-	RealVariable* X2 = _outletstreams[0]->Composition();
-	RealVariable* H1 = _inletstreams[0]->MolarEnthalpy();
-	RealVariable* H2 = _outletstreams[0]->MolarEnthalpy();
+	//RealVariable* X1 = _inletstreams[0]->Composition();
+	//RealVariable* X2 = _outletstreams[0]->Composition();
+	//RealVariable* H1 = _inletstreams[0]->MolarEnthalpy();
+	//RealVariable* H2 = _outletstreams[0]->MolarEnthalpy();
 
-	//check flow
+	////check flow
 
 	if (F1->IsKnown() && F2->IsCalculated())
 	{
@@ -64,45 +82,45 @@ bool Valve::Solve()
 		F1->SetValue(F);
 	}
 
-	if (F1->IsKnown() && F2->IsKnown())
-	{
-		flowpassed = true;
-	}
+	//if (F1->IsKnown() && F2->IsKnown())
+	//{
+	//	flowpassed = true;
+	//}
 
-	ncomps = _inletstreams[0]->NComps();
+	//ncomps = _inletstreams[0]->NComps();
 
-	//check enthalpy
-	if (H1->IsKnown() && H2->IsCalculated())
-	{
-		H = H1->GetValue();
-		H2->SetValue(H);
-	}
-	else if (H2->IsKnown() && H1->IsCalculated())
-	{
-		H = H1->GetValue();
-		H1->SetValue(H);
-	}
+	////check enthalpy
+	//if (H1->IsKnown() && H2->IsCalculated())
+	//{
+	//	H = H1->GetValue();
+	//	H2->SetValue(H);
+	//}
+	//else if (H2->IsKnown() && H1->IsCalculated())
+	//{
+	//	H = H1->GetValue();
+	//	H1->SetValue(H);
+	//}
 
-	if (H2->IsKnown() && H1->IsKnown())
-	{
-		enthalpypassed = true;
-	}
+	//if (H2->IsKnown() && H1->IsKnown())
+	//{
+	//	enthalpypassed = true;
+	//}
 
-	if (X1->IsKnown() && X2->IsCalculated())
-	{
-		X = X1->GetValues();
-		X2->SetValues(3, X);
-	}
-	else if (X2->IsKnown() && X1->IsCalculated())
-	{
-		X = X2->GetValues();
-		X1->SetValues(3, X);
-	}
+	//if (X1->IsKnown() && X2->IsCalculated())
+	//{
+	//	X = X1->GetValues();
+	//	X2->SetValues(3, X);
+	//}
+	//else if (X2->IsKnown() && X1->IsCalculated())
+	//{
+	//	X = X2->GetValues();
+	//	X1->SetValues(3, X);
+	//}
 
-	if (X1->IsKnown() && X2->IsKnown())
-	{
-		comppassed = true;
-	}
+	//if (X1->IsKnown() && X2->IsKnown())
+	//{
+	//	comppassed = true;
+	//}
 
 	if (P1->IsKnown())
 	{
@@ -190,7 +208,7 @@ double p2, p1, k;
 		break;
 	}
 
-	if (flowpassed&&pressuresolved&&enthalpypassed)
+	if (bridgesolved&&pressuresolved)
 	{
 		_issolved = true;
 
