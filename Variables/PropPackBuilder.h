@@ -5,6 +5,7 @@
 #include "MolWtCalc.h"
 #include "DensityCalc.h"
 #include "RPMassDensityCalc.h"
+#include "MassMolFlowCalc.h"
 #include "RPEnergyCalc.h"
 class PropPackBuilder
 {
@@ -39,6 +40,9 @@ public:
 
 			RPEnergyCalc* newcalc1 = new RPEnergyCalc;
 			_current_proppack->AddProperty(newcalc1);
+
+			MassMolFlowCalc* newcalc2 = new MassMolFlowCalc;
+			_current_proppack->AddProperty(newcalc2);
 		}
 	}
 	virtual void AddComponent(string componentname){ _current_proppack->AddComponent(componentname); }

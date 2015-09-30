@@ -83,10 +83,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseVariable.h" />
+    <ClInclude Include="BridgeFunction.h" />
     <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="ComponentBalance.h" />
     <ClInclude Include="DensityCalc.h" />
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="HandledException.h" />
+    <ClInclude Include="MassMolFlowCalc.h" />
     <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="FlashMethod.h" />
     <ClInclude Include="FlowSheet.h" />
@@ -116,10 +119,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseVariable.cpp" />
+    <ClCompile Include="BridgeFunction.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
+    <ClCompile Include="ComponentBalance.cpp" />
     <ClCompile Include="DensityCalc.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="HandledException.cpp" />
+    <ClCompile Include="MassMolFlowCalc.cpp" />
     <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
     <ClCompile Include="FlowSheet.cpp" />
