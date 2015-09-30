@@ -13,7 +13,8 @@ BridgeFunction::~BridgeFunction()
 bool BridgeFunction::Solve()
 {
 	BridgeFunction* thefunc;
-	bool retval = false;
+	bool retval = true;
+	bool thissolved = false;
 	if (_nchildren == 0)
 	{
 		std::cout << "fuckme I'm A \n";
@@ -24,7 +25,8 @@ bool BridgeFunction::Solve()
 		{
 			thefunc = _children[i];
 
-			retval=thefunc->Solve();
+			thissolved = thefunc->Solve();
+			if (thissolved == false){ retval = false; }
 		}
 	}
 

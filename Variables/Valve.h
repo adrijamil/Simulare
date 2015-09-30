@@ -18,7 +18,6 @@ private:
 	RealVariable* _k_resistance = new RealVariable;
 	RealVariable* _pressuredrop = new RealVariable;
 	bool _issolved;
-	enum CalcModeEnum { FKP1,FKP2,FP1P2,KP1P2};//what is specified?
-	CalcModeEnum CalcMode;
+
 };
 

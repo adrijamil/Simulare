@@ -129,6 +129,12 @@
     <ClInclude Include="HeatBalance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Heater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleResistanceEquation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -231,6 +237,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HeatBalance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Heater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleResistanceEquation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

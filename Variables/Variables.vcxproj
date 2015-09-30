@@ -90,6 +90,7 @@
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="HandledException.h" />
     <ClInclude Include="HeatBalance.h" />
+    <ClInclude Include="Heater.h" />
     <ClInclude Include="MassMolFlowCalc.h" />
     <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="FlashMethod.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="RPManager.h" />
     <ClInclude Include="RPMassDensityCalc.h" />
     <ClInclude Include="SimCase.h" />
+    <ClInclude Include="SimpleResistanceEquation.h" />
     <ClInclude Include="Solver.h" />
     <ClInclude Include="SolveStack.h" />
     <ClInclude Include="stdafx.h" />
@@ -127,6 +129,7 @@
     <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="HandledException.cpp" />
     <ClCompile Include="HeatBalance.cpp" />
+    <ClCompile Include="Heater.cpp" />
     <ClCompile Include="MassMolFlowCalc.cpp" />
     <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
@@ -146,6 +149,7 @@
     <ClCompile Include="RPManager.cpp" />
     <ClCompile Include="RPMassDensityCalc.cpp" />
     <ClCompile Include="SimCase.cpp" />
+    <ClCompile Include="SimpleResistanceEquation.cpp" />
     <ClCompile Include="Solver.cpp" />
     <ClCompile Include="SolveStack.cpp" />
     <ClCompile Include="stdafx.cpp">
