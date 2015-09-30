@@ -41,14 +41,14 @@ bool Valve::Solve()
 	}
 
 	//pass variable pointers
-	RealVariable* P1 = _inletstreams->Pressure();
-	RealVariable* P2 = _outletstreams->Pressure();
-	RealVariable* F1 = _inletstreams->MassFlow();
-	RealVariable* F2 = _outletstreams->MassFlow();
-	RealVariable* X1 = _inletstreams->Composition();
-	RealVariable* X2 = _outletstreams->Composition();
-	RealVariable* H1 = _inletstreams->MolarEnthalpy();
-	RealVariable* H2 = _outletstreams->MolarEnthalpy();
+	RealVariable* P1 = _inletstreams[0]->Pressure();
+	RealVariable* P2 = _outletstreams[0]->Pressure();
+	RealVariable* F1 = _inletstreams[0]->MassFlow();
+	RealVariable* F2 = _outletstreams[0]->MassFlow();
+	RealVariable* X1 = _inletstreams[0]->Composition();
+	RealVariable* X2 = _outletstreams[0]->Composition();
+	RealVariable* H1 = _inletstreams[0]->MolarEnthalpy();
+	RealVariable* H2 = _outletstreams[0]->MolarEnthalpy();
 
 	//check flow
 
@@ -69,7 +69,7 @@ bool Valve::Solve()
 		flowpassed = true;
 	}
 
-	ncomps = _inletstreams->NComps();
+	ncomps = _inletstreams[0]->NComps();
 
 	//check enthalpy
 	if (H1->IsKnown() && H2->IsCalculated())

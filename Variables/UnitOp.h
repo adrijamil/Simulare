@@ -20,7 +20,9 @@ public:
 
 
 protected:
-	Stream* _inletstreams=0;
-	Stream* _outletstreams=0;
+	Stream** _inletstreams=0;
+	Stream** _outletstreams=0;
+	int _ninlets=0;
+	int _noutlets=0;
 };
 
