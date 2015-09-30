@@ -62,3 +62,29 @@ private:
 };
 
 #endif
+
+/*template <class string, size_t N >
+void Setup(FlashMethodEnum flashmethod, string const (&components)[N])
+{
+int ncomps;
+ncomps =N;
+std::string thecomp;
+
+thePPBuilder->BuildPackage();
+
+for (int i = 0; i < 3; i++)
+{
+thecomp = components[i];
+if (thecomp.compare("none") != 0)
+{
+thePPBuilder->AddComponent(thecomp);
+}
+
+}
+
+thePPBuilder->SetFlashMethod(flashmethod);
+
+
+_default_package = thePPBuilder->GetPackage();
+
+}*/

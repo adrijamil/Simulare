@@ -71,3 +71,17 @@ void Valve::Output()
 	cout << "K resistance  [kPa-kg/h] " << K_Resistance()->GetValue() << "\n";
 	cout << "Pressure Drop  [kPa] " << PressureDrop()->GetValue() << "\n";
 }
+
+void Valve::SpecifyVariable(RealVariableType vartype, double value)
+{
+	switch (vartype)
+	{
+	case PRESSUREDROP:
+		_pressuredrop->SetValue(value);
+		break;
+	case K_RESISTANCE:
+		_k_resistance->SetValue(value);
+		break;
+	}
+}
+

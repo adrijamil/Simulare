@@ -3,11 +3,11 @@
 #include "Valve.h"
 #include "Heater.h"
 
-
+enum UnitOpEnum { VALVE, HEATER };
 class UnitOpBuilder
 {
 public:
-	enum UnitOpEnum { VALVE, NINI };
+
 
 	UnitOpBuilder()
 	{
@@ -20,11 +20,19 @@ public:
 		case UnitOpEnum::VALVE:
 			_currentunitop = new Valve;
 			break;
+		case UnitOpEnum::HEATER:
+			_currentunitop = new Heater;
+			break;
 		default:
 			break;
 		}
 	}
+	void SetName(string thename)
+	{
+		_currentunitop->SetName(thename);
+	}
 	void Connect(Stream* thestream, ConnectionType contype){ _currentunitop->Connect(thestream, contype); };
+	virtual void SpecifyVariable(RealVariableType vartype, double value){};
 	virtual void EditUnitOp(UnitOp* existingop){ _currentunitop = existingop; }
 	virtual UnitOp* GetUnitOp(){ return _currentunitop; };
 	~UnitOpBuilder();

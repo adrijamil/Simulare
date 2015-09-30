@@ -31,7 +31,7 @@ public:
 	}
 	bool Solve()
 	{
-		bool retval;
+		bool retval = false;
 		int itemssolved=0;
 		int i = _count-1;
 		bool thisitemsolved;
@@ -56,7 +56,8 @@ public:
 				break;
 			}
 		}
-		return true;
+		if (itemssolved != _count){ retval = true; }
+		return retval;
 	}
 
 	//at some point figure out how to move stuff around the stack. Makes it that much faster.

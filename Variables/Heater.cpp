@@ -72,3 +72,19 @@ void Heater::Output()
 	cout << "Pressure Drop  [kPa] " << PressureDrop()->GetValue() << "\n";
 	cout << "Heat Input  [W] " << HeatInput()->GetValue() << "\n";
 }
+
+void Heater::SpecifyVariable(RealVariableType vartype, double value)
+{
+	switch (vartype)
+	{
+	case PRESSUREDROP:
+		_pressuredrop->SetValue(value);
+		break;
+	case K_RESISTANCE:
+		_k_resistance->SetValue(value);
+		break;
+	case HEATINPUT:
+		_heatinput->SetValue(value);
+		break;
+	}
+}

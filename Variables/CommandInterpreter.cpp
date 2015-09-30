@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CommandInterpreter.h"
-#include "UnitOpBuilder.h"
+
 
 CommandInterpreter::CommandInterpreter(string theinputfile)
 {
@@ -43,7 +43,7 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 			str3 = "";
 
 		}
-		else if (mystring == "VALVE")
+		else if (mystring == "VALVE" || mystring == "HEATER")
 		{
 			getline(myfile, str1);//this will be the name
 			do
@@ -57,25 +57,7 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 
 			} while (str2 != "");
 			str3.append("DONE");
-			ValveSetup(str1, str3);
-			str3 = "";
-
-		}
-		else if (mystring == "HEATER")
-		{
-			getline(myfile, str1);//this will be the name
-			do
-			{
-				getline(myfile, str2);
-				if (str3 != "")
-				{
-					str3.append("\n");
-				}
-				str3.append(str2);
-
-			} while (str2 != "");
-			str3.append("DONE");
-			HeaterSetup(str1, str3);
+			UnitOpSetup(mystring,str1, str3);
 			str3 = "";
 
 		}
@@ -138,7 +120,7 @@ void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 {
 	
 	string reply;
-	FlashMethodEnum theflashmethod;
+
 	//create new case by default
 	//make option to load case
 	//string* compnames;
@@ -167,14 +149,15 @@ void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 		if (theflash == "IDEAL")
 		{
 			cout << "IDEAL selected.\n";
-			theflashmethod = IDEAL;
+			thePPBuilder->SetFlashMethod(IDEAL);
 			issetup = true;
 		}
 		else if (theflash == "REFPROP")
 		{
 			cout << "REFPROP selected.\n";
-			theflashmethod = REFPROP;
+			thePPBuilder->SetFlashMethod(REFPROP);
 			issetup = true;
+
 		}
 		else if (reply == "exit")
 		{
@@ -209,16 +192,13 @@ void CommandInterpreter::CaseSetup(string theflash, string thecomps)
 		}
 		else
 		{ 
-
-		compnames[ncomps] = reply;
+			thePPBuilder->AddComponent(reply);
 		ncomps = ncomps + 1;
 		cout << reply << " has been added. Add another component or enter DONE to finish \n";
 		}
 	}
 
-
-	_activecase->Setup(theflashmethod, compnames);
-
+	_activecase->SetPropPack(thePPBuilder->GetPackage());
 	cout << "Case has been setup. \n";
 }
 
@@ -403,15 +383,260 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 
 }
 
-void CommandInterpreter::ValveSetup(string thename, string thespecs)
+//void CommandInterpreter::ValveSetup(string thename, string thespecs)
+//{
+//	string myreply;
+//	string strname;
+//	Valve* thevalve;
+//
+//	int myncomps;
+//
+//	int i;
+//	bool issetup;
+//
+//	double tempdb;
+//	std::istringstream  mypartstream(thespecs);
+//
+//	string param;
+//	string thevar;
+//
+//	issetup = false;
+//	set stream name
+//	if (thename == "")
+//	{
+//		cout << "Enter valve name \n";
+//		cin >> thename;
+//	}
+//
+//
+//	thevalve = new Valve(thename);
+//	connect inlet
+//	if (thespecs != "")
+//	{
+//		getline(mypartstream, param, '\n');
+//	}
+//	else
+//	{
+//		cout << "Enter inlet stream name \n";
+//		cin >> param;
+//	}
+//	thevalve->Connect(_activecase->GetStream(param), INLET);
+//
+//	connect outlet
+//	if (thespecs != "")
+//	{
+//		getline(mypartstream, param, '\n');
+//	}
+//	else
+//	{
+//		cout << "Enter outlet stream name \n";
+//		cin >> param;
+//	}
+//	thevalve->Connect(_activecase->GetStream(param), OUTLET);
+//
+//	while (issetup == false)
+//	{
+//		
+//
+//		if (thespecs != "")
+//		{
+//			getline(mypartstream, param, ' ');
+//		}
+//		else
+//		{
+//			cout << "Enter specs: K, PRESSUREDROP OR DONE \n";
+//			cin >> param;
+//		}
+//
+//		if (param == "K")
+//		{
+//			if (thespecs != "")
+//			{
+//				getline(mypartstream, thevar);
+//			}
+//			else
+//			{
+//				cout << "Enter k in kpa-kg/h \n";
+//				cin >> thevar;
+//			}
+//
+//			tempdb = stod(thevar);
+//			
+//			thevalve->K_Resistance()->SetValue(tempdb);
+//			thevalve->K_Resistance()->IsCalculated(false);
+//		}
+//		else if (param == "PRESSUREDROP")
+//		{
+//			if (thespecs != "")
+//			{
+//				getline(mypartstream, thevar);
+//			}
+//			else
+//			{
+//				cout << "Enter k in kpa-kg/h \n";
+//				cin >> thevar;
+//			}
+//
+//			tempdb = stod(thevar);
+//			thevalve->PressureDrop()->SetValue(tempdb);
+//			thevalve->PressureDrop()->IsCalculated(false);
+//		}
+//		else if (param == "DONE")
+//		{
+//			issetup = true;
+//		}
+//	}
+//	_activecase->AddUnitOp(VALVE);
+//
+//	cout << thename << " has been added.\n";
+//
+//
+//}
+//
+//void CommandInterpreter::HeaterSetup(string thename, string thespecs)
+//{
+//	string myreply;
+//	string strname;
+//	Heater* theheater;
+//
+//	int myncomps;
+//
+//	int i;
+//	bool issetup;
+//
+//	double tempdb;
+//	std::istringstream  mypartstream(thespecs);
+//
+//	string param;
+//	string thevar;
+//
+//	issetup = false;
+//	set stream name
+//	if (thename == "")
+//	{
+//		cout << "Enter valve name \n";
+//		cin >> thename;
+//	}
+//
+//
+//	theheater = new Heater(thename);
+//	connect inlet
+//	if (thespecs != "")
+//	{
+//		getline(mypartstream, param, '\n');
+//	}
+//	else
+//	{
+//		cout << "Enter inlet stream name \n";
+//		cin >> param;
+//	}
+//	theheater->Connect(_activecase->GetStream(param), INLET);
+//
+//	connect outlet
+//	if (thespecs != "")
+//	{
+//		getline(mypartstream, param, '\n');
+//	}
+//	else
+//	{
+//		cout << "Enter outlet stream name \n";
+//		cin >> param;
+//	}
+//	theheater->Connect(_activecase->GetStream(param), OUTLET);
+//
+//	while (issetup == false)
+//	{
+//
+//
+//		if (thespecs != "")
+//		{
+//			getline(mypartstream, param, ' ');
+//		}
+//		else
+//		{
+//			cout << "Enter specs: K, PRESSUREDROP OR DONE \n";
+//			cin >> param;
+//		}
+//
+//		if (param == "K")
+//		{
+//			if (thespecs != "")
+//			{
+//				getline(mypartstream, thevar);
+//			}
+//			else
+//			{
+//				cout << "Enter k in kpa-kg/h \n";
+//				cin >> thevar;
+//			}
+//
+//			tempdb = stod(thevar);
+//
+//			theheater->K_Resistance()->SetValue(tempdb);
+//			theheater->K_Resistance()->IsCalculated(false);
+//		}
+//		else if (param == "PRESSUREDROP")
+//		{
+//			if (thespecs != "")
+//			{
+//				getline(mypartstream, thevar);
+//			}
+//			else
+//			{
+//				cout << "Enter k in kpa-kg/h \n";
+//				cin >> thevar;
+//			}
+//
+//			tempdb = stod(thevar);
+//			theheater->PressureDrop()->SetValue(tempdb);
+//			theheater->PressureDrop()->IsCalculated(false);
+//		}
+//		else if (param == "HEATINPUT")
+//		{
+//			if (thespecs != "")
+//			{
+//				getline(mypartstream, thevar);
+//			}
+//			else
+//			{
+//				cout << "Enter Q in W \n";
+//				cin >> thevar;
+//			}
+//
+//			tempdb = stod(thevar);
+//			theheater->HeatInput()->SetValue(tempdb);
+//			theheater->HeatInput()->IsCalculated(false);
+//		}
+//		else if (param == "DONE")
+//		{
+//			issetup = true;
+//		}
+//	}
+//	_activecase->AddUnitOp(theheater);
+//
+//	cout << thename << " has been added.\n";
+//
+//
+//}
+
+void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespecs)
 {
 	//string myreply;
 	//string strname;
-	Valve* thevalve;
+	
+	if (thename == "VALVE")
+	{
+		_theuobuilder->BuildUnitOp(VALVE);
+	}
+	else if (thename == "HEATER")
+	{
+		_theuobuilder->BuildUnitOp(HEATER);
+	}
 
-	int myncomps;
 
-	int i;
+
+
+
 	bool issetup;
 
 	double tempdb;
@@ -429,7 +654,7 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 	}
 
 
-	thevalve = new Valve(thename);
+	_theuobuilder->SetName(thename);
 	//connect inlet
 	if (thespecs != "")
 	{
@@ -440,7 +665,7 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 		cout << "Enter inlet stream name \n";
 		cin >> param;
 	}
-	thevalve->Connect(_activecase->GetStream(param), INLET);
+	_theuobuilder->Connect(_activecase->GetStream(param), INLET);
 
 	//connect outlet
 	if (thespecs != "")
@@ -452,11 +677,10 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 		cout << "Enter outlet stream name \n";
 		cin >> param;
 	}
-	thevalve->Connect(_activecase->GetStream(param), OUTLET);
+	_theuobuilder->Connect(_activecase->GetStream(param), OUTLET);
 
 	while (issetup == false)
 	{
-		
 
 		if (thespecs != "")
 		{
@@ -481,9 +705,8 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 			}
 
 			tempdb = stod(thevar);
-			
-			thevalve->K_Resistance()->SetValue(tempdb);
-			thevalve->K_Resistance()->IsCalculated(false);
+
+			_theuobuilder->SpecifyVariable(K_RESISTANCE, tempdb);
 		}
 		else if (param == "PRESSUREDROP")
 		{
@@ -498,118 +721,7 @@ void CommandInterpreter::ValveSetup(string thename, string thespecs)
 			}
 
 			tempdb = stod(thevar);
-			thevalve->PressureDrop()->SetValue(tempdb);
-			thevalve->PressureDrop()->IsCalculated(false);
-		}
-		else if (param == "DONE")
-		{
-			issetup = true;
-		}
-	}
-	_activecase->AddUnitOp(thevalve);
-
-	cout << thename << " has been added.\n";
-
-
-}
-
-void CommandInterpreter::HeaterSetup(string thename, string thespecs)
-{
-	//string myreply;
-	//string strname;
-	Heater* theheater;
-
-	int myncomps;
-
-	int i;
-	bool issetup;
-
-	double tempdb;
-	std::istringstream  mypartstream(thespecs);
-
-	string param;
-	string thevar;
-
-	issetup = false;
-	//set stream name
-	if (thename == "")
-	{
-		cout << "Enter valve name \n";
-		cin >> thename;
-	}
-
-
-	theheater = new Heater(thename);
-	//connect inlet
-	if (thespecs != "")
-	{
-		getline(mypartstream, param, '\n');
-	}
-	else
-	{
-		cout << "Enter inlet stream name \n";
-		cin >> param;
-	}
-	theheater->Connect(_activecase->GetStream(param), INLET);
-
-	//connect outlet
-	if (thespecs != "")
-	{
-		getline(mypartstream, param, '\n');
-	}
-	else
-	{
-		cout << "Enter outlet stream name \n";
-		cin >> param;
-	}
-	theheater->Connect(_activecase->GetStream(param), OUTLET);
-
-	while (issetup == false)
-	{
-
-
-		if (thespecs != "")
-		{
-			getline(mypartstream, param, ' ');
-		}
-		else
-		{
-			cout << "Enter specs: K, PRESSUREDROP OR DONE \n";
-			cin >> param;
-		}
-
-		if (param == "K")
-		{
-			if (thespecs != "")
-			{
-				getline(mypartstream, thevar);
-			}
-			else
-			{
-				cout << "Enter k in kpa-kg/h \n";
-				cin >> thevar;
-			}
-
-			tempdb = stod(thevar);
-
-			theheater->K_Resistance()->SetValue(tempdb);
-			theheater->K_Resistance()->IsCalculated(false);
-		}
-		else if (param == "PRESSUREDROP")
-		{
-			if (thespecs != "")
-			{
-				getline(mypartstream, thevar);
-			}
-			else
-			{
-				cout << "Enter k in kpa-kg/h \n";
-				cin >> thevar;
-			}
-
-			tempdb = stod(thevar);
-			theheater->PressureDrop()->SetValue(tempdb);
-			theheater->PressureDrop()->IsCalculated(false);
+			_theuobuilder->SpecifyVariable(PRESSUREDROP, tempdb);
 		}
 		else if (param == "HEATINPUT")
 		{
@@ -624,15 +736,14 @@ void CommandInterpreter::HeaterSetup(string thename, string thespecs)
 			}
 
 			tempdb = stod(thevar);
-			theheater->HeatInput()->SetValue(tempdb);
-			theheater->HeatInput()->IsCalculated(false);
+			_theuobuilder->SpecifyVariable(HEATINPUT, tempdb);
 		}
 		else if (param == "DONE")
 		{
 			issetup = true;
 		}
 	}
-	_activecase->AddUnitOp(theheater);
+	_activecase->AddUnitOp(_theuobuilder->GetUnitOp());
 
 	cout << thename << " has been added.\n";
 

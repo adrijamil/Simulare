@@ -36,23 +36,8 @@ void FlowSheet::Add(FSObject* theobject)
 
 bool FlowSheet::Solve()
 {
+	bool retval;
 
-//solving of children will return bools to say solved or not. implement a way to check if all have solved before returning a value.
-
-	//if no children do this
-	//if (_nchildren == 0)
-	//{
-	//	//std::cout << "fuckme I'm A \n";
-	//}
-	//else// if got children solve all of them
-	//{
-	//	for (int i = 0; i < _nchildren; i++)
-	//	{
-	//		_children[i]->Solve();
-	//	}
-	//}
-	_stack->Solve();
-
-	return true;
-
+	retval=_stack->Solve();
+	return retval;
 }

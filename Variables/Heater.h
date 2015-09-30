@@ -18,6 +18,7 @@ private:
 	RealVariable* _k_resistance = new RealVariable;
 	RealVariable* _pressuredrop = new RealVariable;
 	RealVariable* _heatinput = new RealVariable;
+	void SpecifyVariable(RealVariableType vartype, double value);
 	bool _issolved;
 
 };

@@ -36,8 +36,11 @@ public:
 	~FlowSheet();
 
 	bool Solve();
-
-	void Add(FSObject* thechild);
+	void SetPropPack(PropPack* thePP)
+	{
+		_default_package = thePP;
+	}
+	
 	void Remove(){};//to be implemented
 	int NComps(){ return _default_package->NComps(); };
 	void AddStream(string strname)
@@ -124,6 +127,7 @@ protected:
 	string _name;
 	PropPack* _default_package;
 	SolveStack* _stack; //decouple this guy from stack
+	void Add(FSObject* thechild);
 };
 
 #endif

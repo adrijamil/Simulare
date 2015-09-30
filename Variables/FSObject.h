@@ -25,6 +25,7 @@ public:
 	~FSObject();
 	virtual bool Solve() = 0;// { return false; };
 	string Name() { return _name; }
+	void SetName(string thename) { _name = thename; }
 protected:
 	string _name;;
 
