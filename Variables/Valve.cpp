@@ -14,6 +14,7 @@ Valve::Valve()
 	_bridgefunction->AddBridge(BF2);
 	SimpleResistanceEquation* BF3 = new SimpleResistanceEquation;
 	BF3->SetResistance(_k_resistance);
+	BF3->SetPressureDrop(_pressuredrop);
 	_bridgefunction->AddBridge(BF3);
 	
 }
@@ -30,6 +31,7 @@ Valve::Valve(string name)
 	_bridgefunction->AddBridge(BF2);
 	SimpleResistanceEquation* BF3 = new SimpleResistanceEquation;
 	BF3->SetResistance(_k_resistance);
+	BF3->SetPressureDrop(_pressuredrop);
 	_bridgefunction->AddBridge(BF3);
 
 }
@@ -66,6 +68,6 @@ void Valve::Output()
 {
 	cout << "\n";
 	cout << _name << "\n";
-
 	cout << "K resistance  [kPa-kg/h] " << K_Resistance()->GetValue() << "\n";
+	cout << "Pressure Drop  [kPa] " << PressureDrop()->GetValue() << "\n";
 }

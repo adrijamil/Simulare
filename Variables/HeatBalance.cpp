@@ -87,7 +87,7 @@ bool HeatBalance::Solve()
 				sumH = sumH + _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue()*_parent->GetStream(i, OUTLET)->MolarEnthalpy()->GetValue();
 			}
 		}
-		if (HeatInput != 0){ sumH = sumH+HeatInput->GetValue(); }
+		if (_heatinput != 0){ sumH = sumH + _heatinput->GetValue(); }
 		if (UnknownStrm != 0)
 		{ 
 			sumH = sumH / UnknownStrm->MolarFlow()->GetValue();

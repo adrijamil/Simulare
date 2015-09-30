@@ -7,7 +7,11 @@ public:
 	bool Solve();
 	HeatBalance();
 	~HeatBalance();
+	void SetHeatInput(RealVariable* thevar)
+	{
+		_heatinput = thevar;
+	}
 private:
-	RealVariable* HeatInput=0;//when I add this to a unit op, connect to appropriate variable which should be instantiated by the unit op
+	RealVariable* _heatinput=0;//when I add this to a unit op, connect to appropriate variable which should be instantiated by the unit op
 };
 
