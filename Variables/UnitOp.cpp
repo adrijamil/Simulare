@@ -47,3 +47,15 @@ void UnitOp::Connect(Stream* thestream, ConnectionType InOrOut)
 	
 
 }
+
+Stream* UnitOp::GetStream(int i, ConnectionType ConType)
+{
+	if (ConType == 0)
+	{
+		return _inletstreams[i];
+	}
+	else if (ConType == 1)
+	{
+		return _outletstreams[i];
+	}
+}
