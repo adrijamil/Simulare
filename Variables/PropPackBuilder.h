@@ -14,7 +14,7 @@ public:
 	}
 
 	~PropPackBuilder();
-	virtual void BuidPackage()
+	virtual void BuildPackage()
 	{
 		_current_proppack = new PropPack;
 	}

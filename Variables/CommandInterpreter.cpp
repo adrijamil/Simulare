@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CommandInterpreter.h"
+#include "UnitOpBuilder.h"
 
 CommandInterpreter::CommandInterpreter(string theinputfile)
 {

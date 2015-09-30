@@ -27,7 +27,7 @@ public:
 		ncomps =N;
 		std::string thecomp;
 
-		thePPBuilder->BuidPackage();
+		thePPBuilder->BuildPackage();
 		
 		for (int i = 0; i < 3; i++)
 		{

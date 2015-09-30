@@ -17,7 +17,7 @@
 #include "Valve.h"
 #include "SolveStack.h"
 #include "FSObject.h"
-enum UnitOpEnum {VALVE,NINI};
+
 
 
 
