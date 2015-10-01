@@ -457,7 +457,8 @@ void RefPropPack::Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum thefla
 		h = theStream->MolarEnthalpy()->GetValue();
 		p = theStream->Pressure()->GetValue();
 		PHFLSHdll(p, h, x,t, d, dl, dv, xliq, xvap, q, e, s, cv, cp, w, ierr, herr, errormessagelength);
-
+		if (q < 0){ q = 0; }
+		if (q > 1){ q = 1; }
 		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);
 		theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - q);
 

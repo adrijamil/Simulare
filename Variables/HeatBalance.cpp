@@ -23,7 +23,7 @@ bool HeatBalance::Solve()
 	nout = _parent->NOutlets();
 	Stream* UnknownStrm = 0;
 	bool CalcH = false;
-
+	int flowdir;
 	double sumH = 0;
 	double* X;
 	bool enthalpypassed = false;
@@ -55,6 +55,7 @@ bool HeatBalance::Solve()
 		}
 		else
 		{
+			flowdir = -1;
 			UnknownStrm = _parent->GetStream(i, INLET);
 		}
 	}
@@ -67,6 +68,7 @@ bool HeatBalance::Solve()
 		}
 		else
 		{
+			flowdir = 1;
 			UnknownStrm = _parent->GetStream(i, OUTLET);
 		}
 	}
@@ -115,7 +117,7 @@ bool HeatBalance::Solve()
 		if (UnknownStrm != 0)
 		{ 
 			sumH = sumH / UnknownStrm->MolarFlow()->GetValue();
-			UnknownStrm->MolarEnthalpy()->SetValue(sumH);
+			UnknownStrm->MolarEnthalpy()->SetValue(flowdir*sumH);
 		}
 		else
 		{

@@ -20,6 +20,7 @@ bool ComponentBalance::Solve()
 	double* X;
 	bool flowpassed = false;
 	bool comppassed = false;
+	int flowdir;
 
 	for (int i = 0; i < nin; i++)
 	{
@@ -29,6 +30,7 @@ bool ComponentBalance::Solve()
 		}
 		else
 		{
+			flowdir = -1;
 			UnknownF = _parent->GetStream(i, INLET)->MolarFlow();
 		}
 	}
@@ -41,6 +43,7 @@ bool ComponentBalance::Solve()
 		}
 		else
 		{
+			flowdir = 1;
 			UnknownF = _parent->GetStream(i, OUTLET)->MolarFlow();
 		}
 	}
@@ -53,9 +56,9 @@ bool ComponentBalance::Solve()
 		}
 		for (int i = 0; i < nout; i++)
 		{
-			if (_parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown()){ sumF = sumF + _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue(); }
+			if (_parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown()){ sumF = sumF - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue(); }
 		}
-		if (UnknownF != 0){ UnknownF->SetValue(sumF); }
+		if (UnknownF != 0){ UnknownF->SetValue(flowdir*sumF); }
 		flowpassed = true;
 	}
 	else if (nspecced == nin + nout)
@@ -86,6 +89,7 @@ bool ComponentBalance::Solve()
 		}
 		else
 		{
+			flowdir = -1;
 			UnknownX = _parent->GetStream(i, INLET);
 		}
 		
@@ -100,6 +104,7 @@ bool ComponentBalance::Solve()
 		}
 		else
 		{
+			flowdir = 1;
 			UnknownX = _parent->GetStream(i, OUTLET);
 		}
 	}
@@ -129,12 +134,12 @@ bool ComponentBalance::Solve()
 				{
 					if (_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
 					{
-						moles = moles + _parent->GetStream(i, OUTLET)->Composition()->GetValue(j) * _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
+						moles = moles - _parent->GetStream(i, OUTLET)->Composition()->GetValue(j) * _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
 					}
 				}
 
-				X[j] = moles / UnknownX->MolarFlow()->GetValue();
-				cout << X[j];
+				X[j] = moles * flowdir/UnknownX->MolarFlow()->GetValue();
+				cout <<"\n"<< X[j];
 			}
 			UnknownX->Composition()->SetValues(ncomps,X);
 			comppassed = true;
