@@ -27,7 +27,7 @@ using namespace std;
 ErrorLogger *ErrorLogger::s_instance = 0;
 RPManager* RPManager::_instance = 0;
 
-int _tmain(int argc, _TCHAR* argv[])
+int _tmain(_TCHAR* argv[])
 {
 	ErrorLogger* glogger = ErrorLogger::Instance();
 CommandInterpreter mycase("inputfile2.txt");

@@ -20,7 +20,7 @@ public:
 	int NOutlets(){ return _noutlets; }
 	int NInlets(){ return _ninlets; }
 	Stream* GetStream(int i, ConnectionType ConType);
-	virtual void SpecifyVariable(RealVariableType vartype, double value);//maybe make this template so can specify on off. or just leave as double and use 1 and 0;
+	virtual void SpecifyVariable(RealVariableType vartype, double value){};//maybe make this template so can specify on off. or just leave as double and use 1 and 0;
 
 protected:
 	Stream** _inletstreams=0;

@@ -22,7 +22,8 @@ bool HeatBalance::Solve()
 	nin = _parent->NInlets();
 	nout = _parent->NOutlets();
 	Stream* UnknownStrm = 0;
-	RealVariable* KnownX = 0;
+	bool CalcH = false;
+
 	double sumH = 0;
 	double* X;
 	bool enthalpypassed = false;
@@ -70,7 +71,19 @@ bool HeatBalance::Solve()
 		}
 	}
 
-	if (nspecced + 1 == nin + nout)//DOF is 0
+	if (_heatinput != 0)
+	{
+		if (_heatinput->IsKnown())
+		{
+			nspecced++;
+		}
+		else
+		{
+			CalcH = true;
+		}
+	}
+	
+	if (nspecced  == nin + nout)//DOF is 0
 	{
 		for (int i = 0; i < nin; i++)
 		{
@@ -84,14 +97,25 @@ bool HeatBalance::Solve()
 		{
 			if (UnknownStrm != _parent->GetStream(i, OUTLET))
 			{
-				sumH = sumH + _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue()*_parent->GetStream(i, OUTLET)->MolarEnthalpy()->GetValue();
+				sumH = sumH - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue()*_parent->GetStream(i, OUTLET)->MolarEnthalpy()->GetValue();
 			}
 		}
-		if (_heatinput != 0){ sumH = sumH + _heatinput->GetValue(); }
+		if (_heatinput != 0)
+		{ 
+			if (_heatinput->IsKnown())
+			{
+				sumH = sumH + _heatinput->GetValue();
+			}
+		}
+
 		if (UnknownStrm != 0)
 		{ 
 			sumH = sumH / UnknownStrm->MolarFlow()->GetValue();
 			UnknownStrm->MolarEnthalpy()->SetValue(sumH);
+		}
+		else
+		{
+			_heatinput->SetValue(-sumH);
 		}
 		enthalpypassed = true;
 	}
