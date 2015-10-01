@@ -20,11 +20,10 @@ private:
 	void OutputAll();
 	void StreamSetup(string thename, string thespecs);
 	SimCase* _activecase;
-	void CaseSetup(string theflash, string thecomps);
-//	void ValveSetup(string thename, string thespecs);
-	//void HeaterSetup(string thename, string thespecs);
-	void UnitOpSetup(string theop,string thename, string thespecs);
 
+	void CaseSetup(string theflash, string thecomps);
+	void UnitOpSetup(string theop,string thename, string thespecs);
+	
 	PropPackBuilder* thePPBuilder=new PropPackBuilder;
 	UnitOpBuilder* _theuobuilder = new UnitOpBuilder;
 };

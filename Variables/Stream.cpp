@@ -185,27 +185,33 @@ void Stream::Output()
 	cout << "MolarEntropy  [J/mol/K] " << MolarEntropy()->GetValue() << "\n";
 	cout << "Vfrac  " << VapourFraction()->GetValue() << "\n\n";
 
-	cout << "GasPhase  " << "\n";
-	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
-	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
-	cout << "MolarDensity  [mol/m3] " << _phases[0]->MolarDensity()->GetValue() << "\n";
-	cout << "MolarEnthalpy  [J/mol] " << _phases[0]->MolarEnthalpy()->GetValue() << "\n";
-	cout << "MolarEntropy  [J/mol/K] " << _phases[0]->MolarEntropy()->GetValue() << "\n";
 	for (int k = 0; k < myncomps; k++)
 	{
 
-		cout << _proppack->GetComponent(k).Name << "  " << _phases[0]->Composition()->GetValue(k) << "\n";
+		cout << _proppack->GetComponent(k).Name << "  " << Composition()->GetValue(k) << "\n";
 	}
 
-	cout << "\n";
-	cout << "LiquidPhase" << "\n";
-	cout << "Mw  " << _phases[1]->MolecularWeight()->GetValue() << "\n";
-	cout << "MassDensity  [kg/m3] " << _phases[1]->MassDensity()->GetValue() << "\n";
-	cout << "MolarDensity  [mol/m3] " << _phases[1]->MolarDensity()->GetValue() << "\n";
-	cout << "MolarEnthalpy  [J/mol] " << _phases[1]->MolarEnthalpy()->GetValue() << "\n";
-	cout << "MolarEntropy  [J/mol/K] " << _phases[1]->MolarEntropy()->GetValue() << "\n";
-	for (int k = 0; k < myncomps; k++)
-	{
-		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
-	}
+	//cout << "GasPhase  " << "\n";
+	//cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
+	//cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
+	//cout << "MolarDensity  [mol/m3] " << _phases[0]->MolarDensity()->GetValue() << "\n";
+	//cout << "MolarEnthalpy  [J/mol] " << _phases[0]->MolarEnthalpy()->GetValue() << "\n";
+	//cout << "MolarEntropy  [J/mol/K] " << _phases[0]->MolarEntropy()->GetValue() << "\n";
+	//for (int k = 0; k < myncomps; k++)
+	//{
+
+	//	cout << _proppack->GetComponent(k).Name << "  " << _phases[0]->Composition()->GetValue(k) << "\n";
+	//}
+
+	//cout << "\n";
+	//cout << "LiquidPhase" << "\n";
+	//cout << "Mw  " << _phases[1]->MolecularWeight()->GetValue() << "\n";
+	//cout << "MassDensity  [kg/m3] " << _phases[1]->MassDensity()->GetValue() << "\n";
+	//cout << "MolarDensity  [mol/m3] " << _phases[1]->MolarDensity()->GetValue() << "\n";
+	//cout << "MolarEnthalpy  [J/mol] " << _phases[1]->MolarEnthalpy()->GetValue() << "\n";
+	//cout << "MolarEntropy  [J/mol/K] " << _phases[1]->MolarEntropy()->GetValue() << "\n";
+	//for (int k = 0; k < myncomps; k++)
+	//{
+	//	cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
+	//}
 }

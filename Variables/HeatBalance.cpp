@@ -82,6 +82,10 @@ bool HeatBalance::Solve()
 			CalcH = true;
 		}
 	}
+	else
+	{
+		nspecced++; //meaning it is 0
+	}
 	
 	if (nspecced  == nin + nout)//DOF is 0
 	{

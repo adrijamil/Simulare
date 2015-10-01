@@ -55,3 +55,26 @@ Stream* UnitOp::GetStream(int i, ConnectionType ConType)
 		return _outletstreams[i];
 	}
 }
+
+bool UnitOp::Solve()
+{
+	if (_issolved == true)
+	{
+		return true;
+
+	}
+
+	bool bridgesolved;
+	bool retval = false;
+
+	bridgesolved = _bridgefunction->Solve();
+
+
+
+	if (bridgesolved)
+	{
+		_issolved = true;
+		retval = true;
+	}
+	return retval;
+}

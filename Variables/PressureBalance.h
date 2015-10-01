@@ -1,13 +1,11 @@
 #pragma once
 #include "BridgeFunction.h"
-
-
-class ComponentBalance :
+class PressureBalance :
 	public BridgeFunction
 {
 public:
 	bool Solve();
-	ComponentBalance();
-	~ComponentBalance();
+	PressureBalance();
+	~PressureBalance();
 };
 
