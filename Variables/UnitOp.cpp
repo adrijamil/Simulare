@@ -42,10 +42,6 @@ void UnitOp::Connect(Stream* thestream, ConnectionType InOrOut)
 	//realloc is similar to redim preserve. members of array are preserved and sent to new array (newchildren)
 	//should be possible to reallocate straight to itself ie _children = (FSObject**)realloc(...... but this is safer. can catch errors.
 	//is this safe? sizeof items may be different cos some are streams some are unit ops. 
-
-
-	
-
 }
 
 Stream* UnitOp::GetStream(int i, ConnectionType ConType)

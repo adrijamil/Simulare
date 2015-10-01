@@ -27,18 +27,20 @@ using namespace std;
 ErrorLogger *ErrorLogger::s_instance = 0;
 RPManager* RPManager::_instance = 0;
 
-int _tmain(_TCHAR* argv[])
+int _tmain()
 {
 	ErrorLogger* glogger = ErrorLogger::Instance();
-CommandInterpreter mycase("inputfile2.txt");
-//CommandInterpreter mycase;
+//CommandInterpreter mycase("inputfile2.txt");
+CommandInterpreter mycase;
 string mycommand;
 mycommand = "";
 bool isexit=false;
 
-glogger->Spit();
+//glogger->Spit();
+mycase.SendCommand("HELP");
 while (!isexit)
 {
+
 	cin >> mycommand;
 	if (mycommand == "EXIT")
 	{
