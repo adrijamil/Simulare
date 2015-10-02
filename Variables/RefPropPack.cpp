@@ -415,7 +415,7 @@ void RefPropPack::Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum thefla
 	double x[ncmax], xliq[ncmax], xvap[ncmax];
 	long kr;
 	kr = 1;
-
+	ierr = 0;
 	//kr--flag specifying desired root for multi - valued inputs :
 	//1 = return lower density root
 	//2 = return higher density root
@@ -457,6 +457,8 @@ void RefPropPack::Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum thefla
 		h = theStream->MolarEnthalpy()->GetValue();
 		p = theStream->Pressure()->GetValue();
 		PHFLSHdll(p, h, x,t, d, dl, dv, xliq, xvap, q, e, s, cv, cp, w, ierr, herr, errormessagelength);
+		//q = -998 subcooled liquid, but quality not defined(p > Pc)
+		//q = 999 indicates supercritical state(t > Tc) and(p > Pc)
 		if (q < 0){ q = 0; }
 		if (q > 1){ q = 1; }
 		theStream->Phases(0)->PhaseMoleFraction()->SetValue(q);

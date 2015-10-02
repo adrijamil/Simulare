@@ -248,7 +248,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 		}
 		else
 		{
-			cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION, ENTHALPY, MASSFLOW OR DONE \n";
+			cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION, MOLARENTHALPY, MASSFLOW OR DONE \n";
 			cin >> param;
 
 		}
