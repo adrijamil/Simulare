@@ -27,10 +27,12 @@
 #include "FlashMethod.h"
 #include "PropertyCalc.h"
 #include "ErrorLogger.h"
+#include "fwStream.h"
 
 using namespace std;
 
 class Stream;
+
 //#define __STREAM_H_INCLUDED__ //this line tells the compiler that stream has already been defined
 //#include "Stream.h"
 
@@ -70,26 +72,7 @@ public:
 			logger->Handle(e);
 		}
 	}
-	virtual void PT_Flash(Stream* thestream)
-		{
-			_flashmethod->PT_Flash(thestream,this);
-
-		};// i need P, T and x. Output H, vf and a bunch of props.
-
-	virtual void TQ_Flash(Stream* thestream)
-	{
-		_flashmethod->TQ_Flash(thestream, this);
-	};// i need P, T and x. Output H, vf and a bunch of props.
-
-	virtual void PQ_Flash(Stream* thestream)
-	{
-		_flashmethod->PQ_Flash(thestream, this);
-	};// i need P, T and x. Output H, vf and a bunch of props.
-
-	virtual void PS_Flash(Stream* thestream)
-	{
-		_flashmethod->PS_Flash(thestream, this);
-	};// i need P, T and x. Output H, vf and a bunch of props.
+	
 
 	virtual void AddComponent(string thecompname);
 
