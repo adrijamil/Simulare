@@ -135,6 +135,9 @@
     <ClInclude Include="SimpleResistanceEquation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fwStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -243,6 +246,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimpleResistanceEquation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fwStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

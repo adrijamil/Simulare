@@ -88,6 +88,7 @@
     <ClInclude Include="ComponentBalance.h" />
     <ClInclude Include="DensityCalc.h" />
     <ClInclude Include="ErrorLogger.h" />
+    <ClInclude Include="fwStream.h" />
     <ClInclude Include="HandledException.h" />
     <ClInclude Include="HeatBalance.h" />
     <ClInclude Include="Heater.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="ComponentBalance.cpp" />
     <ClCompile Include="DensityCalc.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
+    <ClCompile Include="fwStream.cpp" />
     <ClCompile Include="HandledException.cpp" />
     <ClCompile Include="HeatBalance.cpp" />
     <ClCompile Include="Heater.cpp" />
