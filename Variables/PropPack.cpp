@@ -9,7 +9,6 @@ using namespace std;
 PropPack::PropPack()
 {
 	_propertycalculation = new PropertyCalc;
-
 }
 
 
@@ -116,25 +115,6 @@ void  PropPack::AddProperty(PropertyCalc* thepropcalc)
 	thepropcalc->SetParent(this);
 	_propertycalculation->AddProperty(thepropcalc);
 
-//	_nprops = _nprops + 1; //update count
-//	PropertyCalc* newprops = new PropertyCalc[_nprops];
-//
-//
-//
-//	for (int k = 0; k < _ncomps - 1; k++)
-//	{
-//		newprops[k] = _propertycalculation[k];
-//	}
-//
-//	newprops[_nprops - 1] = *thepropcalc;
-//
-//	_propertycalculation = new PropertyCalc[_ncomps];
-//
-//	for (int k = 0; k < _ncomps; k++)
-//	{
-//		_propertycalculation[k] = newprops[k];
-//
-//	}
 }
 
 void PropPack::SetMethod(FlashMethodEnum theFlashMethod)

@@ -53,6 +53,7 @@ using namespace std;
 //template<typename T = Stream>
 class PropPack
 {
+	
 public:
 	 PropPack();
 	~PropPack();
@@ -61,9 +62,10 @@ public:
 	void SetMethod(FlashMethodEnum theFlashMethod);
 	virtual void Flash(Stream* theStream, FlashTypeEnum theflashtype)
 	{
+		fwStream* _refstream = new fwStream(theStream);
 		try
 		{
-			_flashmethod->Flash(theStream, this, theflashtype);
+			_flashmethod->Flash(theflashtype);
 		}
 		catch (HandledException& e)
 		{
@@ -71,6 +73,8 @@ public:
 			ErrorLogger* logger=ErrorLogger::Instance();
 			logger->Handle(e);
 		}
+		
+		_refstream->ReadState(theStream);
 	}
 	
 
@@ -79,7 +83,7 @@ public:
 
 	void SetName(string thename){ _name = thename; }
 	int NComps(){ return _ncomps; }
-
+	fwStream* RefStream() { return _refstream; }
 	Component GetComponent(int i){ return _components[i]; }
 	void Setup()
 	{
@@ -104,6 +108,7 @@ protected:
 	int _ncomps;
 	int _nprops;
 	FlashMethod* _flashmethod;
+	fwStream* _refstream;
 	PropertyCalc* _propertycalculation; //
 };
 

@@ -18,11 +18,13 @@
 
 #ifndef __FLASHMETHOD_H_INCLUDED__
 #define __FLASHMETHOD_H_INCLUDED__
+#include "fwStream.h"
+
 using namespace std;
 
 //forward declare these guys. dont need to access. for now.
-class Stream;
 class PropPack;
+
 enum FlashTypeEnum { PT, PH, PQ, PS, TQ, TS, TH }; //7 types
 class FlashMethod
 {
@@ -32,11 +34,10 @@ public:
 	virtual void TQ_Flash(Stream* theStream, PropPack* thePP){};
 	virtual void PQ_Flash(Stream* theStream, PropPack* thePP){};
 	virtual void PS_Flash(Stream* theStream, PropPack* thePP){};
-	virtual void Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum theflashtype){};
+	virtual void Flash(FlashTypeEnum theflashtype){};
 	virtual bool Setup(PropPack* thePP){ return false; };
 	virtual ~FlashMethod();
 protected:
-
 	string _name; 
 	PropPack* _proppack;
 };

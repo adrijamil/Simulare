@@ -30,8 +30,6 @@
 using namespace std;
 //can I put this constants here?
 
-
-
 class RefPropPack :
 	public FlashMethod
 {
@@ -42,11 +40,8 @@ public:
 	~RefPropPack();
 
 	bool Setup(PropPack* thePP);
-	void Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum theflashtype);
-	void PQ_Flash(Stream* theStream, PropPack* thePP);
-	void PT_Flash(Stream* theStream, PropPack* thePP);
-	void PS_Flash(Stream* theStream, PropPack* thePP);
-	void TQ_Flash(Stream* theStream, PropPack* thePP);
+	void Flash(FlashTypeEnum theflashtype);
+
 private:
 	RPManager* themanager;
 	string _fluids_path;

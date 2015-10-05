@@ -29,7 +29,7 @@ class Ideal :
 public:
 	Ideal(){ _name = "ideal"; };
 	~Ideal();
-	
+	void Flash(fwStream* theStream, PropPack* thePP, FlashTypeEnum theflashtype);
 	//need a reference to PropPack to get NComp and possibly other shit
 	void PT_Flash(Stream* theStream, PropPack* thePP);
 	void TQ_Flash(Stream* theStream, PropPack* thePP);
