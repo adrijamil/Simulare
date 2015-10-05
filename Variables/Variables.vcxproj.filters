@@ -22,6 +22,7 @@
     <Text Include="inputfile2.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="testflashes.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

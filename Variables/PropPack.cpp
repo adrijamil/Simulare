@@ -9,6 +9,7 @@ using namespace std;
 PropPack::PropPack()
 {
 	_propertycalculation = new PropertyCalc;
+	fwStream* _refstream = new fwStream;
 }
 
 

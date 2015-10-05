@@ -5,7 +5,6 @@ class fwStream
 {
 public:
 	fwStream();
-	fwStream(Stream* thestream);
 	~fwStream();
 	double Pressure;
 	double Temperature;
@@ -19,6 +18,8 @@ public:
 	double densL;
 	double densV;
 	int NPhases;
-	void ReadState(Stream* thestream);
+	int NComps;
+	void ReadStream(Stream* thestream);
+	void WriteStream(Stream* thestream);
 };
 

@@ -155,9 +155,12 @@ bool Stream::Solve()
 	//}
 	
 	//Flash(thetype);
-	_proppack->Flash(this, thetype);
+		_proppack->RefStream()->ReadStream(this);
+	_proppack->Flash(thetype);
 
-	_proppack->Properties()->Calculate(this);
+	_proppack->Properties()->Calculate();
+
+	_proppack->RefStream()->WriteStream(this);
 	_issolved = true;
 
 	return _issolved;
@@ -184,8 +187,13 @@ void Stream::Output()
 	cout << "MolarEnthalpy  [J/mol] " << MolarEnthalpy()->GetValue() << "\n";
 	cout << "MolarEntropy  [J/mol/K] " << MolarEntropy()->GetValue() << "\n";
 	cout << "Vfrac  " << VapourFraction()->GetValue() << "\n\n";
+	for (int k = 0; k < myncomps; k++)
+	{
 
-	cout << "GasPhase  " << "\n";
+		cout << _proppack->GetComponent(k).Name << "  " << Composition()->GetValue(k) << "\n";
+	}
+
+	cout << "\n" << "GasPhase  " << "\n";
 	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
 	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
 	cout << "MolarDensity  [mol/m3] " << _phases[0]->MolarDensity()->GetValue() << "\n";

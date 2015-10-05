@@ -192,15 +192,16 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 
 	for (int k = 0; k < ncomps; k++)
 	{
-		x[k] = _proppack->RefStream()->X[k]; //getvalues doesnt work?
+		x[k] = _proppack->RefStream()->Z[k]; //getvalues doesnt work?
 	}
 
-	t = _proppack->RefStream()->Temperature;
-	p = _proppack->RefStream()->Pressure;
-	h = _proppack->RefStream()->Enthalpy;
-	q = _proppack->RefStream()->VapourFraction;
-	s = _proppack->RefStream()->Entropy;
-
+	fwStream* fw = _proppack->RefStream();
+	t = fw->Temperature;
+	p = fw->Pressure;
+	h = fw->Enthalpy;
+	q = fw->VapourFraction;
+	s = fw->Entropy;
+	ierr = 0;
 
 	if (theflashtype == PT)
 	{
@@ -229,6 +230,7 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 	else if (theflashtype == TH)
 	{
 		THFLSHdll(t, h, x,kr,p, d, dl, dv, xliq, xvap, q, e,  s, cv, cp, w, ierr, herr, errormessagelength);
+		//can try figure out which root im looking for. 
 	}
 
 	if (!ierr == 0)
@@ -248,14 +250,43 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 
 	//these apply to all flashtypes
 	//send back to stream
+
+	fw->Temperature=t;
+	fw->Pressure=p;
+	fw->Enthalpy=h;
+	 fw->VapourFraction=q;
+	fw->Entropy=s;
+
+	//cout << xvap[0] << "\n";
+	//cout << xvap[1] << "\n";
+	//cout << xvap[2] << "\n";
+
+	//cout << xliq[0] << "\n";
+	//cout << xliq[1] << "\n";
+	//cout << xliq[2] << "\n";
+	double* xtemp = new double[ncomps];
+	double* ytemp = new double[ncomps];
+	
 	for (int k = 0; k < ncomps; k++)
 	{
-		_proppack->RefStream()->Y[k]=k, xvap[k];
-		_proppack->RefStream()->X[k] = k, xliq[k];
+		xtemp[k] = xliq[k];
+		ytemp[k] = xvap[k];
 	}
-	_proppack->RefStream()->densTot = (d / 0.001);
-	_proppack->RefStream()->densL = (dv / 0.001);
-	_proppack->RefStream()->densV = (dl / 0.001);
+	
+	fw->Y = xtemp;
+	fw->X = ytemp;
+
+	/*cout << fw->Y[0] << "\n";
+	cout << fw->Y[1] << "\n";
+	cout << fw->Y[2] << "\n";
+
+	cout << fw->X[0] << "\n";
+	cout << fw->X[1] << "\n";
+	cout << fw->X[2] << "\n";*/
+	
+	fw->densTot = (d / 0.001);
+	fw->densL = (dv / 0.001);
+	fw->densV = (dl / 0.001);
 	//put it into the stream
 
 

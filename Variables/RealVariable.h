@@ -44,10 +44,47 @@ public:
 	void IsKnown(bool thebool) { _is_known = thebool; }
 	void IsCalculated(bool thebool){ _is_calculated = thebool; }
 
-	double GetValue(int i) { return _getvalue(i); }
-	double* GetValues(){return _getvalues();}
-	double GetValue(){ return _getvalue(); }
+	double GetValue(int i)
+	{
+		if (_is_known)
+		{
+			return _getvalue(i);
+		}
+		else
+		{
+			return -32767;
+		}
+	}
 
+	double* GetValues()
+	{
+		if (_is_known)
+		{
+			return _getvalues();
+		}
+		else
+		{
+			double* x = new double[_size];
+			for (int i = 0; i < _size; i++)
+			{
+				x[i] = -32767;
+			}
+			return x;
+		}
+	}
+
+	double GetValue()
+	{
+		if (_is_known)
+		{
+			return _getvalue();
+		}
+		else
+		{
+			double x = -32767;
+			return x;
+		}
+	}
 	void SetValue(double thevalue);
 	void SetValue(int i, double thevalue);
 	void SetValues(int N, double* thevalue);

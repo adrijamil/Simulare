@@ -60,9 +60,9 @@ public:
 	PropertyCalc* Properties(){ return _propertycalculation; }
 
 	void SetMethod(FlashMethodEnum theFlashMethod);
-	virtual void Flash(Stream* theStream, FlashTypeEnum theflashtype)
+	virtual void Flash(FlashTypeEnum theflashtype)
 	{
-		fwStream* _refstream = new fwStream(theStream);
+
 		try
 		{
 			_flashmethod->Flash(theflashtype);
@@ -74,7 +74,7 @@ public:
 			logger->Handle(e);
 		}
 		
-		_refstream->ReadState(theStream);
+	
 	}
 	
 

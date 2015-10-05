@@ -30,8 +30,8 @@ RPManager* RPManager::_instance = 0;
 int _tmain()
 {
 	ErrorLogger* glogger = ErrorLogger::Instance();
-//CommandInterpreter mycase("inputfile2.txt");
-CommandInterpreter mycase;
+CommandInterpreter mycase("testflashes.txt");
+//CommandInterpreter mycase;
 string mycommand;
 mycommand = "";
 bool isexit=false;

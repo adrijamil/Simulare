@@ -5,14 +5,15 @@
 using namespace std;
 //makethis a composite?
 
-class Stream;
+
+#include "fwStream.h"
 //#include "PropPack.h"
 class PropPack;
 
 class PropertyCalc
 {
 public:
-	virtual void Calculate(Stream* thestream);
+	virtual void Calculate();
 	void SetParent(PropPack* thePP);
 	PropertyCalc();
 	~PropertyCalc();

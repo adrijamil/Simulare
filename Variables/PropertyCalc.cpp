@@ -33,7 +33,7 @@ void PropertyCalc::AddProperty(PropertyCalc* thechild)
 
 }
 
-void PropertyCalc::Calculate(Stream* thestream)
+void PropertyCalc::Calculate()
 {
 	PropertyCalc* theprop;
 
@@ -47,7 +47,7 @@ void PropertyCalc::Calculate(Stream* thestream)
 		{
 			theprop = _children[i];
 
-			theprop->Calculate(thestream);
+			theprop->Calculate();
 		}
 	}
 }
