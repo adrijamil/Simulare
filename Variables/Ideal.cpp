@@ -1,8 +1,212 @@
 #include "stdafx.h"
 #include "Ideal.h"
 
+
+
+bool inbetween(double x, double a, double b)
+{
+
+	if (a < b)
+	{
+		double temp = a;
+		a = b;
+		b = temp;
+	}
+
+	if (x<a&&x>b)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+//double Ideal::bisect(double ain, double bin, double *x, int ncomp)
+//{
+//	double fa, fb, fc, fs, c, tol;
+//
+//	tol = 0.00001;
+//	int cond;
+//	int iter = 0;
+//	double temp;
+//	double a = ain;
+//	double b = bin;
+//
+//	double retval = -32767;
+//	fa = _RR(a, x, ncomp);
+//	fb = _RR(b, x, ncomp);
+//
+//	c = a;
+//	fc = _RR(c, x, ncomp);
+//
+//
+//
+//	do
+//	{
+//
+//		c = (a + b) / 2;
+//		fc = _RR(c, x, ncomp);
+//
+//		if (fa*fc<0)
+//		{
+//			b = c;
+//		}
+//		else
+//		{
+//			a = c;
+//
+//		}
+//
+//
+//
+//		fa  =_RR(a, x, ncomp);
+//		fb = _RR(b, x, ncomp);
+//		
+//
+//		if (abs(fa)<abs(fb))
+//			iter++;
+//
+//
+//	} while (abs(b - a) > tol || abs(fc) > tol);
+//
+//	std::cout << "bisect root: " << c << " iter: " << iter << "\n";
+//	return c;
+//}
+
+
+double Ideal::brent(FUNC_PTR fx, double ain, double bin, double *x, int ncomp)
+{
+	double fa, fb, fc, s, fs, c, d, tol;
+	bool mflag = 1;
+	tol = 0.00001;
+	int cond;
+	int iter = 0;
+	double temp;
+	double a = ain;
+	double b = bin;
+
+	
+
+	double retval = -32767;
+	fa = _RR(a, x, ncomp);
+	fb = _RR(b, x, ncomp);
+	if (fa*fb >= 0)
+	{
+		return retval;
+	}
+	if (abs(fa)<abs(fb))
+	{
+		temp = a;
+		a = b;
+		b = temp;
+
+		temp = fa;
+		fa = fb;
+		fb = temp;
+	}
+
+	c = a;
+	fc = _RR(c, x, ncomp);
+
+	double delta = 0;
+
+	d = 7;
+	fs = 7;
+	do
+	{
+		if (fa != fc&&fb != fc)
+		{
+			s = a*fb*fc / (fa - fb) / (fa - fc) + b*fa*fc / (fb - fa) / (fb - fc) + c*fb*fa / (fc - fa) / (fc - fb);
+		}
+		else
+		{
+			s = b - fb*(b - a) / (fb - fa);
+		}
+
+		cond = 0;
+		if (!inbetween(s, (3 * a + b) / 4, b))
+		{
+			cond = 1;
+
+		}
+		else if (mflag && abs(s - b) >= abs(b - c) / 2)
+		{
+			cond = 1;
+
+		}
+		else if (!mflag && abs(s - b) >= abs(c - d) / 2)
+		{
+			cond = 1;
+
+		}
+		else if (mflag && abs(b - c) <abs(delta))
+		{
+			cond = 1;
+
+		}
+		else if (!mflag && abs(c - d) <abs(delta))
+		{
+			cond = 1;
+
+		}
+		if (cond == 1)
+		{
+			s = (a + b) / 2;
+			mflag = 1;
+			std::cout << "brent take mid root: " << s << " iter: " << iter << "\n";
+
+		}
+		else
+		{
+			mflag = 0;
+		}
+
+		fs = _RR(s, x, ncomp);
+
+		d = c;
+		c = b;
+
+		if (fa*fs<0)
+		{
+			b = s;
+		}
+		else
+		{
+			a = s;
+
+		}
+
+
+
+		fa = _RR(a, x, ncomp);
+		fb = _RR(b, x, ncomp);
+		fc = _RR(c, x, ncomp);
+
+		if (abs(fa)<abs(fb))
+		{
+			temp = a;
+			a = b;
+			b = temp;
+
+			temp = fa;
+			fa = fb;
+			fb = temp;
+		}
+
+		iter++;
+	} while (abs(b - a) > tol || abs(fs) > tol);
+
+	std::cout << "brent root: " << s << " iter: " << iter << "\n";
+	return s;
+}
+
+
+
+
 //calculate RR equation
-double Ideal::_RR(double vfrac, double* comps,int NComp)
+double Ideal::_RR(double vfrac, double *comps, int NComp)
 {
 	double sum;
 	sum = 0;
@@ -73,8 +277,6 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 	//solve Rachford-Rice equation using bisection
 	//could lump procedures like this into a library
 	//cout << _Ki[0] << " " << _Ki[1] << " " << _Ki[2];
-
-
 	
 	vfrac = _solveRR( Zi, ncomp);
 	//cout << "calculated vfrac = " << mid;
@@ -92,8 +294,6 @@ void Ideal::PT_Flash(Stream* theStream, PropPack* thePP)
 		//Yi[i] = _Ki[i] * Xi[i];
 	}
 
-
-
 	//put it into the stream
 	theStream->Phases(0)->PhaseMoleFraction()->SetValue(vfrac);
 	theStream->Phases(1)->PhaseMoleFraction()->SetValue(1 - vfrac);
@@ -104,52 +304,24 @@ double Ideal::_solveRR(double* comps, int NComp)
 {
 	double hi = 1;
 	double lo = 0;
-	double mid = 0.5;
+	double mid;
 
-	double fhi;
-	double flo;
-	double fmid;
+	//double (Ideal::*fx)(double vfrac, double* comps, int NComp) = &Ideal::_RR;;
+	FUNC_PTR func= &Ideal::_RR;
+	mid = brent(func,hi, lo, comps, NComp);
+	
 
-	int iter = 0;
-	double delta, tol;
-	delta = 100;
-	tol = 0.001;
-
-	while (delta > tol)
-	{
-		fhi = _RR(hi, comps, NComp);
-		flo = _RR(lo, comps, NComp);
-		fmid = _RR(mid, comps, NComp);
-
-		if (fhi < 0 && flo < 0)
-		{
-			return 0;
-		}
-		if (fhi > 0 && flo > 0)
-		{
-			return 1;
-		}
-
-		//	cout << iter << "\n" << "\n";
-		//	cout << hi << " " << lo << " " << mid << "\n";
-		//cout << fhi << " " << flo << " " << fmid;
-
-		if ((fhi*fmid) > 0) //if fmid and fhi same sign
-		{
-			hi = mid;
-		}
-		else
-		{
-			lo = mid;
-		}
-		mid = (hi + lo) / 2;
-		delta = abs(hi - lo);
-
-		iter = iter + 1;
-	}
 	return mid;
 
 }
+
+double Ideal::_solveforVf(double P, double* comps, int NComp)
+{
+	double retval;
+	retval = _solveRR(comps, NComp);
+	return retval;
+}
+
 
 void Ideal::TQ_Flash(Stream* theStream, PropPack* thePP)
 {
@@ -201,8 +373,9 @@ void Ideal::TQ_Flash(Stream* theStream, PropPack* thePP)
 	hi = Pvaphigh;
 	lo = Pvaplow;
 	mid = (hi + lo) / 2;
-	/*P = Pvaphigh - Vfspec*(Pvaphigh - Pvaplow);
-	P_1 = P;*/
+
+	FUNC_PTR fx = &Ideal::_solveforVf;
+	brent(fx, hi, lo, Xi,ncomp);
 
 //	VfCalc_1 = Vfspec;
 	while (delta > tol)
@@ -234,44 +407,14 @@ void Ideal::TQ_Flash(Stream* theStream, PropPack* thePP)
 	}
 	P = mid;
 
-		//VfCalc_2 = VfCalc_1;
-		//VfCalc_1 = _solveRR(Zi, ncomp);
-
-		//delta = abs(VfCalc_1 - Vfspec);
-
-		//cout << delta<<"  " << P << "\n";
-		//
-		//if (P_1 == P)
-		//{
-		//	P_2 = P_1;
-		//	P_1 = P;
-		//	P = P + 10;
-		//}
-		//else
-		//{
-		//	P_2 = P_1;
-		//	P_1 = P;
-		//	P = P_1 - VfCalc_1*(P_1 - P_2) / (abs(VfCalc_1 - Vfspec) - abs(VfCalc_2 - Vfspec));
-		//	if (P < 0.1)
-		//	{
-		//		P = 0.1;
-
-		//	}
-		//}
-		//
-		//Niter = Niter + 1;
-		
-	/*}*/
 
 	for (int i = 0; i < ncomp; i++)
 	{
 
 		Xi[i] = Zi[i] / (1 + Vfspec*(_Ki[i] - 1));
-		//cout << Xi[i] << "\n";
 
 		theStream->Phases(1)->Composition()->SetValue(i, Xi[i]);
 		theStream->Phases(0)->Composition()->SetValue(i, _Ki[i] * Xi[i]);
-		//Yi[i] = _Ki[i] * Xi[i];
 	}
 
 
@@ -308,6 +451,19 @@ bool Ideal::Setup(PropPack* thePP)
 
 }
 
+void Ideal::Flash(Stream* theStream, PropPack* thePP, FlashTypeEnum theflashtype)
+{
+	if (theflashtype == PT)
+	{
+		PT_Flash(theStream, thePP);
+
+	}
+	else if (theflashtype = TQ)
+	{
+		TQ_Flash(theStream, thePP);
+	}
+
+}
 Ideal::~Ideal()
 {
 }

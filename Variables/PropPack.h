@@ -21,18 +21,18 @@
 
 #ifndef __PROPPACK_H_INCLUDED__
 #define __PROPPACK_H_INCLUDED__
-#include "HandledException.h"
+
 #include <iostream>
 #include <string>
-#include "FlashMethod.h"
+//#include "FlashMethod.h"
 #include "PropertyCalc.h"
-#include "ErrorLogger.h"
+class FlashMethod
 
 using namespace std;
 
-class Stream;
+//class Stream;
 //#define __STREAM_H_INCLUDED__ //this line tells the compiler that stream has already been defined
-//#include "Stream.h"
+#include "Stream.h"
 
 struct Component
 {
@@ -44,6 +44,18 @@ struct Component
 	double Acentric;
 	double StdIdealLiqDens;
 };
+
+struct sProcessStream //bring all member variables over. Don't have to reaching intop the stream
+{
+	double p;
+	double t;
+	double* x;
+	double* y;
+	double* z;
+	double vf;
+};
+
+
 //enum FlashTypeEnum { PT, PH, PQ,PS,TQ,TS,TH}; //7 types
 enum FlashMethodEnum  {IDEAL,REFPROP};
 enum ComponentNameEnum  { METHANE, ETHANE,BENZENE };
@@ -51,14 +63,17 @@ using namespace std;
 //template<typename T = Stream>
 class PropPack
 {
+	
 public:
 	 PropPack();
 	~PropPack();
 	PropertyCalc* Properties(){ return _propertycalculation; }
 
 	void SetMethod(FlashMethodEnum theFlashMethod);
+
 	virtual void Flash(Stream* theStream, FlashTypeEnum theflashtype)
 	{
+		_unpackstream(theStream);
 		try
 		{
 			_flashmethod->Flash(theStream, this, theflashtype);
@@ -98,6 +113,7 @@ public:
 	int NComps(){ return _ncomps; }
 
 	Component GetComponent(int i){ return _components[i]; }
+
 	void Setup()
 	{
 		bool SetupOk;
@@ -116,12 +132,14 @@ public:
 		Setup();
 	}
 protected:
+	void _unpackstream(Stream* theStream);
 	string _name;
 	Component* _components; //make it fixed first
 	int _ncomps;
 	int _nprops;
 	FlashMethod* _flashmethod;
 	PropertyCalc* _propertycalculation; //
+	sProcessStream _currentstream;
 };
 
 

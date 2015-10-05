@@ -28,8 +28,8 @@
 #include "Phase.h"
 #include "FSObject.h"
 
-#include "PropPack.h"
-//class Phase;  //this way we avoid recursion in header files.
+
+class PropPack;  //this way we avoid recursion in header files.
 
 
 class Stream :
@@ -50,10 +50,6 @@ public:
 	{
 		return _phases[i];
 	}
-	void PQFlashMe(){ _proppack->PQ_Flash(this); }
-	void PTFlashMe(){ _proppack->PT_Flash(this); };
-	void TQFlashMe(){ _proppack->TQ_Flash(this); }
-	void PSFlashMe(){ _proppack->PS_Flash(this); }
 	
 	void SetPropertyPackage(PropPack* thePP);
 	

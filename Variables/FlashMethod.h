@@ -22,10 +22,11 @@ using namespace std;
 
 //forward declare these guys. dont need to access. for now.
 class Stream;
-class PropPack;
+#include "PropPack.h";
 enum FlashTypeEnum { PT, PH, PQ, PS, TQ, TS, TH }; //7 types
 class FlashMethod
 {
+	
 public:
 	FlashMethod();
 	virtual void PT_Flash(Stream* theStream, PropPack* thePP){};

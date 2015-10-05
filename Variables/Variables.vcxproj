@@ -99,6 +99,7 @@
     <ClInclude Include="Fluid.h" />
     <ClInclude Include="FSObject.h" />
     <ClInclude Include="Ideal.h" />
+    <ClInclude Include="NumericalMethods.h" />
     <ClInclude Include="Phase.h" />
     <ClInclude Include="PressureBalance.h" />
     <ClInclude Include="PropertyCalc.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Fluid.cpp" />
     <ClCompile Include="FSObject.cpp" />
     <ClCompile Include="Ideal.cpp" />
+    <ClCompile Include="NumericalMethods.cpp" />
     <ClCompile Include="Phase.cpp" />
     <ClCompile Include="PressureBalance.cpp" />
     <ClCompile Include="PropertyCalc.cpp" />

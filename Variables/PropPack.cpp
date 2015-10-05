@@ -137,6 +137,18 @@ void  PropPack::AddProperty(PropertyCalc* thepropcalc)
 //	}
 }
 
+void PropPack::_unpackstream(Stream* thestream)
+{
+	_currentstream.p=thestream->Pressure()->GetValue();
+	_currentstream.t = thestream->Temperature()->GetValue();
+	_currentstream.vf = thestream->VapourFraction()->GetValue();
+	_currentstream.x = thestream->Composition()->GetValues();
+	_currentstream.y = thestream->Phases(0)->Composition()->GetValues();
+	_currentstream.x = thestream->Phases(1)->Composition()->GetValues();
+	
+}
+
+
 void PropPack::SetMethod(FlashMethodEnum theFlashMethod)
 {
 	switch (theFlashMethod)

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <tchar.h>
 #include <exception>
-
+#include "HandledException.h"
+#include "ErrorLogger.h"
 
 // TODO: reference additional headers your program requires here

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Stream.h"
-
+#include "PropPack.h"
 
 Stream::Stream()
 {
