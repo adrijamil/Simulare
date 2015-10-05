@@ -17,15 +17,15 @@ void fwStream::ReadStream(Stream* thestream)
 	X = new double[NComps];
 	Y = new double[NComps];
 	Pressure=thestream->Pressure()->GetValue();
-	 Temperature = thestream->Temperature()->GetValue(); 
-	 Enthalpy = thestream->MolarEnthalpy()->GetValue();
-	 Entropy = thestream->MolarEntropy()->GetValue();
+	Temperature = thestream->Temperature()->GetValue(); 
+	Enthalpy = thestream->MolarEnthalpy()->GetValue();
+	Entropy = thestream->MolarEntropy()->GetValue();
 
-	 X = thestream->Phases(1)->Composition()->GetValues();
-	 Y = thestream->Phases(0)->Composition()->GetValues();
+	X = thestream->Phases(1)->Composition()->GetValues();
+	Y = thestream->Phases(0)->Composition()->GetValues();
 
-	 Z = thestream->Composition()->GetValues();
-	 NPhases = 2;
+	Z = thestream->Composition()->GetValues();
+	NPhases = 2;
 }
 fwStream::~fwStream()
 {

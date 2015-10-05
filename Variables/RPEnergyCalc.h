@@ -10,7 +10,7 @@ class RPEnergyCalc :
 public:
 	RPEnergyCalc();
 	~RPEnergyCalc();
-	void Calculate(Stream* thestream);
+	void Calculate();
 private:
 	void _calcFluid(Fluid* thefluid);
 
