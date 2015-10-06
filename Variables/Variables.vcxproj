@@ -95,6 +95,7 @@
     <ClInclude Include="HeatBalance.h" />
     <ClInclude Include="Heater.h" />
     <ClInclude Include="MassMolFlowCalc.h" />
+    <ClInclude Include="Mixer.h" />
     <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="FlashMethod.h" />
     <ClInclude Include="FlowSheet.h" />
@@ -102,6 +103,7 @@
     <ClInclude Include="FSObject.h" />
     <ClInclude Include="Ideal.h" />
     <ClInclude Include="Phase.h" />
+    <ClInclude Include="PressureBalance.h" />
     <ClInclude Include="PropertyCalc.h" />
     <ClInclude Include="PropPack.h" />
     <ClInclude Include="PropPackBuilder.h" />
@@ -135,6 +137,7 @@
     <ClCompile Include="HeatBalance.cpp" />
     <ClCompile Include="Heater.cpp" />
     <ClCompile Include="MassMolFlowCalc.cpp" />
+    <ClCompile Include="Mixer.cpp" />
     <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
     <ClCompile Include="FlowSheet.cpp" />
@@ -142,6 +145,7 @@
     <ClCompile Include="FSObject.cpp" />
     <ClCompile Include="Ideal.cpp" />
     <ClCompile Include="Phase.cpp" />
+    <ClCompile Include="PressureBalance.cpp" />
     <ClCompile Include="PropertyCalc.cpp" />
     <ClCompile Include="PropPack.cpp" />
     <ClCompile Include="PropPackBuilder.cpp" />

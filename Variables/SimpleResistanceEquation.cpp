@@ -33,7 +33,7 @@ bool SimpleResistanceEquation::Solve()
 		F = F2->GetValue();
 		F1->SetValue(F);
 	}
-	
+
 	double p2, p1, k;
 	//if DP is known set P1,P2 or if P1,P2  is known set DP;
 	if (_pressuredrop->IsKnown())
@@ -58,7 +58,7 @@ bool SimpleResistanceEquation::Solve()
 				if (F1->IsCalculated() && F2->IsCalculated())
 				{
 					CalcMode = KP1P2;
-					
+
 				}
 			}
 			else if (F1->IsKnown() || F2->IsKnown())
@@ -91,7 +91,7 @@ bool SimpleResistanceEquation::Solve()
 		}
 	}
 	//enum CalcModeEnum { FKP1,FKP2,FP1P2,KP1P2}
-	
+
 	if (CalcMode == DONOTHING)
 	{
 		return false;
