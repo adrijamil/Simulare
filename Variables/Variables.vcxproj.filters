@@ -23,6 +23,7 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="testflashes.txt" />
+    <Text Include="testvalve.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

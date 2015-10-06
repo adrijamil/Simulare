@@ -30,7 +30,7 @@ RPManager* RPManager::_instance = 0;
 int _tmain()
 {
 	ErrorLogger* glogger = ErrorLogger::Instance();
-CommandInterpreter mycase("testflashes.txt");
+CommandInterpreter mycase("testvalve.txt");
 //CommandInterpreter mycase;
 string mycommand;
 mycommand = "";

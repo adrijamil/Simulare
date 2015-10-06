@@ -28,7 +28,7 @@ bool HeatBalance::Solve()
 	double* X;
 	bool enthalpypassed = false;
 	bool comppassed = false;
-
+	int flowdir = 1;
 	//all flows need to be known
 	for (int i = 0; i < nin; i++)
 	{
@@ -83,7 +83,7 @@ bool HeatBalance::Solve()
 		}
 	}
 	
-	if (nspecced  == nin + nout)//DOF is 0
+	if (nspecced +1 == nin + nout)//DOF is 0
 	{
 		for (int i = 0; i < nin; i++)
 		{

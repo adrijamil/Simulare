@@ -287,7 +287,7 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 	fw->Phases[0].MolarDensity = (d / 0.001);
 	fw->Phases[1].MolarDensity = (dv / 0.001);
 	fw->Phases[2].MolarDensity = (dl / 0.001);
-	//put it into the stream
+	
 
 
 	
