@@ -77,13 +77,18 @@ public:
 	
 	}
 	
-
 	virtual void AddComponent(string thecompname);
-
 
 	void SetName(string thename){ _name = thename; }
 	int NComps(){ return _ncomps; }
-	fwStream* RefStream() { return _refstream; }
+	fwStream* RefStream() 
+	{ 
+		if (_refstream == NULL)
+		{
+			_refstream = new fwStream;
+		}
+		return _refstream; 
+	}
 	Component GetComponent(int i){ return _components[i]; }
 	void Setup()
 	{

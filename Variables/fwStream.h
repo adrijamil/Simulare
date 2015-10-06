@@ -1,5 +1,17 @@
 #pragma once
 class Stream;
+#include "Phase.h"
+struct fwPhase
+{
+	PhaseType PhaseName;
+	double PhaseFraction;
+	double Enthalpy;
+	double Entropy;
+	double* Composition;
+	double MolarDensity;
+	double MolecularWeight;
+};
+
 
 class fwStream
 {
@@ -9,17 +21,20 @@ public:
 	double Pressure;
 	double Temperature;
 	double VapourFraction;
-	double Enthalpy;
-	double Entropy;
-	double* X;
-	double* Y;
-	double* Z;
-	double densTot;
-	double densL;
-	double densV;
-	int NPhases;
+	//make phases as an array with names (enum)
+	fwPhase Liquid;
+	fwPhase Vapour;
+	fwPhase Overall;
+
+	fwPhase* Phase(PhaseType thephasename);
+	fwPhase* Phase(int phasenumber);
+	fwPhase* Phases;
+
 	int NComps;
+
 	void ReadStream(Stream* thestream);
 	void WriteStream(Stream* thestream);
+private:
+	
 };
 

@@ -54,4 +54,8 @@ Stream* UnitOp::GetStream(int i, ConnectionType ConType)
 	{
 		return _outletstreams[i];
 	}
+	else
+	{
+		return 0;
+	}
 }

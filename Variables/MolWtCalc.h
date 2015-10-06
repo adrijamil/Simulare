@@ -7,12 +7,12 @@ class MolWtCalc :
 	public PropertyCalc
 {
 public:
-	void Calculate(Stream* thestream);
+	void Calculate();
 	
 	MolWtCalc();
 	~MolWtCalc();
 private:
-	void CalcFluid(Fluid* thefluid);
+	void CalcFluid();
 };
 
 

@@ -154,8 +154,10 @@ bool Stream::Solve()
 		}
 	//}
 	
-	//Flash(thetype);
-		_proppack->RefStream()->ReadStream(this);
+	//Flash(thetype)
+		
+
+	_proppack->RefStream()->ReadStream(this);
 	_proppack->Flash(thetype);
 
 	_proppack->Properties()->Calculate();

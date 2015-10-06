@@ -23,21 +23,22 @@ void RPEnergyCalc::Calculate()
 
 	for (int k = 0; k < ncomps; k++)
 	{
-		x[k] = _parent->RefStream()->Y[k];
+		x[k] = _parent->RefStream()->Vapour.Composition[k];
 	}
 
 	THERMdll(t, d, x, p, e, h, s, cv, cp, w, hjt);
-	_parent->RefStream()->Enthalpy=h;
-	_parent->RefStream()->Entropy=s;
+	_parent->RefStream()->Vapour.Enthalpy=h;
+	_parent->RefStream()->Vapour.Entropy = s;
+
 
 	for (int k = 0; k < ncomps; k++)
 	{
-		x[k] = _parent->RefStream()->Y[k];
+		x[k] = _parent->RefStream()->Liquid.Composition[k];
 	}
-
 	THERMdll(t, d, x, p, e, h, s, cv, cp, w, hjt);
-	_parent->RefStream()->Enthalpy = h;
-	_parent->RefStream()->Entropy = s;
+	_parent->RefStream()->Liquid.Enthalpy = h;
+	_parent->RefStream()->Liquid.Entropy = s;
+	
 }
 
 void RPEnergyCalc::_calcFluid(Fluid* thefluid)

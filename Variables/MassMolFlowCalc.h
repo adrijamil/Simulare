@@ -11,7 +11,6 @@ public:
 	~MassMolFlowCalc();
 	void Calculate(Stream* thestream);
 private:
-private:
 	void CalcFluid(Fluid* thefluid);
 };
 
