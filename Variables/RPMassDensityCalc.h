@@ -7,6 +7,6 @@ class RPMassDensityCalc :
 public:
 	RPMassDensityCalc();
 	~RPMassDensityCalc();
-	void Calculate(Stream* thestream);
+	void Calculate();
 };
 

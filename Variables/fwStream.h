@@ -4,11 +4,14 @@ class Stream;
 struct fwPhase
 {
 	PhaseType PhaseName;
+	double MassFlow;
+	double MolarFlow;
 	double PhaseFraction;
 	double Enthalpy;
 	double Entropy;
 	double* Composition;
 	double MolarDensity;
+	double MassDensity;
 	double MolecularWeight;
 };
 
@@ -21,13 +24,9 @@ public:
 	double Pressure;
 	double Temperature;
 	double VapourFraction;
-	//make phases as an array with names (enum)
-	fwPhase Liquid;
-	fwPhase Vapour;
-	fwPhase Overall;
+	//make phases as an array with names (enum
 
-	fwPhase* Phase(PhaseType thephasename);
-	fwPhase* Phase(int phasenumber);
+
 	fwPhase* Phases;
 
 	int NComps;

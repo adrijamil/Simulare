@@ -4,7 +4,19 @@
 
 fwStream::fwStream()
 {
+
 }
+//fwPhase fwStream::Phase(PhaseType thephasename) //phasenames are -1:overall, 0: vapour, 1:HCLiquid
+//{
+//	int i = thephasename;
+//	return Phase(i);
+//}
+//
+//fwPhase fwStream::Phase(int phasenumber)//this sub offsets by one//supposed to be more intuitive
+//{
+//	int i = phasenumber + 1;
+//	return Phases[phasenumber];
+//}
 
 void fwStream::ReadStream(Stream* thestream)
 {
@@ -13,33 +25,45 @@ void fwStream::ReadStream(Stream* thestream)
 		cout << "how am i nothing";
 	}
 	NComps =thestream->NComps();
-	
-	Liquid.Composition  =new double[NComps];
-	Vapour.Composition = new double[NComps];
-	Overall.Composition = new double[NComps];
+
+
+	Phases =new fwPhase[3];
+	Phases[0].PhaseName = OVERALL;
+	Phases[1].PhaseName = VAPOUR;
+	Phases[2].PhaseName = HCLIQUID;
 
 	Pressure=thestream->Pressure()->GetValue();
 	Temperature = thestream->Temperature()->GetValue();
 
-	Overall.Enthalpy = thestream->MolarEnthalpy()->GetValue();
-	Overall.Entropy = thestream->MolarEntropy()->GetValue();
-	Overall.MolarDensity = thestream->MolarDensity()->GetValue();
-	Overall.MolecularWeight = thestream->MolecularWeight()->GetValue();
-	Overall.Composition = thestream->Composition()->GetValues();
-
-
-	Liquid.Enthalpy = thestream->Phases(1)->MolarEnthalpy()->GetValue();
-	Liquid.Entropy = thestream->Phases(1)->MolarEntropy()->GetValue();
-	Liquid.MolarDensity = thestream->Phases(1)->MolarDensity()->GetValue();
-	Liquid.MolecularWeight = thestream->Phases(1)->MolecularWeight()->GetValue();
-	Liquid.Composition = thestream->Phases(1)->Composition()->GetValues();
-
-	Vapour.Enthalpy = thestream->Phases(0)->MolarEnthalpy()->GetValue();
-	Vapour.Entropy = thestream->Phases(0)->MolarEntropy()->GetValue();
-	Vapour.MolarDensity = thestream->Phases(0)->MolarDensity()->GetValue();
-	Vapour.MolecularWeight = thestream->Phases(0)->MolecularWeight()->GetValue();
-	Vapour.Composition = thestream->Phases(0)->Composition()->GetValues();
-	
+	for (int i = 0; i < 3; i++)
+	{
+		if (i == 0)
+		{
+			Phases[i].Composition = new double[NComps];
+			Phases[i].MassFlow = thestream->MassFlow()->GetValue();
+			Phases[i].MolarFlow = thestream->MolarFlow()->GetValue();
+			Phases[i].Enthalpy = thestream->MolarEnthalpy()->GetValue();
+			Phases[i].Entropy = thestream->MolarEntropy()->GetValue();
+			Phases[i].MolarDensity = thestream->MolarDensity()->GetValue();
+			Phases[i].MassDensity = thestream->MolarDensity()->GetValue();
+			Phases[i].MolecularWeight = thestream->MolecularWeight()->GetValue();
+			Phases[i].Composition = thestream->Composition()->GetValues();
+		}
+		else
+		{
+			Phases[i].Composition = new double[NComps];
+			Phases[i].MassFlow = thestream->Phases(i - 1)->MassFlow()->GetValue();
+			Phases[i].MolarFlow = thestream->Phases(i - 1)->MolarFlow()->GetValue();
+			Phases[i].Enthalpy = thestream->MolarEnthalpy()->GetValue();
+			Phases[i].Enthalpy = thestream->Phases(i - 1)->MolarEnthalpy()->GetValue();
+			Phases[i].Entropy = thestream->Phases(i - 1)->MolarEntropy()->GetValue();
+			Phases[i].MolarDensity = thestream->Phases(i - 1)->MolarDensity()->GetValue();
+			Phases[i].MassDensity = thestream->Phases(i - 1)->MolarDensity()->GetValue();
+			Phases[i].MolecularWeight = thestream->Phases(i - 1)->MolecularWeight()->GetValue();
+			Phases[i].Composition = thestream->Phases(i - 1)->Composition()->GetValues();
+		}
+		
+	}
 
 }
 fwStream::~fwStream()
@@ -51,23 +75,33 @@ void fwStream::WriteStream(Stream* thestream)
 	
 	thestream->Pressure()->SetValue(Pressure);
 	thestream->Temperature()->SetValue(Temperature);
-
-	thestream->MolarEnthalpy()->SetValue(Overall.Enthalpy);
-	thestream->MolarEntropy()->SetValue(Overall.Entropy);
-	thestream->MolarDensity()->SetValue(Overall.MolarDensity);
-	thestream->MolecularWeight()->SetValue(Overall.MolecularWeight);
-	thestream->Composition()->SetValues(NComps, Overall.Composition);
-
-	thestream->Phases(1)->MolarEnthalpy()->SetValue(Liquid.Enthalpy);
-	thestream->Phases(1)->MolarEntropy()->SetValue(Liquid.Entropy);
-	thestream->Phases(1)->MolarDensity()->SetValue(Liquid.MolarDensity);
-	thestream->Phases(1)->MolecularWeight()->SetValue(Liquid.MolecularWeight);
-	thestream->Phases(1)->Composition()->SetValues(NComps,Liquid.Composition);
-
-	thestream->Phases(0)->MolarEnthalpy()->SetValue(Vapour.Enthalpy);
-	thestream->Phases(0)->MolarEntropy()->SetValue(Vapour.Entropy);
-	thestream->Phases(0)->MolarDensity()->SetValue(Vapour.MolarDensity);
-	thestream->Phases(0)->MolecularWeight()->SetValue(Vapour.MolecularWeight);
-	thestream->Phases(0)->Composition()->SetValues(NComps,Vapour.Composition);
+	thestream->Phases(0)->PhaseMoleFraction()->SetValue(VapourFraction);
+	thestream->Phases(1)->PhaseMoleFraction()->SetValue(1-VapourFraction);
+	for (int i = 0; i < 3; i++)
+	{
+		if (i==0) 
+		{
+			thestream->MassFlow()->SetValue(Phases[i].MassFlow);
+			thestream->MolarFlow()->SetValue(Phases[i].MolarFlow);
+			thestream->MolarEnthalpy()->SetValue(Phases[i].Enthalpy);
+			thestream->MolarEntropy()->SetValue(Phases[i].Entropy);
+			thestream->MolarDensity()->SetValue(Phases[i].MolarDensity);
+			thestream->MassDensity()->SetValue(Phases[i].MassDensity);
+			thestream->MolecularWeight()->SetValue(Phases[i].MolecularWeight);
+			thestream->Composition()->SetValues(NComps, Phases[i].Composition);
+		}
+		else
+		{
+			thestream->Phases(i - 1)->MassFlow()->SetValue(Phases[i].MassFlow);
+			thestream->Phases(i - 1)->MolarFlow()->SetValue(Phases[i].MolarFlow);
+			thestream->Phases(i - 1)->MolarEnthalpy()->SetValue(Phases[i].Enthalpy);
+			thestream->Phases(i - 1)->MolarEntropy()->SetValue(Phases[i].Entropy);
+			thestream->Phases(i - 1)->MolarDensity()->SetValue(Phases[i].MolarDensity);
+			thestream->Phases(i - 1)->MassDensity()->SetValue(Phases[i].MassDensity);
+			thestream->Phases(i - 1)->MolecularWeight()->SetValue(Phases[i].MolecularWeight);
+			thestream->Phases(i - 1)->Composition()->SetValues(NComps, Phases[i].Composition);
+		}
+		
+	}
 	
 }

@@ -29,7 +29,7 @@
 
 //class Stream;  //this way we avoid recursion in header files.
 
-enum  PhaseType {UNDEFINED, HCLIQUID, AQUEOUS, VAPOUR };
+enum  PhaseType { OVERALL = -1, VAPOUR,HCLIQUID, AQUEOUS, UNDEFINED };
 
 class Phase :
 	public Fluid

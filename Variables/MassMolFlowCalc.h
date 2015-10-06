@@ -1,6 +1,7 @@
 #pragma once
 #include "PropertyCalc.h"
 #include "Stream.h"
+#include "PropPack.h"
 
 
 class MassMolFlowCalc :
@@ -9,8 +10,6 @@ class MassMolFlowCalc :
 public:
 	MassMolFlowCalc();
 	~MassMolFlowCalc();
-	void Calculate(Stream* thestream);
-private:
-	void CalcFluid(Fluid* thefluid);
+	void Calculate();
 };
 

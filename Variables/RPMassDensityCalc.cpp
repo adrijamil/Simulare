@@ -10,17 +10,14 @@ RPMassDensityCalc::RPMassDensityCalc()
 RPMassDensityCalc::~RPMassDensityCalc()
 {
 }
-void RPMassDensityCalc::Calculate(Stream* thestream)
+void RPMassDensityCalc::Calculate()
 {
-	double gasmassd;
-	double totmassd;
-	double liqmassd;
-
-	gasmassd = (thestream->Phases(0)->MolarDensity()->GetValue())*(thestream->Phases(0)->MolecularWeight()->GetValue()) / 1000;
-	thestream->Phases(0)->MassDensity()->SetValue(gasmassd);
-	liqmassd = (thestream->Phases(1)->MolarDensity()->GetValue())*(thestream->Phases(1)->MolecularWeight()->GetValue()) / 1000;
-	thestream->Phases(1)->MassDensity()->SetValue(liqmassd);
-	totmassd = (thestream->MolarDensity()->GetValue())*(thestream->MolecularWeight()->GetValue()) / 1000;
-	thestream->MassDensity()->SetValue(totmassd);
-
+	double massd;
+	for (int i = 0; i < 3; i++)
+	{
+		if (_parent->RefStream()->Phases[i].MolarDensity != -32767)
+		{
+			_parent->RefStream()->Phases[i].MassDensity = _parent->RefStream()->Phases[i].MolarDensity*_parent->RefStream()->Phases[i].MolecularWeight / 1000;
+		}
+	}
 }

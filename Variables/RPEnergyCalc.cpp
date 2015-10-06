@@ -12,7 +12,7 @@ void RPEnergyCalc::Calculate()
 {
 	//fwStream* tempfwstrm = new fwStream;
 
-	
+
 	int ncomps = _parent->NComps();
 
 	double t, d, p, e, h, s, cv, cp, w, hjt;
@@ -21,23 +21,16 @@ void RPEnergyCalc::Calculate()
 	t = _parent->RefStream()->Temperature;
 	p = _parent->RefStream()->Pressure;
 
-	for (int k = 0; k < ncomps; k++)
+	for (int i = 1; i < 3; i++)
 	{
-		x[k] = _parent->RefStream()->Vapour.Composition[k];
+		for (int k = 0; k < ncomps; k++)
+		{
+			x[k] = _parent->RefStream()->Phases[0].Composition[k];
+		}
+		THERMdll(t, d, x, p, e, h, s, cv, cp, w, hjt);
+		_parent->RefStream()->Phases[i].Enthalpy = h;
+		_parent->RefStream()->Phases[i].Entropy = s;
 	}
-
-	THERMdll(t, d, x, p, e, h, s, cv, cp, w, hjt);
-	_parent->RefStream()->Vapour.Enthalpy=h;
-	_parent->RefStream()->Vapour.Entropy = s;
-
-
-	for (int k = 0; k < ncomps; k++)
-	{
-		x[k] = _parent->RefStream()->Liquid.Composition[k];
-	}
-	THERMdll(t, d, x, p, e, h, s, cv, cp, w, hjt);
-	_parent->RefStream()->Liquid.Enthalpy = h;
-	_parent->RefStream()->Liquid.Entropy = s;
 	
 }
 

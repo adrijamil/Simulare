@@ -192,15 +192,15 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 
 	for (int k = 0; k < ncomps; k++)
 	{
-		x[k] = _proppack->RefStream()->Overall.Composition[k]; //getvalues doesnt work?
+		x[k] = _proppack->RefStream()->Phases[0].Composition[k]; //getvalues doesnt work?
 	}
 
 	fwStream* fw = _proppack->RefStream();
 	t = fw->Temperature;
 	p = fw->Pressure;
-	h = fw->Overall.Enthalpy;
+	h = fw->Phases[0].Enthalpy;
 	q = fw->VapourFraction;
-	s = fw->Overall.Entropy;
+	s = fw->Phases[0].Entropy;
 	ierr = 0;
 
 	if (theflashtype == PT)
@@ -253,9 +253,9 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 
 	fw->Temperature=t;
 	fw->Pressure=p;
-	fw->Overall.Enthalpy = h;
+	fw->Phases[0].Enthalpy = h;
 	 fw->VapourFraction=q;
-	 fw->Overall.Entropy = s;
+	 fw->Phases[0].Entropy = s;
 
 	//cout << xvap[0] << "\n";
 	//cout << xvap[1] << "\n";
@@ -273,8 +273,8 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 		ytemp[k] = xvap[k];
 	}
 	
-	fw->Liquid.Composition = xtemp;
-	fw->Vapour.Composition = ytemp;
+	fw->Phases[2].Composition = xtemp;
+	fw->Phases[1].Composition = ytemp;
 
 	/*cout << fw->Y[0] << "\n";
 	cout << fw->Y[1] << "\n";
@@ -284,9 +284,9 @@ void RefPropPack::Flash(FlashTypeEnum theflashtype)
 	cout << fw->X[1] << "\n";
 	cout << fw->X[2] << "\n";*/
 	
-	fw->Overall.MolarDensity = (d / 0.001);
-	fw->Vapour.MolarDensity = (dv / 0.001);
-	fw->Liquid.MolarDensity = (dl / 0.001);
+	fw->Phases[0].MolarDensity = (d / 0.001);
+	fw->Phases[1].MolarDensity = (dv / 0.001);
+	fw->Phases[2].MolarDensity = (dl / 0.001);
 	//put it into the stream
 
 
