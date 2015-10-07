@@ -117,12 +117,14 @@ bool HeatBalance::Solve()
 	}
 	else
 	{
-		if (nspecced == nin + nout)//DOF is 0
+		if (-nspecced + nin + nout==0)//DOF is 0
 		{
 			for (int i = 0; i < nin; i++)
 			{
 				if (UnknownStrm != _parent->GetStream(i, INLET))
 				{
+					cout << "molflow" << _parent->GetStream(i, INLET)->MolarFlow()->GetValue() << "\n";
+					cout << "molenth" << _parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue() << "\n";
 					sumH = sumH + _parent->GetStream(i, INLET)->MolarFlow()->GetValue()*_parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue();
 				}
 
@@ -156,7 +158,7 @@ bool HeatBalance::Solve()
 	}
 	
 
-	if (nspecced == nin + nout+1)
+	if (nspecced == nin + nout)
 	{
 		//if all known assume solved this part
 		enthalpypassed = true;

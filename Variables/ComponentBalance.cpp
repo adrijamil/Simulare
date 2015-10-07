@@ -136,9 +136,6 @@ bool ComponentBalance::Solve()
 		{
 			nspecced++;
 			X = _parent->GetStream(i, INLET)->Composition()->GetValues();
-			cout << X[0] << "\n";
-			cout << X[1] << "\n";
-			cout << X[2] << "\n";
 		}
 		else
 		{
