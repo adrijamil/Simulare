@@ -15,23 +15,26 @@ SimpleResistanceEquation::~SimpleResistanceEquation()
 bool SimpleResistanceEquation::Solve()
 {
 	double F = -32767;
-	enum CalcModeEnum { DONOTHING, FKP1, FKP2, FP1P2, KP1P2 };
-	CalcModeEnum CalcMode = DONOTHING;
+	enum CalcModeEnum { CANNOTSOLVE, FKP1, FKP2, FP1P2, KP1P2,SOLVED}; // need to know if solved or not
+	CalcModeEnum CalcMode = CANNOTSOLVE;
 	bool pressuresolved = false;
 	RealVariable* P1 = _parent->GetStream(0, INLET)->Pressure();
 	RealVariable* P2 = _parent->GetStream(0, OUTLET)->Pressure();
 	RealVariable* F1 = _parent->GetStream(0, INLET)->MassFlow();
 	RealVariable* F2 = _parent->GetStream(0, OUTLET)->MassFlow();
 	////check flow
+	if (_solved)
+	{
+		return true;
+	}
+
 	if (F1->IsKnown() && F2->IsCalculated())
 	{
 		F = F1->GetValue();
-		F2->SetValue(F);
 	}
 	else if (F2->IsKnown() && F1->IsCalculated())
 	{
 		F = F2->GetValue();
-		F1->SetValue(F);
 	}
 
 	double p2, p1, k;
@@ -60,8 +63,11 @@ bool SimpleResistanceEquation::Solve()
 				if (F1->IsCalculated() && F2->IsCalculated())
 				{
 					CalcMode = KP1P2;
-
 				}
+				/*else
+				{
+					CalcMode = SOLVED;
+				}*/
 			}
 			else if (F1->IsKnown() || F2->IsKnown())
 			{
@@ -70,6 +76,10 @@ bool SimpleResistanceEquation::Solve()
 					CalcMode = FP1P2;
 
 				}
+				/*else
+				{
+				CalcMode = SOLVED;
+				}*/
 			}
 		}
 		else if (F1->IsKnown() || F2->IsKnown())
@@ -77,8 +87,11 @@ bool SimpleResistanceEquation::Solve()
 			if (_k_resistance->IsKnown())
 			{
 				CalcMode = FKP1;
-
 			}
+			/*else
+			{
+			CalcMode = SOLVED;
+			}*/
 		}
 	}
 	else if (P2->IsKnown())
@@ -88,15 +101,22 @@ bool SimpleResistanceEquation::Solve()
 			if (_k_resistance->IsKnown())
 			{
 				CalcMode = FKP2;
-
 			}
+			/*else
+			{
+			CalcMode = SOLVED;
+			}*/
 		}
 	}
 	//enum CalcModeEnum { FKP1,FKP2,FP1P2,KP1P2}
 
-	if (CalcMode == DONOTHING)
+	if (CalcMode == CANNOTSOLVE)
 	{
 		return false;
+	}
+	else if (CalcMode == SOLVED)
+	{
+		return true;
 	}
 
 	switch (CalcMode)
@@ -145,6 +165,11 @@ bool SimpleResistanceEquation::Solve()
 		break;
 	default:
 		break;
+	}
+
+	if (pressuresolved)
+	{
+		_solved = true;
 	}
 
 	return pressuresolved;

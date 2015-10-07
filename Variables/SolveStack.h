@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FSObject.h"
+#include <iostream>
 
 
 //class FSObject;
@@ -24,39 +25,58 @@ public:
 
 		_items = (FSObject**)realloc(_items, _count* sizeof(*item)); //allocate new array
 
-		if (_items != NULL) //if it's null then realloc tak jadi
+		if (_items != NULL) //if it's null then realloc tak jadi//means theres only one guy;
 		{
 			_items[_count - 1] = &(*item);
 		}
 	}
+
+	
 	bool Solve()
 	{
 		bool retval = false;
 		int itemssolved=0;
-		int i = _count-1;
+		int i = 0;
 		bool thisitemsolved;
 		int solvepasses=0;
+		int nitems = _count;
 
-		while (itemssolved != _count)
+
+		std::cout << "stack is: " << "\n";
+		for (int k = 0; k < _count; k++)//if i get to second last then must be the last one that needs to be removed;
 		{
+			std::cout << "item " << k << " is " << _items[k]->Name().c_str() << "\n";
+		}
+
+		while (_count>0)
+		{
+
+			std::cout << "solving " << _items[i]->Name().c_str() << "\n";
 			thisitemsolved = _items[i]->Solve();
 			if (thisitemsolved)
 			{
-				itemssolved++;
+				std::cout << "solved " << _items[i]->Name().c_str() << "\n";
+				_remove(_items[i]);
+				i--;
 			}
-
-			i = i - 1;
-			if (i == -1)
+			
+			i++;
+			if (i == nitems)
 			{
-				i = _count-1;
 				solvepasses++;
 			}
-			if (solvepasses == _count*5)// at most for n items you need n passes. add one for luck.
+			if (i == _count)
 			{
+				i = 0;
+			}
+			
+			if (solvepasses == nitems * 5)// at most for n items you need n passes. add one for luck.
+			{
+				std::cout << "i've tried so hard but didnt get far";
 				break;
 			}
 		}
-		if (itemssolved != _count){ retval = true; }
+		if (_count==0){ retval = true; }
 		return retval;
 	}
 
@@ -66,6 +86,40 @@ private:
 	int _top;
 	FSObject** _items;
 	int _count = 0;
+	int offset = 0;
+	void _remove(FSObject* item)
+	{
+		FSObject** newitems;
+		if (_count == 1)
+		{
+			_count = 0;
+			_items = NULL;
+			return;
+		}
+		newitems = (FSObject**)realloc(_items, (_count - 1)* sizeof(*item));
+		for (int i = 0; i < _count; i++)//if i get to second last then must be the last one that needs to be removed;
+		{
+			if (_items[i] != item)
+			{
+				std::cout << "adding " << _items[i]->Name().c_str() << "\n";
+				newitems[i+offset] = &(*_items[i]);
+			}
+			else
+			{
+				offset = -1;
+				std::cout << "skipping " << _items[i]->Name().c_str() << "\n";
+			}
+		}
+		_count--;
+		_items = NULL;
+		_items = (FSObject**)realloc(newitems, _count* sizeof(*item)); //allocate to existing array
+		
+		std::cout << "new stack is: " << "\n";
+		for (int i = 0; i < _count ; i++)//if i get to second last then must be the last one that needs to be removed;
+		{
+			std::cout << "item " << i << " is " << _items[i]->Name().c_str() << "\n";
+		}
+	}
 
 };
 

@@ -62,6 +62,7 @@ bool HeatBalance::Solve()
 
 	for (int i = 0; i < nout; i++)
 	{
+		cout << _parent->GetStream(i, OUTLET)->MolarEnthalpy()->IsKnown();
 		if (_parent->GetStream(i, OUTLET)->MolarEnthalpy()->IsKnown())
 		{
 			nspecced++;
@@ -131,5 +132,5 @@ bool HeatBalance::Solve()
 		enthalpypassed = true;
 	}
 
-	return true;
+	return enthalpypassed;
 }

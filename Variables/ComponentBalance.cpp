@@ -15,12 +15,14 @@ bool ComponentBalance::Solve()
 	int nin, nout;
 	nin = _parent->NInlets();
 	nout = _parent->NOutlets();
-	RealVariable* UnknownF = 0;
+	RealVariable* UnknownFmol = 0;
+	RealVariable* UnknownFmass = 0;
 	RealVariable* KnownX = 0;
 	Stream* UnknownX = 0;
 	double sumF = 0;
 	double* X;
-	bool flowpassed = false;
+	bool molflowpassed = false;
+	bool massflowpassed = false;
 	bool comppassed = false;
 	int flowdir;
 	//check mole flows
@@ -33,7 +35,7 @@ bool ComponentBalance::Solve()
 		else
 		{
 			flowdir = -1;
-			UnknownF = _parent->GetStream(i, INLET)->MolarFlow();
+			UnknownFmol = _parent->GetStream(i, INLET)->MolarFlow();
 		}
 	}
 
@@ -46,7 +48,7 @@ bool ComponentBalance::Solve()
 		else
 		{
 			flowdir = 1;
-			UnknownF = _parent->GetStream(i, OUTLET)->MolarFlow();
+			UnknownFmol = _parent->GetStream(i, OUTLET)->MolarFlow();
 		}
 	}
 
@@ -61,7 +63,7 @@ bool ComponentBalance::Solve()
 		else
 		{
 			flowdir = -1;
-			UnknownF = _parent->GetStream(i, INLET)->MassFlow();
+			UnknownFmass = _parent->GetStream(i, INLET)->MassFlow();
 		}
 	}
 
@@ -74,7 +76,7 @@ bool ComponentBalance::Solve()
 		else
 		{
 			flowdir = 1;
-			UnknownF = _parent->GetStream(i, OUTLET)->MassFlow();
+			UnknownFmass = _parent->GetStream(i, OUTLET)->MassFlow();
 		}
 	}
 
@@ -88,10 +90,11 @@ bool ComponentBalance::Solve()
 		{
 			if (_parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown()){ sumF = sumF - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue(); }
 		}
-		if (UnknownF != 0){ UnknownF->SetValue(flowdir*sumF); }
-		flowpassed = true;
+		if (UnknownFmol != 0){ UnknownFmol->SetValue(flowdir*sumF); }
+		sumF = 0;
+		molflowpassed = true;
 	}
-	else if (nmassspecced + 1 == nin + nout)
+	if (nmassspecced + 1 == nin + nout)
 	{
 		for (int i = 0; i < nin; i++)
 		{
@@ -101,18 +104,21 @@ bool ComponentBalance::Solve()
 		{
 			if (_parent->GetStream(i, OUTLET)->MassFlow()->IsKnown()){ sumF = sumF - _parent->GetStream(i, OUTLET)->MassFlow()->GetValue(); }
 		}
-		if (UnknownF != 0){ UnknownF->SetValue(flowdir*sumF); }
-		flowpassed = true;
+		if (UnknownFmass != 0){ UnknownFmass->SetValue(flowdir*sumF); }
+		massflowpassed = true;
 	}
-	else if (nmassspecced == nin + nout || nmolspecced == nin + nout)
+	if (nmassspecced == nin + nout)
 	{
 		//if all known assume solved this part
-		flowpassed = true;
+		massflowpassed = true;
 	}
-	else
+
+	if (nmolspecced == nin + nout)
 	{
-		return false;
+		//if all known assume solved this part
+		molflowpassed = true;
 	}
+
 
 	//if  ninlets>1, do compbalance.
 	//all outlet streams are 1 dof
@@ -211,14 +217,17 @@ bool ComponentBalance::Solve()
 			comppassed = true;
 		}
 	}
-
+	if (nspecced = (nin + nout))
+	{
+		comppassed = true;
+	}
 
 passcompositions:
 
 
 
 
-	if (comppassed&&flowpassed)
+	if (comppassed&&massflowpassed&&molflowpassed)
 	{
 		return true;
 	}

@@ -30,7 +30,7 @@ RPManager* RPManager::_instance = 0;
 int _tmain()
 {
 	ErrorLogger* glogger = ErrorLogger::Instance();
-CommandInterpreter mycase("testvalve.txt");
+CommandInterpreter mycase("myinputfile.txt");
 //CommandInterpreter mycase;
 string mycommand;
 mycommand = "";
@@ -40,7 +40,6 @@ bool isexit=false;
 mycase.SendCommand("HELP");
 while (!isexit)
 {
-
 	cin >> mycommand;
 	if (mycommand == "EXIT")
 	{
@@ -50,10 +49,7 @@ while (!isexit)
 	{
 		mycase.SendCommand(mycommand);
 	}
-	
 }
-
-
 
 cout << "Exiting. Press enter.";
 	getchar();
