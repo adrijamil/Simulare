@@ -41,11 +41,13 @@ bool SimpleResistanceEquation::Solve()
 		if (P1->IsKnown())
 		{
 			p2 = P1->GetValue() - _pressuredrop->GetValue();
+			P2->SetValue(p2);
 
 		}
 		else if (P2->IsKnown())
 		{
 			p1 = P2->GetValue() + _pressuredrop->GetValue();
+			P1->SetValue(p1);
 		}
 	}
 

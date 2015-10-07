@@ -51,7 +51,6 @@ bool Stream::Solve()
 	if (_issolved == true)
 	{
 		return true;
-
 	}
 	bool retval;
 	//check DOF then call appropriate flash
@@ -97,7 +96,6 @@ bool Stream::Solve()
 		retval = false;
 		_proppack->RefStream()->ReadStream(this);
 		goto othercalcs;
-
 	}
 
 	//if ((!(_pressure->IsCalculated())) && (!(_temperature->IsCalculated())))
