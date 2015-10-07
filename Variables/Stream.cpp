@@ -53,6 +53,7 @@ bool Stream::Solve()
 		return true;
 
 	}
+	bool retval;
 	//check DOF then call appropriate flash
 
 	//calc specs
@@ -93,7 +94,10 @@ bool Stream::Solve()
 	if ((nspecs != 3))
 	{
 		cout << "Specifation error";
-		return false;
+		retval = false;
+		_proppack->RefStream()->ReadStream(this);
+		goto othercalcs;
+
 	}
 
 	//if ((!(_pressure->IsCalculated())) && (!(_temperature->IsCalculated())))
@@ -155,15 +159,15 @@ bool Stream::Solve()
 	//}
 	
 	//Flash(thetype)
-		
 
 	_proppack->RefStream()->ReadStream(this);
 	_proppack->Flash(thetype);
-
+	_issolved = true;
+	othercalcs:
 	_proppack->Properties()->Calculate();
 
 	_proppack->RefStream()->WriteStream(this);
-	_issolved = true;
+	
 
 	return _issolved;
 

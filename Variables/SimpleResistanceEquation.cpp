@@ -28,7 +28,7 @@ bool SimpleResistanceEquation::Solve()
 		F = F1->GetValue();
 		F2->SetValue(F);
 	}
-	else if (F2->IsKnown() && F2->IsCalculated())
+	else if (F2->IsKnown() && F1->IsCalculated())
 	{
 		F = F2->GetValue();
 		F1->SetValue(F);

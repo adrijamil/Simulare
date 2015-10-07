@@ -10,6 +10,8 @@ bool ComponentBalance::Solve()
 	//do by molar flow first - 
 
 	int nspecced = 0;
+	int nmassspecced = 0;
+	int nmolspecced = 0;
 	int nin, nout;
 	nin = _parent->NInlets();
 	nout = _parent->NOutlets();
@@ -21,12 +23,12 @@ bool ComponentBalance::Solve()
 	bool flowpassed = false;
 	bool comppassed = false;
 	int flowdir;
-
+	//check mole flows
 	for (int i = 0; i < nin; i++)
 	{
 		if (_parent->GetStream(i, INLET)->MolarFlow()->IsKnown())
 		{
-			nspecced++;
+			nmolspecced++;
 		}
 		else
 		{
@@ -39,7 +41,7 @@ bool ComponentBalance::Solve()
 	{
 		if (_parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown())
 		{
-			nspecced++;
+			nmolspecced++;
 		}
 		else
 		{
@@ -48,7 +50,35 @@ bool ComponentBalance::Solve()
 		}
 	}
 
-	if (nspecced + 1 == nin + nout)//DOF is 0
+
+	//chekc mass flows
+	for (int i = 0; i < nin; i++)
+	{
+		if (_parent->GetStream(i, INLET)->MassFlow()->IsKnown())
+		{
+			nmassspecced++;
+		}
+		else
+		{
+			flowdir = -1;
+			UnknownF = _parent->GetStream(i, INLET)->MassFlow();
+		}
+	}
+
+	for (int i = 0; i < nout; i++)
+	{
+		if (_parent->GetStream(i, OUTLET)->MassFlow()->IsKnown())
+		{
+			nmassspecced++;
+		}
+		else
+		{
+			flowdir = 1;
+			UnknownF = _parent->GetStream(i, OUTLET)->MassFlow();
+		}
+	}
+
+	if (nmolspecced + 1 == nin + nout)//DOF is 0
 	{
 		for (int i = 0; i < nin; i++)
 		{
@@ -61,7 +91,20 @@ bool ComponentBalance::Solve()
 		if (UnknownF != 0){ UnknownF->SetValue(flowdir*sumF); }
 		flowpassed = true;
 	}
-	else if (nspecced == nin + nout)
+	else if (nmassspecced + 1 == nin + nout)
+	{
+		for (int i = 0; i < nin; i++)
+		{
+			if (_parent->GetStream(i, INLET)->MassFlow()->IsKnown()){ sumF = sumF + _parent->GetStream(i, INLET)->MassFlow()->GetValue(); }
+		}
+		for (int i = 0; i < nout; i++)
+		{
+			if (_parent->GetStream(i, OUTLET)->MassFlow()->IsKnown()){ sumF = sumF - _parent->GetStream(i, OUTLET)->MassFlow()->GetValue(); }
+		}
+		if (UnknownF != 0){ UnknownF->SetValue(flowdir*sumF); }
+		flowpassed = true;
+	}
+	else if (nmassspecced == nin + nout || nmolspecced == nin + nout)
 	{
 		//if all known assume solved this part
 		flowpassed = true;
@@ -82,7 +125,7 @@ bool ComponentBalance::Solve()
 	int ncomps = _parent->GetStream(0, INLET)->NComps();
 	for (int i = 0; i < nin; i++)
 	{
-		if (_parent->GetStream(i, INLET)->Composition()->IsKnown())
+		if (_parent->GetStream(i, INLET)->Composition()->IsKnown() && _parent->GetStream(i, INLET)->MolarFlow()->IsKnown())
 		{
 			nspecced++;
 			X = _parent->GetStream(i, INLET)->Composition()->GetValues();
@@ -97,7 +140,7 @@ bool ComponentBalance::Solve()
 
 	for (int i = 0; i < nout; i++)
 	{
-		if (_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
+		if (_parent->GetStream(i, OUTLET)->Composition()->IsKnown() && _parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown())
 		{
 			nspecced++;
 			X = _parent->GetStream(i, OUTLET)->Composition()->GetValues();

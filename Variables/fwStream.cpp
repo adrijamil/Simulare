@@ -34,7 +34,7 @@ void fwStream::ReadStream(Stream* thestream)
 
 	Pressure=thestream->Pressure()->GetValue();
 	Temperature = thestream->Temperature()->GetValue();
-
+	VapourFraction = thestream->VapourFraction()->GetValue();
 	for (int i = 0; i < 3; i++)
 	{
 		if (i == 0)
@@ -76,7 +76,7 @@ void fwStream::WriteStream(Stream* thestream)
 	thestream->Pressure()->SetValue(Pressure);
 	thestream->Temperature()->SetValue(Temperature);
 	thestream->Phases(0)->PhaseMoleFraction()->SetValue(VapourFraction);
-	thestream->Phases(1)->PhaseMoleFraction()->SetValue(1-VapourFraction);
+	if (VapourFraction != -32767){ thestream->Phases(1)->PhaseMoleFraction()->SetValue(1 - VapourFraction); }
 	for (int i = 0; i < 3; i++)
 	{
 		if (i==0) 

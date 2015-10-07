@@ -14,11 +14,14 @@ void MolWtCalc::Calculate()
 	for (int k = 0; k < ncomps; k++)
 	{
 		theMw = 0;
-		for (int i = 0; i < ncomps; i++)
+		if (_parent->RefStream()->Phases[k].Composition[0] != -32767)
 		{
-			theMw = theMw + (_parent->RefStream()->Phases[k].Composition[i] * _parent->GetComponent(i).Mw);
+			for (int i = 0; i < ncomps; i++)
+			{
+				theMw = theMw + (_parent->RefStream()->Phases[k].Composition[i] * _parent->GetComponent(i).Mw);
+			}
+			_parent->RefStream()->Phases[k].MolecularWeight = theMw;
 		}
-		_parent->RefStream()->Phases[k].MolecularWeight = theMw;
 	}
 }
 
