@@ -3,8 +3,9 @@
 #include "Valve.h"
 #include "Heater.h"
 #include "Mixer.h"
+#include "Splitter.h"
 
-enum UnitOpEnum { VALVE, HEATER, MIXER };
+enum UnitOpEnum { VALVE, HEATER, MIXER, SPLITTER };
 class UnitOpBuilder
 {
 public:
@@ -26,6 +27,9 @@ public:
 			break;
 		case UnitOpEnum::MIXER:
 			_currentunitop = new Mixer;
+			break;
+		case UnitOpEnum::SPLITTER:
+			_currentunitop = new Splitter;
 			break;
 		default:
 			break;

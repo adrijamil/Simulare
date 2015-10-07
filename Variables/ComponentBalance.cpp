@@ -126,15 +126,19 @@ bool ComponentBalance::Solve()
 	//if 1 inlet I only need 1 composition
 	// if 1+ inlets then i need (nin+nout-1) compositions
 	nspecced = 0;
-
+	
 	//check who has a composition
 	int ncomps = _parent->GetStream(0, INLET)->NComps();
+	X = new double[ncomps];
 	for (int i = 0; i < nin; i++)
 	{
 		if (_parent->GetStream(i, INLET)->Composition()->IsKnown() && _parent->GetStream(i, INLET)->MolarFlow()->IsKnown())
 		{
 			nspecced++;
 			X = _parent->GetStream(i, INLET)->Composition()->GetValues();
+			cout << X[0] << "\n";
+			cout << X[1] << "\n";
+			cout << X[2] << "\n";
 		}
 		else
 		{
@@ -160,9 +164,10 @@ bool ComponentBalance::Solve()
 
 	bool cansolvecomps = false;
 	double moles = 0;
-	X = new double[ncomps];
+	
 	if (nout == 1)
 	{
+		
 		if (nspecced == (nin + nout - 1))
 		{
 			cansolvecomps = true;

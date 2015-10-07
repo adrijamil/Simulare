@@ -84,9 +84,10 @@ private:
 	int _top;
 	FSObject** _items;
 	int _count = 0;
-	int offset = 0;
+	
 	void _remove(FSObject* item)
 	{
+		int offset = 0;
 		FSObject** newitems;
 		if (_count == 1)
 		{

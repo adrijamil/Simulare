@@ -28,6 +28,7 @@ bool HeatBalance::Solve()
 	double* X;
 	bool enthalpypassed = false;
 	bool comppassed = false;
+	Stream* KnownEnth=0;
 
 	//all flows need to be known
 	for (int i = 0; i < nin; i++)
@@ -52,6 +53,7 @@ bool HeatBalance::Solve()
 		if (_parent->GetStream(i, INLET)->MolarEnthalpy()->IsKnown())
 		{
 			nspecced++;
+			KnownEnth = _parent->GetStream(i, INLET);
 		}
 		else
 		{
@@ -66,6 +68,7 @@ bool HeatBalance::Solve()
 		if (_parent->GetStream(i, OUTLET)->MolarEnthalpy()->IsKnown())
 		{
 			nspecced++;
+			KnownEnth = _parent->GetStream(i, INLET);
 		}
 		else
 		{
@@ -90,43 +93,70 @@ bool HeatBalance::Solve()
 		nspecced++; //meaning it is 0
 	}
 
-	if (nspecced == nin + nout )//DOF is 0
+	if (nin == 1)//means splitter take one enthalpy and pass to the rest
 	{
-		for (int i = 0; i < nin; i++)
+		if (nspecced -1> 0) //minus one to account for specced heat
 		{
-			if (UnknownStrm != _parent->GetStream(i, INLET))
+			sumH = KnownEnth->MolarEnthalpy()->GetValue();
+			for (int i = 0; i < nin; i++)
 			{
-				sumH = sumH + _parent->GetStream(i, INLET)->MolarFlow()->GetValue()*_parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue();
+				if (KnownEnth != _parent->GetStream(i, INLET))
+				{
+					_parent->GetStream(i, INLET)->MolarEnthalpy()->SetValue(sumH);
+				}
 			}
-
-		}
-		for (int i = 0; i < nout; i++)
-		{
-			if (UnknownStrm != _parent->GetStream(i, OUTLET))
+			for (int i = 0; i < nout; i++)
 			{
-				sumH = sumH - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue()*_parent->GetStream(i, OUTLET)->MolarEnthalpy()->GetValue();
+				if (KnownEnth != _parent->GetStream(i, OUTLET))
+				{
+					_parent->GetStream(i, OUTLET)->MolarEnthalpy()->SetValue(sumH);
+				}
 			}
+			enthalpypassed = true;
 		}
-		if (_heatinput != 0)
-		{
-			if (_heatinput->IsKnown())
-			{
-				sumH = sumH + _heatinput->GetValue();
-			}
-		}
-
-		if (UnknownStrm != 0)
-		{
-			sumH = sumH / UnknownStrm->MolarFlow()->GetValue();
-			UnknownStrm->MolarEnthalpy()->SetValue(flowdir*sumH);
-		}
-		else
-		{
-			_heatinput->SetValue(-sumH);
-		}
-		enthalpypassed = true;
 	}
-	else if (nspecced == nin + nout+1)
+	else
+	{
+		if (nspecced == nin + nout)//DOF is 0
+		{
+			for (int i = 0; i < nin; i++)
+			{
+				if (UnknownStrm != _parent->GetStream(i, INLET))
+				{
+					sumH = sumH + _parent->GetStream(i, INLET)->MolarFlow()->GetValue()*_parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue();
+				}
+
+			}
+			for (int i = 0; i < nout; i++)
+			{
+				if (UnknownStrm != _parent->GetStream(i, OUTLET))
+				{
+					sumH = sumH - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue()*_parent->GetStream(i, OUTLET)->MolarEnthalpy()->GetValue();
+				}
+			}
+			if (_heatinput != 0)
+			{
+				if (_heatinput->IsKnown())
+				{
+					sumH = sumH + _heatinput->GetValue();
+				}
+			}
+
+			if (UnknownStrm != 0)
+			{
+				sumH = sumH / UnknownStrm->MolarFlow()->GetValue();
+				UnknownStrm->MolarEnthalpy()->SetValue(flowdir*sumH);
+			}
+			else
+			{
+				_heatinput->SetValue(-sumH);
+			}
+			enthalpypassed = true;
+		}
+	}
+	
+
+	if (nspecced == nin + nout+1)
 	{
 		//if all known assume solved this part
 		enthalpypassed = true;

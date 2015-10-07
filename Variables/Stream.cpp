@@ -92,7 +92,7 @@ bool Stream::Solve()
 
 	if ((nspecs != 3))
 	{
-		cout << "Specifation error";
+		cout << "Specifation error \n";
 		retval = false;
 		_proppack->RefStream()->ReadStream(this);
 		goto othercalcs;

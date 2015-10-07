@@ -70,7 +70,7 @@ bool PressureBalance::Solve()
 	}
 	else//must be nin =1//rmb to prevent adding more inlets/outlets for splitter/mixer
 	{
-		if (nspecced == 1)
+		if (nspecced >0)
 		{
 			for (int i = 0; i < nin; i++)
 			{

@@ -44,7 +44,7 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 			str3 = "";
 
 		}
-		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER")
+		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER" || mystring == "SPLITTER")
 		{
 			getline(myfile, str1);//this will be the name
 			do
@@ -411,7 +411,10 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	{
 		_theuobuilder->BuildUnitOp(MIXER);
 	}
-
+	else if (theop == "SPLITTER")
+	{
+		_theuobuilder->BuildUnitOp(SPLITTER);
+	}
 	bool issetup;
 
 	double tempdb;
