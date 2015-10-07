@@ -68,7 +68,7 @@ bool HeatBalance::Solve()
 		if (_parent->GetStream(i, OUTLET)->MolarEnthalpy()->IsKnown())
 		{
 			nspecced++;
-			KnownEnth = _parent->GetStream(i, INLET);
+			KnownEnth = _parent->GetStream(i, OUTLET);
 		}
 		else
 		{
