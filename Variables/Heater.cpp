@@ -40,28 +40,7 @@ Heater::~Heater()
 {
 }
 
-bool Heater::Solve()
-{
-	if (_issolved == true)
-	{
-		return true;
 
-	}
-
-	bool bridgesolved;
-	bool retval = false;
-
-	bridgesolved = _bridgefunction->Solve();
-
-
-
-	if (bridgesolved)
-	{
-		_issolved = true;
-		retval = true;
-	}
-	return retval;
-}
 
 
 void Heater::Output()

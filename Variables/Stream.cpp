@@ -197,7 +197,7 @@ void Stream::Output()
 		cout << _proppack->GetComponent(k).Name << "  " << Composition()->GetValue(k) << "\n";
 	}
 
-	cout << "\n" << "GasPhase  " << "\n";
+	/*cout << "\n" << "GasPhase  " << "\n";
 	cout << "Fraction  [mol/mol] " << _phases[0]->PhaseMoleFraction()->GetValue() << "\n";
 	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
 	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
@@ -221,5 +221,5 @@ void Stream::Output()
 	for (int k = 0; k < myncomps; k++)
 	{
 		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
-	}
+	}*/
 }

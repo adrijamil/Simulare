@@ -44,7 +44,7 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 			str3 = "";
 
 		}
-		else if (mystring == "VALVE" || mystring == "HEATER")
+		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER")
 		{
 			getline(myfile, str1);//this will be the name
 			do
@@ -407,6 +407,10 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	{
 		_theuobuilder->BuildUnitOp(HEATER);
 	}
+	else if (theop == "MIXER")
+	{
+		_theuobuilder->BuildUnitOp(MIXER);
+	}
 
 	bool issetup;
 
@@ -433,10 +437,17 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	}
 	else
 	{
-		cout << "Enter inlet stream name \n";
+		cout << "Enter inlet stream(s) name. eg. Strm1,Strm2 \n";
 		cin >> param;
 	}
-	_theuobuilder->Connect(_activecase->GetStream(param), INLET);
+
+	std::istringstream  streamstreami(param);
+	while (streamstreami.good())
+	{
+		getline(streamstreami, param, ',');
+		_theuobuilder->Connect(_activecase->GetStream(param), INLET);
+	}
+
 
 	//connect outlet
 	if (thespecs != "")
@@ -445,10 +456,16 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	}
 	else
 	{
-		cout << "Enter outlet stream name \n";
+		cout << "Enter outlet stream(s) name. eg. Strm1,Strm2  \n";
 		cin >> param;
 	}
-	_theuobuilder->Connect(_activecase->GetStream(param), OUTLET);
+
+	std::istringstream streamstreamo(param);
+	while (streamstreamo.good())
+	{
+		getline(streamstreamo, param, ',');
+		_theuobuilder->Connect(_activecase->GetStream(param), OUTLET);
+	}
 
 	while (issetup == false)
 	{
@@ -463,7 +480,7 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 			{
 				cout << "Enter specs: K, PRESSUREDROP OR DONE \n";
 			}
-			else
+			else if (theop == "HEATER")
 			{
 				cout << "Enter specs: K, PRESSUREDROP, HEATINPUT OR DONE \n";
 			}

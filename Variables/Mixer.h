@@ -6,7 +6,6 @@ class Mixer :
 {
 public:
 
-
 	Mixer();
 	Mixer(string name);
 	void Output(){};// later show something like pressure drop

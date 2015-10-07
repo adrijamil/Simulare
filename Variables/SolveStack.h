@@ -61,12 +61,10 @@ public:
 			}
 			
 			i++;
-			if (i == nitems)
-			{
-				solvepasses++;
-			}
+
 			if (i == _count)
 			{
+				solvepasses++;
 				i = 0;
 			}
 			

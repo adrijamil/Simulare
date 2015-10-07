@@ -5,7 +5,6 @@ class Valve :
 	public UnitOp
 {
 public:
-	bool Solve();
 	RealVariable* K_Resistance(){ return _k_resistance; }
 	RealVariable* PressureDrop(){ return _pressuredrop; }
 	void SpecifyVariable(RealVariableType vartype, double value);
