@@ -80,6 +80,7 @@
     <Text Include="inputfile2.txt" />
     <Text Include="myinputfile.txt" />
     <Text Include="ReadMe.txt" />
+    <Text Include="testall.txt" />
     <Text Include="testflashes.txt" />
     <Text Include="testvalve.txt" />
   </ItemGroup>

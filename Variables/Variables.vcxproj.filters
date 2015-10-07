@@ -24,6 +24,7 @@
     </Text>
     <Text Include="testflashes.txt" />
     <Text Include="testvalve.txt" />
+    <Text Include="testall.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

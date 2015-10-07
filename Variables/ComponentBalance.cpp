@@ -19,6 +19,7 @@ bool ComponentBalance::Solve()
 	RealVariable* UnknownFmass = 0;
 	RealVariable* KnownX = 0;
 	Stream* UnknownX = 0;
+	
 	double sumF = 0;
 	double* X;
 	bool molflowpassed = false;
@@ -135,7 +136,7 @@ bool ComponentBalance::Solve()
 		if (_parent->GetStream(i, INLET)->Composition()->IsKnown() && _parent->GetStream(i, INLET)->MolarFlow()->IsKnown())
 		{
 			nspecced++;
-			X = _parent->GetStream(i, INLET)->Composition()->GetValues();
+			KnownX = _parent->GetStream(i, INLET)->Composition();
 		}
 		else
 		{
@@ -150,7 +151,7 @@ bool ComponentBalance::Solve()
 		if (_parent->GetStream(i, OUTLET)->Composition()->IsKnown() && _parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown())
 		{
 			nspecced++;
-			X = _parent->GetStream(i, OUTLET)->Composition()->GetValues();
+			KnownX = _parent->GetStream(i, OUTLET)->Composition();
 		}
 		else
 		{
@@ -205,7 +206,7 @@ bool ComponentBalance::Solve()
 			{
 				if (!_parent->GetStream(i, INLET)->Composition()->IsKnown())
 				{
-					_parent->GetStream(i, INLET)->Composition()->SetValues(ncomps, X);
+					_parent->GetStream(i, INLET)->Composition()->SetValues(ncomps, KnownX->GetValues());
 
 				}
 
@@ -215,7 +216,7 @@ bool ComponentBalance::Solve()
 			{
 				if (!_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
 				{
-					_parent->GetStream(i, OUTLET)->Composition()->SetValues(ncomps, X);
+					_parent->GetStream(i, OUTLET)->Composition()->SetValues(ncomps, KnownX->GetValues());
 				}
 			}
 
@@ -230,8 +231,7 @@ bool ComponentBalance::Solve()
 passcompositions:
 
 
-
-
+	
 	if (comppassed&&massflowpassed&&molflowpassed)
 	{
 		return true;

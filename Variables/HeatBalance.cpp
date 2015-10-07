@@ -93,7 +93,7 @@ bool HeatBalance::Solve()
 		nspecced++; //meaning it is 0
 	}
 
-	if (nin == 1)//means splitter take one enthalpy and pass to the rest
+	if (nin == 1&&nout>1)//means splitter take one enthalpy and pass to the rest
 	{
 		if (nspecced -1> 0) //minus one to account for specced heat
 		{
@@ -158,7 +158,7 @@ bool HeatBalance::Solve()
 	}
 	
 
-	if (nspecced == nin + nout)
+	if (nspecced-1 == nin + nout)
 	{
 		//if all known assume solved this part
 		enthalpypassed = true;
