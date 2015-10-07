@@ -90,7 +90,7 @@ bool HeatBalance::Solve()
 		nspecced++; //meaning it is 0
 	}
 
-	if (nspecced == nin + nout)//DOF is 0
+	if (nspecced == nin + nout )//DOF is 0
 	{
 		for (int i = 0; i < nin; i++)
 		{
@@ -126,7 +126,7 @@ bool HeatBalance::Solve()
 		}
 		enthalpypassed = true;
 	}
-	else if (nspecced == nin + nout)
+	else if (nspecced == nin + nout+1)
 	{
 		//if all known assume solved this part
 		enthalpypassed = true;

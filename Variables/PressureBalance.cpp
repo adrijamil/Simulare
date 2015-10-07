@@ -47,7 +47,7 @@ bool PressureBalance::Solve()
 
 	if (nout == 1)//mixer, set to lowest
 	{
-		if (nspecced < (nin + nout))
+		if (nspecced <= (nin + nout))
 		{
 			for (int i = 0; i < nin; i++)
 			{

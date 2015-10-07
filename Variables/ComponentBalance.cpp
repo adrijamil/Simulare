@@ -185,7 +185,10 @@ bool ComponentBalance::Solve()
 						moles = moles - _parent->GetStream(i, OUTLET)->Composition()->GetValue(j) * _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
 					}
 				}
+				
 				X[j] = moles * flowdir / UnknownX->MolarFlow()->GetValue();
+				cout << X[j] << "\n";
+
 			}
 			UnknownX->Composition()->SetValues(ncomps, X);
 			comppassed = true;
@@ -217,7 +220,7 @@ bool ComponentBalance::Solve()
 			comppassed = true;
 		}
 	}
-	if (nspecced = (nin + nout))
+	if (nspecced == (nin + nout))
 	{
 		comppassed = true;
 	}
