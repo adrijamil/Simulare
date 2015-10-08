@@ -46,7 +46,7 @@ bool ComponentBalance::_altsolve()
 		if (_parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown())
 		{
 			nmolspecced++;
-			sumMol = sumMol + _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
+			sumMol = sumMol - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
 		}
 		else
 		{
@@ -62,7 +62,7 @@ bool ComponentBalance::_altsolve()
 		if (_parent->GetStream(i, INLET)->MassFlow()->IsKnown())
 		{
 			nmassspecced++;
-			sumMass = sumMass - _parent->GetStream(i, INLET)->MolarFlow()->GetValue();
+			sumMass = sumMass + _parent->GetStream(i, INLET)->MassFlow()->GetValue();
 		}
 		else
 		{
@@ -76,7 +76,7 @@ bool ComponentBalance::_altsolve()
 		if (_parent->GetStream(i, OUTLET)->MassFlow()->IsKnown())
 		{
 			nmassspecced++;
-			sumMass = sumMass - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
+			sumMass = sumMass - _parent->GetStream(i, OUTLET)->MassFlow()->GetValue();
 		}
 		else
 		{
