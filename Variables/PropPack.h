@@ -60,9 +60,9 @@ public:
 	PropertyCalc* Properties(){ return _propertycalculation; }
 
 	void SetMethod(FlashMethodEnum theFlashMethod);
-	virtual void Flash(FlashTypeEnum theflashtype)
+	virtual bool Flash(FlashTypeEnum theflashtype)
 	{
-
+		bool retval = true;
 		try
 		{
 			_flashmethod->Flash(theflashtype);
@@ -72,9 +72,10 @@ public:
 			//cout  << e.what() << '\n';
 			ErrorLogger* logger=ErrorLogger::Instance();
 			logger->Handle(e);
+			retval = false;
 		}
 		
-	
+		return retval;
 	}
 	
 	virtual void AddComponent(string thecompname);
@@ -83,7 +84,7 @@ public:
 	int NComps(){ return _ncomps; }
 	fwStream* RefStream() 
 	{ 
-		if (_refstream == NULL)
+		if (_refstream == 0)
 		{
 			_refstream = new fwStream;
 		}

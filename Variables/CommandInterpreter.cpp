@@ -44,7 +44,7 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 			str3 = "";
 
 		}
-		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER" || mystring == "SPLITTER")
+		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER" || mystring == "SPLITTER"||mystring=="COMPRESSOR")
 		{
 			getline(myfile, str1);//this will be the name
 			do
@@ -415,6 +415,10 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	{
 		_theuobuilder->BuildUnitOp(SPLITTER);
 	}
+	else if (theop == "COMPRESSOR")
+	{
+		_theuobuilder->BuildUnitOp(COMPRESSOR);
+	}
 	bool issetup;
 
 	double tempdb;
@@ -487,7 +491,11 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 			{
 				cout << "Enter specs: K, PRESSUREDROP, HEATINPUT OR DONE \n";
 			}
-			
+			else if (theop == "COMPRESSOR")
+			{
+				cout << "Enter specs: DELTAPRESSURE, ENERGYINPUT OR DONE \n";
+			}
+
 			cin >> param;
 		}
 
@@ -520,7 +528,7 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 			}
 
 			tempdb = stod(thevar);
-			_theuobuilder->SpecifyVariable(PRESSUREDROP, tempdb);
+			_theuobuilder->SpecifyVariable(DELTAPRESSURE, tempdb);
 		}
 		else if (param == "HEATINPUT")
 		{
@@ -535,7 +543,37 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 			}
 
 			tempdb = stod(thevar);
-			_theuobuilder->SpecifyVariable(HEATINPUT, tempdb);
+			_theuobuilder->SpecifyVariable(ENERGYINPUT, tempdb);
+		}
+		else if (param == "ENERGYINPUT")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter Q in W \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_theuobuilder->SpecifyVariable(ENERGYINPUT, tempdb);
+		}
+		else if (param == "ISENTROPICEFFICIENCY")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				cout << "Enter isentropic efficiency in fraction eg 0.75 is 75 % \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_theuobuilder->SpecifyVariable(ISENTROPICEFFICIENCY, tempdb);
 		}
 		else if (param == "DONE")
 		{

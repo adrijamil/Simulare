@@ -55,7 +55,7 @@ void Valve::SpecifyVariable(RealVariableType vartype, double value)
 {
 	switch (vartype)
 	{
-	case PRESSUREDROP:
+	case DELTAPRESSURE:
 		_pressuredrop->SetValue(value);
 		break;
 	case K_RESISTANCE:

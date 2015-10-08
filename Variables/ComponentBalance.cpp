@@ -3,11 +3,242 @@
 #include "UnitOp.h"
 #include "Stream.h"
 
+bool ComponentBalance::_altsolve()
+{
+	int nin, nout;
+	nin = _parent->NInlets();
+	nout = _parent->NOutlets();
+	int nmassspecced = 0;
+	int nmolspecced = 0;
+	int nxspecced = 0;
+	bool flowpassed = false;
+	bool comppassed = false;
+	double sumMol = 0;
+	double sumMass = 0;
+	Stream* UnknownX = 0;
+	double* X;
+	RealVariable* UnknownFmol = 0;
+	RealVariable* UnknownFmass = 0;
+	RealVariable* KnownX = 0;
+	int flowdir = 0;
+	int Xdir = 0;
+	double moles = 0;
+	//check mole flows
+	int ncomps = _parent->GetStream(0, INLET)->NComps();
+	X = new double[ncomps];
+	for (int i = 0; i < nin; i++)
+	{
+		if (_parent->GetStream(i, INLET)->MolarFlow()->IsKnown())
+		{
+			nmolspecced++;
+			sumMol = sumMol + _parent->GetStream(i, INLET)->MolarFlow()->GetValue();
+		}
+		else
+		{
+			flowdir = -1;
+			UnknownFmol = _parent->GetStream(i, INLET)->MolarFlow();
+		}
+	}
+
+	for (int i = 0; i < nout; i++)
+	{
+		if (_parent->GetStream(i, OUTLET)->MolarFlow()->IsKnown())
+		{
+			nmolspecced++;
+			sumMol = sumMol + _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
+		}
+		else
+		{
+			flowdir = 1;
+			UnknownFmol = _parent->GetStream(i, OUTLET)->MolarFlow();
+		}
+	}
+
+
+	//check mass flows
+	for (int i = 0; i < nin; i++)
+	{
+		if (_parent->GetStream(i, INLET)->MassFlow()->IsKnown())
+		{
+			nmassspecced++;
+			sumMass = sumMass - _parent->GetStream(i, INLET)->MolarFlow()->GetValue();
+		}
+		else
+		{
+			flowdir = -1;
+			UnknownFmass = _parent->GetStream(i, INLET)->MassFlow();
+		}
+	}
+
+	for (int i = 0; i < nout; i++)
+	{
+		if (_parent->GetStream(i, OUTLET)->MassFlow()->IsKnown())
+		{
+			nmassspecced++;
+			sumMass = sumMass - _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
+		}
+		else
+		{
+			flowdir = 1;
+			UnknownFmass = _parent->GetStream(i, OUTLET)->MassFlow();
+		}
+	}
+
+	//check composition
+	for (int i = 0; i < nin; i++)
+	{
+		if (_parent->GetStream(i, INLET)->Composition()->IsKnown())
+		{
+			nxspecced++;
+			KnownX = _parent->GetStream(i, INLET)->Composition();
+		}
+		else
+		{
+			Xdir = -1;
+			UnknownX = _parent->GetStream(i, INLET);
+		}
+
+	}
+
+	for (int i = 0; i < nout; i++)
+	{
+		if (_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
+		{
+			nxspecced++;
+			KnownX = _parent->GetStream(i, OUTLET)->Composition();
+		}
+		else
+		{
+			Xdir = 1;
+			UnknownX = _parent->GetStream(i, OUTLET);
+		}
+	}
+
+	if (nin == 1 && nout == 1) //valve, heater, compressor etc
+	{
+		if (nmassspecced == 1) //either pass mass or mole flow
+		{
+			UnknownFmass->SetValue(flowdir*sumMass);
+			flowpassed = true;
+		}
+		else if (nmolspecced==1)
+		{
+			UnknownFmol->SetValue(flowdir*sumMol);
+			flowpassed = true;
+		}
+		else if (nmolspecced - nin - nout == 0 || nmolspecced - nin - nout == 0)
+		{
+			flowpassed = true;
+		}
+
+		if (KnownX != 0 && UnknownX != 0)
+		{
+			for (int j = 0; j < ncomps; j++)
+			{
+				X[j] = KnownX->GetValue(j);
+			}
+			UnknownX->Composition()->SetValues(ncomps, X);
+			comppassed = true;
+		}
+		else if (nxspecced - nin - nout == 0)
+		{
+			comppassed = true;
+		}
+		
+	}
+	else if (nin == 1)
+	{
+		if (nmassspecced-nin-nout == 1) //either pass mass or mole flow
+		{
+			UnknownFmass->SetValue(flowdir*sumMass);
+			flowpassed = true;
+		}
+		else if (nmolspecced - nin - nout == 1)
+		{
+			UnknownFmol->SetValue(flowdir*sumMol);
+			nmolspecced++;
+			flowpassed = true;
+		}
+		else if (nmolspecced - nin - nout == 0 || nmolspecced - nin - nout == 0)
+		{
+			flowpassed = true;
+		}
+
+		if (nxspecced - nin - nout == 1 && nmolspecced - nin + nout == 0 && KnownX != 0)//all flows known, all but on comp known
+		{
+			for (int j = 0; j < ncomps; j++)
+			{
+				for (int i = 0; i < nin; i++)
+				{
+					if (UnknownX != _parent->GetStream(i, INLET))
+					{
+						moles = moles + _parent->GetStream(i, INLET)->Composition()->GetValue(j) * _parent->GetStream(i, INLET)->MolarFlow()->GetValue();
+					}
+				}
+				for (int i = 0; i < nout; i++)
+				{
+					if (UnknownX != _parent->GetStream(i, OUTLET))
+					{
+						moles = moles - _parent->GetStream(i, OUTLET)->Composition()->GetValue(j) * _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
+					}
+				}
+				X[j] = moles * flowdir / UnknownX->MolarFlow()->GetValue();
+				cout << X[j] << "\n";
+			}
+			UnknownX->Composition()->SetValues(ncomps, X);
+			comppassed = true;
+		}//end if
+	}
+	else if (nout == 1)
+	{
+		if (nmassspecced - nin - nout == 1) //either pass mass or mole flow
+		{
+			UnknownFmass->SetValue(flowdir*sumMass);
+			flowpassed = true;
+		}
+		else if (nmolspecced - nin - nout == 1)
+		{
+			UnknownFmol->SetValue(flowdir*sumMol);
+			nmolspecced++;
+			flowpassed = true;
+		}
+		else if (nmolspecced - nin - nout == 0 || nmolspecced - nin - nout == 0)
+		{
+			flowpassed = true;
+		}
+		if (nxspecced == 1 && nmolspecced - nin + nout == 0)
+		{
+			if (KnownX != 0)
+			{
+				for (int j = 0; j < ncomps; j++)
+				{
+					X[j] = KnownX->GetValue(j);
+				}
+				UnknownX->Composition()->SetValues(ncomps, X);
+				comppassed = true;
+			}
+		}
+	}
+
+	if (flowpassed &&comppassed)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
 bool ComponentBalance::Solve()
 {
 	//check DOF
 	//Solve if can
 	//do by molar flow first - 
+
+	bool dabool = _altsolve();
+	return dabool;
 
 	int nspecced = 0;
 	int nmassspecced = 0;
@@ -163,66 +394,70 @@ bool ComponentBalance::Solve()
 	bool cansolvecomps = false;
 	double moles = 0;
 	
-	if (nout == 1)
+	if (nout == 1 && nspecced == (nin + nout - 1))
 	{
-		
-		if (nspecced == (nin + nout - 1))
+	
+		cansolvecomps = true;
+		//sum up moles
+		for (int j = 0; j < ncomps; j++)
 		{
-			cansolvecomps = true;
-			//sum up moles
-			for (int j = 0; j < ncomps; j++)
-			{
-				moles = 0;
-				for (int i = 0; i < nin; i++)
-				{
-					if (_parent->GetStream(i, INLET)->Composition()->IsKnown())
-					{
-						moles = moles + _parent->GetStream(i, INLET)->Composition()->GetValue(j) * _parent->GetStream(i, INLET)->MolarFlow()->GetValue();
-					}
-
-				}
-				for (int i = 0; i < nout; i++)
-				{
-					if (_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
-					{
-						moles = moles - _parent->GetStream(i, OUTLET)->Composition()->GetValue(j) * _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
-					}
-				}
-				
-				X[j] = moles * flowdir / UnknownX->MolarFlow()->GetValue();
-				cout << X[j] << "\n";
-
-			}
-			UnknownX->Composition()->SetValues(ncomps, X);
-			comppassed = true;
-		}
-	}
-	else
-	{
-		if (nspecced <(nin + nout))
-		{
-			cansolvecomps = true;
+			moles = 0;
 			for (int i = 0; i < nin; i++)
 			{
-				if (!_parent->GetStream(i, INLET)->Composition()->IsKnown())
+				if (_parent->GetStream(i, INLET)->Composition()->IsKnown())
 				{
-					_parent->GetStream(i, INLET)->Composition()->SetValues(ncomps, KnownX->GetValues());
-
+					moles = moles + _parent->GetStream(i, INLET)->Composition()->GetValue(j) * _parent->GetStream(i, INLET)->MolarFlow()->GetValue();
 				}
 
 			}
-
 			for (int i = 0; i < nout; i++)
 			{
-				if (!_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
+				if (_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
 				{
-					_parent->GetStream(i, OUTLET)->Composition()->SetValues(ncomps, KnownX->GetValues());
+					moles = moles - _parent->GetStream(i, OUTLET)->Composition()->GetValue(j) * _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
 				}
 			}
+				
+			X[j] = moles * flowdir / UnknownX->MolarFlow()->GetValue();
+			cout << X[j] << "\n";
 
-			comppassed = true;
 		}
+		UnknownX->Composition()->SetValues(ncomps, X);
+		comppassed = true;
+		
 	}
+	else if (nout == 1 && nin == 1)
+	{
+		for (int j = 0; j < ncomps; j++)
+		{
+			X[j] = KnownX->GetValue(j);
+		}
+		UnknownX->Composition()->SetValues(ncomps, X);
+	}
+	else if(nspecced <(nin + nout))
+	{
+		cansolvecomps = true;
+		for (int i = 0; i < nin; i++)
+		{
+			if (!_parent->GetStream(i, INLET)->Composition()->IsKnown())
+			{
+				_parent->GetStream(i, INLET)->Composition()->SetValues(ncomps, KnownX->GetValues());
+
+			}
+
+		}
+
+		for (int i = 0; i < nout; i++)
+		{
+			if (!_parent->GetStream(i, OUTLET)->Composition()->IsKnown())
+			{
+				_parent->GetStream(i, OUTLET)->Composition()->SetValues(ncomps, KnownX->GetValues());
+			}
+		}
+
+		comppassed = true;
+	}
+	
 	if (nspecced == (nin + nout))
 	{
 		comppassed = true;

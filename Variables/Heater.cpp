@@ -56,13 +56,13 @@ void Heater::SpecifyVariable(RealVariableType vartype, double value)
 {
 	switch (vartype)
 	{
-	case PRESSUREDROP:
+	case DELTAPRESSURE:
 		_pressuredrop->SetValue(value);
 		break;
 	case K_RESISTANCE:
 		_k_resistance->SetValue(value);
 		break;
-	case HEATINPUT:
+	case ENERGYINPUT:
 		_heatinput->SetValue(value);
 		break;
 	}

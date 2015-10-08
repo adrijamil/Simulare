@@ -20,7 +20,7 @@
 
 #include "BaseVariable.h"
 
-enum RealVariableType { UNITLESS, PRESSURE, TEMPERATURE, MASSFLOW, MASSENTHALPY, PHYSPROPS, PRESSUREDROP, K_RESISTANCE, HEATINPUT };//handle physprops as a separate thing. cos it can't be specified etc. it's dumb.
+enum RealVariableType { UNITLESS, PRESSURE, TEMPERATURE, MASSFLOW, MASSENTHALPY, PHYSPROPS, DELTAPRESSURE, K_RESISTANCE, ENERGYINPUT,ISENTROPICEFFICIENCY };//handle physprops as a separate thing. cos it can't be specified etc. it's dumb.
 
 class RealVariable :
 	//template specialisation 

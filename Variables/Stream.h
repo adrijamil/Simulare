@@ -57,13 +57,14 @@ public:
 	bool Solve();
 	bool IsSolved(){ return _issolved; }
 	void Output();
-
+	PropPack* GetPropertyPackage()
+	{
+		return _proppack;
+	}
 private:
 	//void Flash(FlashTypeEnum theflashtype);
-
 	Phase* _phases[3];
 	PropPack* _proppack;
 	bool _issolved;
-
 };
 #endif

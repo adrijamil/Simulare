@@ -102,14 +102,13 @@ bool SimpleResistanceEquation::Solve()
 			{
 				CalcMode = FKP2;
 			}
-			/*else
+			else
 			{
 			CalcMode = SOLVED;
-			}*/
+			}
 		}
 	}
 	//enum CalcModeEnum { FKP1,FKP2,FP1P2,KP1P2}
-
 	if (CalcMode == CANNOTSOLVE)
 	{
 		return false;
@@ -118,7 +117,6 @@ bool SimpleResistanceEquation::Solve()
 	{
 		return true;
 	}
-
 	switch (CalcMode)
 	{
 	case FKP1:

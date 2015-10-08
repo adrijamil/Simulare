@@ -9,7 +9,7 @@ public:
 	bool Solve();
 	ComponentBalance();
 	~ComponentBalance();
-
+	bool _altsolve();
 
 };
 

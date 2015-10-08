@@ -10,7 +10,7 @@ class RPEnergyCalc :
 public:
 	RPEnergyCalc();
 	~RPEnergyCalc();
-	void Calculate();
+	bool Calculate();
 private:
 	void _calcFluid(Fluid* thefluid);
 

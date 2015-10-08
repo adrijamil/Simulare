@@ -10,6 +10,6 @@ class MassMolFlowCalc :
 public:
 	MassMolFlowCalc();
 	~MassMolFlowCalc();
-	void Calculate();
+	bool Calculate();
 };
 

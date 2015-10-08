@@ -10,8 +10,9 @@ RPMassDensityCalc::RPMassDensityCalc()
 RPMassDensityCalc::~RPMassDensityCalc()
 {
 }
-void RPMassDensityCalc::Calculate()
+bool RPMassDensityCalc::Calculate()
 {
+	bool retval = true;
 	double massd;
 	for (int i = 0; i < 3; i++)
 	{
@@ -19,5 +20,11 @@ void RPMassDensityCalc::Calculate()
 		{
 			_parent->RefStream()->Phases[i].MassDensity = _parent->RefStream()->Phases[i].MolarDensity*_parent->RefStream()->Phases[i].MolecularWeight / 1000;
 		}
+		else if(_parent->RefStream()->Phases[i].MassDensity==-32767)
+		{
+			retval = false;
+		}
 	}
+
+	return retval;
 }

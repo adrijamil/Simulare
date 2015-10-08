@@ -7,7 +7,7 @@ class MolWtCalc :
 	public PropertyCalc
 {
 public:
-	void Calculate();
+	bool Calculate();
 	
 	MolWtCalc();
 	~MolWtCalc();

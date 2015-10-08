@@ -33,10 +33,10 @@ void PropertyCalc::AddProperty(PropertyCalc* thechild)
 
 }
 
-void PropertyCalc::Calculate()
+bool PropertyCalc::Calculate()
 {
 	PropertyCalc* theprop;
-
+	bool retval = true;
 	if (_nchildren == 0)
 	{
 		std::cout << "fuckme I'm A \n";
@@ -47,9 +47,13 @@ void PropertyCalc::Calculate()
 		{
 			theprop = _children[i];
 
-			theprop->Calculate();
+			if (!theprop->Calculate())
+			{
+				retval = false;
+			}
 		}
 	}
+	return retval;
 }
 
 PropertyCalc::~PropertyCalc()

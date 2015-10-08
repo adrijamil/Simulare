@@ -52,7 +52,8 @@ bool Stream::Solve()
 	{
 		return true;
 	}
-	bool retval;
+	
+	bool retval=true;
 	//check DOF then call appropriate flash
 
 	//calc specs
@@ -158,15 +159,21 @@ bool Stream::Solve()
 	
 	//Flash(thetype)
 
-	_proppack->RefStream()->ReadStream(this);
-	_proppack->Flash(thetype);
-	_issolved = true;
+		_proppack->RefStream()->ReadStream(this);
+		if (!_proppack->Flash(thetype))
+		{
+			retval = false;
+		}
+
 	othercalcs:
 	_proppack->Properties()->Calculate();
-
+	if (!_proppack->Properties()->Calculate())
+	{
+		retval = false;
+	}
 	_proppack->RefStream()->WriteStream(this);
 	
-
+	_issolved = retval;
 	return _issolved;
 
 }
@@ -197,7 +204,7 @@ void Stream::Output()
 		cout << _proppack->GetComponent(k).Name << "  " << Composition()->GetValue(k) << "\n";
 	}
 
-	/*cout << "\n" << "GasPhase  " << "\n";
+	cout << "\n" << "GasPhase  " << "\n";
 	cout << "Fraction  [mol/mol] " << _phases[0]->PhaseMoleFraction()->GetValue() << "\n";
 	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
 	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
@@ -221,5 +228,5 @@ void Stream::Output()
 	for (int k = 0; k < myncomps; k++)
 	{
 		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
-	}*/
+	}
 }

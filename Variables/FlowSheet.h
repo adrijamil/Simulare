@@ -16,6 +16,7 @@
 #include "Stream.h"
 #include "Valve.h"
 #include "Heater.h"
+#include "Compressor.h"
 #include "SolveStack.h"
 #include "FSObject.h"
 
@@ -95,6 +96,7 @@ public:
 		Stream* strmptr;
 		Valve* vlvptr;
 		Heater* heatptr;
+		Compressor* compptr;
 
 		strmptr = 0;
 		for (int i = 0; i < _nchildren; i++)
@@ -116,6 +118,12 @@ public:
 			if (heatptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
 			{
 				heatptr->Output();
+				continue;
+			}
+			compptr = dynamic_cast<Compressor *>(_children[i]);
+			if (compptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
+			{
+				compptr->Output();
 				continue;
 			}
 			

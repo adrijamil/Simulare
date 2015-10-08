@@ -8,13 +8,11 @@ RPEnergyCalc::RPEnergyCalc()
 	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THERMdll");;
 }
 
-void RPEnergyCalc::Calculate()
+bool RPEnergyCalc::Calculate()
 {
 	//fwStream* tempfwstrm = new fwStream;
-
-
 	int ncomps = _parent->NComps();
-
+	bool retval = true;
 	double t, d, p, e, h, s, cv, cp, w, hjt;
 	double x[ncmax];
 
@@ -33,7 +31,12 @@ void RPEnergyCalc::Calculate()
 			_parent->RefStream()->Phases[i].Enthalpy = h;
 			_parent->RefStream()->Phases[i].Entropy = s;
 		}	
+		else if (_parent->RefStream()->Phases[i].Enthalpy==-32767)
+		{
+			retval = false;
+		}
 	}
+	return retval;
 }
 
 void RPEnergyCalc::_calcFluid(Fluid* thefluid)

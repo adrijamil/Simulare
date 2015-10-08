@@ -13,7 +13,7 @@ class PropPack;
 class PropertyCalc
 {
 public:
-	virtual void Calculate();
+	virtual bool Calculate();
 	void SetParent(PropPack* thePP);
 	PropertyCalc();
 	~PropertyCalc();

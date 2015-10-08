@@ -13,5 +13,6 @@ public:
 	}
 private:
 	RealVariable* _heatinput=0;//when I add this to a unit op, connect to appropriate variable which should be instantiated by the unit op
+	bool _altsolve();
 };
 
