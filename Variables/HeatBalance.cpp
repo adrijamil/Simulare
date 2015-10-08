@@ -106,11 +106,13 @@ bool HeatBalance::_altsolve()
 	
 	DOF = DOF + Qpresent + 2*nin + 2*nout;
 	DOF = DOF-nenthknown - nflowknown - Qknown;
-	if (DOF == 2)//2 equations
+	if (DOF == 1)//2 equations
 	{
 		
 		for (int i = 0; i < nin; i++)
 		{
+			cout << _parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue() << "\n";
+			cout << _parent->GetStream(i, INLET)->MolarFlow()->GetValue()<<"\n";
 			if (_parent->GetStream(i, INLET)->MolarFlow()->IsKnown() &&  _parent->GetStream(i, INLET)->MolarEnthalpy()->IsKnown())
 			{
 				sumH = sumH + _parent->GetStream(i, INLET)->MolarFlow()->GetValue()*_parent->GetStream(i, INLET)->MolarEnthalpy()->GetValue();

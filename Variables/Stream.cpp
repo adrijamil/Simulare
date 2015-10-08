@@ -91,7 +91,7 @@ bool Stream::Solve()
 		nspecs = nspecs + 1;
 	}
 
-	if ((nspecs != 3))
+	if ((nspecs < 3))
 	{
 		cout << "Specifation error \n";
 		retval = false;
@@ -166,7 +166,6 @@ bool Stream::Solve()
 		}
 
 	othercalcs:
-	_proppack->Properties()->Calculate();
 	if (!_proppack->Properties()->Calculate())
 	{
 		retval = false;
@@ -206,6 +205,8 @@ void Stream::Output()
 
 	cout << "\n" << "GasPhase  " << "\n";
 	cout << "Fraction  [mol/mol] " << _phases[0]->PhaseMoleFraction()->GetValue() << "\n";
+	cout << "MassFlow  [kg/h] " << _phases[0] -> MassFlow()->GetValue() << "\n";
+	cout << "MolarFlow  [kmol/h] " << _phases[0] -> MolarFlow()->GetValue() << "\n";
 	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
 	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
 	cout << "MolarDensity  [mol/m3] " << _phases[0]->MolarDensity()->GetValue() << "\n";
@@ -220,6 +221,8 @@ void Stream::Output()
 	cout << "\n";
 	cout << "LiquidPhase" << "\n";
 	cout << "Fraction  [mol/mol] " << _phases[1]->PhaseMoleFraction()->GetValue() << "\n";
+	cout << "MassFlow  [kg/h] " << _phases[1] -> MassFlow()->GetValue() << "\n";
+	cout << "MolarFlow  [kmol/h] " << _phases[1] ->MolarFlow()->GetValue() << "\n";
 	cout << "Mw  " << _phases[1]->MolecularWeight()->GetValue() << "\n";
 	cout << "MassDensity  [kg/m3] " << _phases[1]->MassDensity()->GetValue() << "\n";
 	cout << "MolarDensity  [mol/m3] " << _phases[1]->MolarDensity()->GetValue() << "\n";

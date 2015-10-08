@@ -20,7 +20,8 @@ bool ComponentBalance::_altsolve()
 	RealVariable* UnknownFmol = 0;
 	RealVariable* UnknownFmass = 0;
 	RealVariable* KnownX = 0;
-	int flowdir = 0;
+	int massflowdir = 0;
+	int molflowdir = 0;
 	int Xdir = 0;
 	double moles = 0;
 	//check mole flows
@@ -35,7 +36,7 @@ bool ComponentBalance::_altsolve()
 		}
 		else
 		{
-			flowdir = -1;
+			molflowdir = -1;
 			UnknownFmol = _parent->GetStream(i, INLET)->MolarFlow();
 		}
 	}
@@ -49,7 +50,7 @@ bool ComponentBalance::_altsolve()
 		}
 		else
 		{
-			flowdir = 1;
+			molflowdir = 1;
 			UnknownFmol = _parent->GetStream(i, OUTLET)->MolarFlow();
 		}
 	}
@@ -65,7 +66,7 @@ bool ComponentBalance::_altsolve()
 		}
 		else
 		{
-			flowdir = -1;
+			massflowdir = -1;
 			UnknownFmass = _parent->GetStream(i, INLET)->MassFlow();
 		}
 	}
@@ -79,7 +80,7 @@ bool ComponentBalance::_altsolve()
 		}
 		else
 		{
-			flowdir = 1;
+			massflowdir = 1;
 			UnknownFmass = _parent->GetStream(i, OUTLET)->MassFlow();
 		}
 	}
@@ -118,12 +119,12 @@ bool ComponentBalance::_altsolve()
 	{
 		if (nmassspecced == 1) //either pass mass or mole flow
 		{
-			UnknownFmass->SetValue(flowdir*sumMass);
+			UnknownFmass->SetValue(massflowdir*sumMass);
 			flowpassed = true;
 		}
 		else if (nmolspecced==1)
 		{
-			UnknownFmol->SetValue(flowdir*sumMol);
+			UnknownFmol->SetValue(molflowdir*sumMol);
 			flowpassed = true;
 		}
 		else if (nmolspecced - nin - nout == 0 || nmolspecced - nin - nout == 0)
@@ -150,12 +151,12 @@ bool ComponentBalance::_altsolve()
 	{
 		if (nmassspecced-nin-nout == 1) //either pass mass or mole flow
 		{
-			UnknownFmass->SetValue(flowdir*sumMass);
+			UnknownFmass->SetValue(massflowdir*sumMass);
 			flowpassed = true;
 		}
 		else if (nmolspecced - nin - nout == 1)
 		{
-			UnknownFmol->SetValue(flowdir*sumMol);
+			UnknownFmol->SetValue(molflowdir*sumMol);
 			nmolspecced++;
 			flowpassed = true;
 		}
@@ -182,7 +183,7 @@ bool ComponentBalance::_altsolve()
 						moles = moles - _parent->GetStream(i, OUTLET)->Composition()->GetValue(j) * _parent->GetStream(i, OUTLET)->MolarFlow()->GetValue();
 					}
 				}
-				X[j] = moles * flowdir / UnknownX->MolarFlow()->GetValue();
+				X[j] = moles * Xdir / UnknownX->MolarFlow()->GetValue();
 				cout << X[j] << "\n";
 			}
 			UnknownX->Composition()->SetValues(ncomps, X);
@@ -193,12 +194,12 @@ bool ComponentBalance::_altsolve()
 	{
 		if (nmassspecced - nin - nout == 1) //either pass mass or mole flow
 		{
-			UnknownFmass->SetValue(flowdir*sumMass);
+			UnknownFmass->SetValue(massflowdir*sumMass);
 			flowpassed = true;
 		}
 		else if (nmolspecced - nin - nout == 1)
 		{
-			UnknownFmol->SetValue(flowdir*sumMol);
+			UnknownFmol->SetValue(molflowdir*sumMol);
 			nmolspecced++;
 			flowpassed = true;
 		}
