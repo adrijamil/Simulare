@@ -14,6 +14,10 @@ public:
 	{
 		_top = -1;
 	};
+	void SetParent(FSObject* theFS)
+	{
+		_parent = theFS;
+	}
 	void Add(StackObject* item)
 	{
 		//check first if item is already there;

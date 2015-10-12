@@ -31,6 +31,12 @@ Stream::Stream(string daname)
 	_phases[1]->SetParent(this);
 	_phases[2]->SetParent(this);
 
+	//add variables for flash calc
+	AddVariable(_pressure);
+	AddVariable(_temperature);
+	AddVariable(_molenthalpy);
+	AddVariable(_molentropy);
+	AddVariable(_phases[0]->PhaseMoleFraction());
 	_name = daname;
 }
 
@@ -44,14 +50,37 @@ void Stream::_setstreamcalcs()
 	int ncalcs;
 
 	ncalcs = _proppack->Properties()->NChildren();
-
+	
+	StreamCalc* newchildren;
+	cout << "\n";
 	_streamcalcs = new StreamCalc[ncalcs + 1];
+	StreamCalc* temp = (dynamic_cast<StreamCalc*>(this));
 
+	
+	_streamcalcs = (StreamCalc*)realloc(_streamcalcs, _nstackobjects* sizeof(temp)); //allocate new array
+
+	if (newchildren != NULL) //if it's null then realloc tak jadi
+	{
+		_stackobjects[0] = temp;
+		for (int i = 1; i > ncalcs; i++)
+		{
+			_streamcalcs[i].SetRefStream(this);
+			_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i - 1));
+		}
+		//_stackobjects[_nstackobjects - 1] = &(*theSO);
+	}
+
+	
+	
+	/*delete *(_streamcalcs[0]);
+	_streamcalcs[0] = *temp;*/
+	
 	for (int i = 1; i > ncalcs; i++)
 	{
 		_streamcalcs[i].SetRefStream(this);
 		_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i - 1));
 	}
+
 	_nstreamcalcs = ncalcs + 1;
 }
 
@@ -257,6 +286,7 @@ StackObject* Stream::GetStackObject(int i)
 		_setstreamcalcs();
 	}
 
+	//dynamic_cast <StackObject*>(&(_streamcalcs[i]))
 	return &(_streamcalcs[i]);
 }
 
