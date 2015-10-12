@@ -30,7 +30,7 @@ class FlashMethod
 {
 public:
 	FlashMethod();
-	virtual void Flash(FlashTypeEnum theflashtype){};
+	virtual void Solve(FlashTypeEnum theflashtype){};
 	virtual bool Setup(PropPack* thePP){ return false; };
 	virtual ~FlashMethod();
 protected:

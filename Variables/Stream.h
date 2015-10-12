@@ -29,11 +29,12 @@
 #include "FSObject.h"
 
 #include "PropPack.h"
-//class Phase;  //this way we avoid recursion in header files.
 
+#include "StackObject.h"
+//class Phase;  //this way we avoid recursion in header files;
 
 class Stream :
-	public Fluid, public FSObject
+	public Fluid, public FSObject, public StackObject
 	
 {
 	//friend class Fluid;

@@ -65,7 +65,7 @@ public:
 		bool retval = true;
 		try
 		{
-			_flashmethod->Flash(theflashtype);
+			_flashmethod->Solve(theflashtype);
 		}
 		catch (HandledException& e)
 		{
