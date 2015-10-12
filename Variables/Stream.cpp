@@ -51,7 +51,7 @@ void Stream::_setstreamcalcs()
 
 	ncalcs = _proppack->Properties()->NChildren();
 	
-	StreamCalc* newchildren;
+	StreamCalc* newchildren=0;
 	cout << "\n";
 	_streamcalcs = new StreamCalc[ncalcs + 1];
 	StreamCalc* temp = (dynamic_cast<StreamCalc*>(this));
