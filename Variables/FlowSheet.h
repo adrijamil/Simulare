@@ -20,10 +20,6 @@
 #include "SolveStack.h"
 #include "FSObject.h"
 
-
-
-
-
 class FlowSheet :
 	public FSObject
 {
@@ -32,7 +28,6 @@ public:
 	{
 		_nchildren = 0;
 		_stack = new SolveStack;
-
 	};
 	~FlowSheet();
 
@@ -41,7 +36,6 @@ public:
 	{
 		_default_package = thePP;
 	}
-	
 	void Remove(){};//to be implemented
 	int NComps(){ return _default_package->NComps(); };
 	void AddStream(string strname)
@@ -82,7 +76,6 @@ public:
 				UnitOpPtr = dynamic_cast<UnitOp *>(_children[i]);  //downcasting 
 			}
 		}
-
 		return UnitOpPtr;
 	}
 	void AddUnitOp(UnitOp* theop)

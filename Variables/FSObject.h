@@ -14,6 +14,7 @@
 
 #ifndef __FSOBJECT_H_INCLUDED__
 #define __FSOBJECT_H_INCLUDED__
+#include "StackObject.h"
 using namespace std;
 class FSObject
 {
@@ -26,8 +27,15 @@ public:
 	virtual bool Solve() = 0;// { return false; };
 	string Name() { return _name; }
 	void SetName(string thename) { _name = thename; }
+	virtual StackObject* GetStackObject(int i){ return _stackobjects[i]; }
+
+	virtual int NStackObjects(){ return _nstackobjects; }
+
 protected:
-	string _name;;
+	string _name;
+	StackObject** _stackobjects;
+	int _nstackobjects = 0;
+
 
 };
 

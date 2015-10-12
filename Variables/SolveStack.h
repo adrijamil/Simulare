@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FSObject.h"
+#include "StackObject.h"
 #include <iostream>
 
 
@@ -13,7 +14,7 @@ public:
 	{
 		_top = -1;
 	};
-	void Add(FSObject* item)
+	void Add(StackObject* item)
 	{
 		_count++;
 
@@ -23,7 +24,7 @@ public:
 		//should be possible to reallocate straight to itself ie _children = (FSObject**)realloc(...... but this is safer. can catch errors.
 		//is this safe? sizeof items may be different cos some are streams some are unit ops. 
 
-		_items = (FSObject**)realloc(_items, _count* sizeof(*item)); //allocate new array
+		_items = (StackObject**)realloc(_items, _count* sizeof(*item)); //allocate new array
 
 		if (_items != NULL) //if it's null then realloc tak jadi//means theres only one guy;
 		{
@@ -32,6 +33,25 @@ public:
 	}
 
 	
+	void Forget()
+	{
+		bool retval = false;
+		//go through each item
+		//arrange by isknown?
+		bool isdone = false;
+
+		while (isdone==false)
+		{
+			
+
+		}
+
+		//go through each item
+		//arrange by isknown?
+		//see who depends on it
+		//put that guy next
+	}
+
 	bool Solve()
 	{
 		bool retval = false;
@@ -45,17 +65,17 @@ public:
 		std::cout << "stack is: " << "\n";
 		for (int k = 0; k < _count; k++)//if i get to second last then must be the last one that needs to be removed;
 		{
-			std::cout << "item " << k << " is " << _items[k]->Name().c_str() << "\n";
+		//	std::cout << "item " << k << " is " << _items[k]->Name().c_str() << "\n";
 		}
 
 		while (_count>0)
 		{
 
-			std::cout << "solving " << _items[i]->Name().c_str() << "\n";
+			//std::cout << "solving " << _items[i]->Name().c_str() << "\n";
 			thisitemsolved = _items[i]->Solve();
 			if (thisitemsolved)
 			{
-				std::cout << "solved " << _items[i]->Name().c_str() << "\n";
+				//std::cout << "solved " << _items[i]->Name().c_str() << "\n";
 				_remove(_items[i]);
 				i--;
 			}
@@ -82,41 +102,41 @@ public:
 	~SolveStack(){ delete[] _items; };
 private:
 	int _top;
-	FSObject** _items;
+	StackObject** _items;
 	int _count = 0;
 	
-	void _remove(FSObject* item)
+	void _remove(StackObject* item)
 	{
 		int offset = 0;
-		FSObject** newitems;
+		StackObject** newitems;
 		if (_count == 1)
 		{
 			_count = 0;
 			_items = NULL;
 			return;
 		}
-		newitems = (FSObject**)realloc(_items, (_count - 1)* sizeof(*item));
+		newitems = (StackObject**)realloc(_items, (_count - 1)* sizeof(*item));
 		for (int i = 0; i < _count; i++)//if i get to second last then must be the last one that needs to be removed;
 		{
 			if (_items[i] != item)
 			{
-				std::cout << "adding " << _items[i]->Name().c_str() << "\n";
-				newitems[i+offset] = &(*_items[i]);
+				//std::cout << "adding " << _items[i]->Name().c_str() << "\n";
+				//newitems[i+offset] = &(*_items[i]);
 			}
 			else
 			{
 				offset = -1;
-				std::cout << "skipping " << _items[i]->Name().c_str() << "\n";
+				//std::cout << "skipping " << _items[i]->Name().c_str() << "\n";
 			}
 		}
 		_count--;
 		_items = NULL;
-		_items = (FSObject**)realloc(newitems, _count* sizeof(*item)); //allocate to existing array
+		_items = (StackObject**)realloc(newitems, _count* sizeof(*item)); //allocate to existing array
 		
 		std::cout << "new stack is: " << "\n";
 		for (int i = 0; i < _count ; i++)//if i get to second last then must be the last one that needs to be removed;
 		{
-			std::cout << "item " << i << " is " << _items[i]->Name().c_str() << "\n";
+			//std::cout << "item " << i << " is " << _items[i]->Name().c_str() << "\n";
 		}
 	}
 

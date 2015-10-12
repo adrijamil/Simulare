@@ -17,6 +17,11 @@ public:
 	void SetParent(UnitOp* theOp);
 	void AddBridge(BridgeFunction* thechild);
 	bool IsSolved(){ return _solved; }
+	int NStackObjects(){ return _nchildren; }
+	StackObject* GetStackObject(int i)
+	{
+		return _children[i];
+	}
 protected:
 	UnitOp* _parent;
 	BridgeFunction** _children;

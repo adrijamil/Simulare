@@ -27,7 +27,6 @@ void FlowSheet::Add(FSObject* theobject)
 		_children[_nchildren-1] = &(*theobject);
 	 }
 	 
-	 _stack->Add(theobject);
 
 }
 
@@ -38,6 +37,19 @@ bool FlowSheet::Solve()
 {
 	bool retval;
 
+	for (int i = 0; i < _nchildren; i++)
+	{
+		for (int j = 0; j < _children[i]->NStackObjects(); j++)
+		{
+			if (_children[i]->GetStackObject(j)->IsDirty())
+			{
+				_stack->Add(_children[i]->GetStackObject(j));
+			}
+		}
+	}
+
+	//Stack->Forget();
+	
 	retval=_stack->Solve();
 	return retval;
 }
