@@ -16,6 +16,15 @@ public:
 	};
 	void Add(StackObject* item)
 	{
+		//check first if item is already there;
+		for (int i = 0; i < _count; i++)
+		{
+			if (item == _items[i])
+			{
+				return;
+			}
+		}
+		
 		_count++;
 
 		//_items = new FSObject[_count];
@@ -36,20 +45,58 @@ public:
 	void Forget()
 	{
 		bool retval = false;
-		//go through each item
-		//arrange by isknown?
-		bool isdone = false;
+		double fracknown = 0;
+		int i = 0;
+		int j = 0 ;
 
-		while (isdone==false)
+		//see who else depends on me. add to stack; 
+		//this will only work when editing a spec. first time you solve all will be dirty and added already
+		for (int i = 0; i < _count; i++)
 		{
-			
-
+			if (_count == _parent->NStackObjects())
+			{
+				goto arrange;
+			}
+			for (int j = 0; j < _parent->NStackObjects(); j++)
+			{
+				if (_parent->GetStackObject(j)->DependsOn(_items[i]))
+				{
+					Add(_parent->GetStackObject(j));
+				}
+			}
 		}
 
 		//go through each item
 		//arrange by isknown?
+	arrange:
+
+		for (int i = 0; i < _count; i++)
+		{
+			j = i;
+			while (j > 0 && _items[j - 1]->FractionKnown() > _items[j]->FractionKnown())
+			{
+				_swap(j, j - 1);
+				j = j - 1;
+			}
+		}
+
+
+		//go through each item
 		//see who depends on it
 		//put that guy next
+		StackObject* tempSO = 0;
+
+		for (int i = 0; i < _count; i++)
+		{
+			tempSO = _items[i];
+			for (int j = i; j < _count; j++)
+			{
+				if (_items[j]->DependsOn(tempSO))
+				{
+					_insert(j, i + 1);
+				}
+			}
+		}
 	}
 
 	bool Solve()
@@ -104,6 +151,8 @@ private:
 	int _top;
 	StackObject** _items;
 	int _count = 0;
+	FSObject* _parent;
+
 	
 	void _remove(StackObject* item)
 	{
@@ -140,5 +189,21 @@ private:
 		}
 	}
 
+	void _insert(int fromindex, int toindex)
+	{
+		//anything above to index (i>toindex) will be pushed up
+
+	}
+	void _move(StackObject* item, int toindex)
+	{
+
+	}
+	void _swap(int fromindex, int toindex)
+	{
+		StackObject* tempSO;
+		tempSO = _items[fromindex];
+		_items[fromindex] = _items[toindex];
+		_items[toindex] = tempSO;
+	}
 };
 

@@ -36,7 +36,10 @@ void FlowSheet::Add(FSObject* theobject)
 bool FlowSheet::Solve()
 {
 	bool retval;
-
+	
+	//add who is dirty
+	//if first solve of the sim then all will be dirty
+	// else only those who have been touched
 	for (int i = 0; i < _nchildren; i++)
 	{
 		for (int j = 0; j < _children[i]->NStackObjects(); j++)
@@ -48,7 +51,7 @@ bool FlowSheet::Solve()
 		}
 	}
 
-	//Stack->Forget();
+	_stack->Forget();
 	
 	retval=_stack->Solve();
 	return retval;
