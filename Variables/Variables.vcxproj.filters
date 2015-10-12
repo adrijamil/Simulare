@@ -156,9 +156,6 @@
     <ClInclude Include="IsentropicCompression.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StackObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -285,9 +282,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IsentropicCompression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StackObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
