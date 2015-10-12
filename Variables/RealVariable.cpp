@@ -1,16 +1,13 @@
 #include "stdafx.h"
 #include "RealVariable.h"
 
-
 RealVariable::RealVariable()
 {
 }
 
-
 RealVariable::~RealVariable()
 {
 }
-
 
 void RealVariable::SetValue(double thevalue)
 {

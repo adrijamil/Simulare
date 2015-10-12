@@ -19,6 +19,8 @@
 #define __REALVARIABLE_H_INCLUDED__
 
 #include "BaseVariable.h"
+class StackObject;
+
 
 enum RealVariableType { UNITLESS, PRESSURE, TEMPERATURE, MASSFLOW, MASSENTHALPY, PHYSPROPS, DELTAPRESSURE, K_RESISTANCE, ENERGYINPUT,ISENTROPICEFFICIENCY };//handle physprops as a separate thing. cos it can't be specified etc. it's dumb.
 
@@ -37,10 +39,8 @@ public:
 	//constructor using known value and it's an array
 	template < size_t N >
 	RealVariable(double const (&thevalue)[N]) :BaseVariable<double>(thevalue){};
-
 	bool IsKnown() { return _is_known; }
 	bool IsCalculated(){ return _is_calculated; }
-
 	void IsKnown(bool thebool) { _is_known = thebool; }
 	void IsCalculated(bool thebool){ _is_calculated = thebool; }
 
@@ -88,13 +88,14 @@ public:
 	void SetValue(double thevalue);
 	void SetValue(int i, double thevalue);
 	void SetValues(int N, double* thevalue);
-
+	StackObject* CalculatedBy(){ return _calculatedby; }
 	//Destructor
 	~RealVariable();
 private:
 	RealVariableType _variable_type;  //pressure, temperature etc
 	bool _is_known=false; // is known or not. toggle this when setting/clearing variables
 	bool _is_calculated=true; //as in is it dependent or independent (specified or calculated)
+	StackObject* _calculatedby;
 };
 
 
