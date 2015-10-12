@@ -51,35 +51,24 @@ void Stream::_setstreamcalcs()
 
 	ncalcs = _proppack->Properties()->NChildren();
 	
-	StreamCalc* newchildren=0;
-	cout << "\n";
-	_streamcalcs = new StreamCalc[ncalcs + 1];
-	StreamCalc* temp = (dynamic_cast<StreamCalc*>(this));
+	_streamcalcs = new StreamCalc[ncalcs];
+	/*_streamcalcs[0].SetPropertyCalc(_proppack->GetFlashMethod());
+	_streamcalcs[0].SetRefStream(this);*/
+	//_streamcalcs = new StreamCalc[ncalcs + 1];
 
-	
-	_streamcalcs = (StreamCalc*)realloc(_streamcalcs, _nstackobjects* sizeof(temp)); //allocate new array
-
-	if (newchildren != NULL) //if it's null then realloc tak jadi
-	{
-		_stackobjects[0] = temp;
-		for (int i = 1; i > ncalcs; i++)
+		for (int i = 0; i > ncalcs; i++)
 		{
 			_streamcalcs[i].SetRefStream(this);
-			_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i - 1));
+			_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i));
 		}
 		//_stackobjects[_nstackobjects - 1] = &(*theSO);
-	}
+	
 
 	
 	
 	/*delete *(_streamcalcs[0]);
 	_streamcalcs[0] = *temp;*/
-	
-	for (int i = 1; i > ncalcs; i++)
-	{
-		_streamcalcs[i].SetRefStream(this);
-		_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i - 1));
-	}
+
 
 	_nstreamcalcs = ncalcs + 1;
 }
@@ -286,8 +275,14 @@ StackObject* Stream::GetStackObject(int i)
 		_setstreamcalcs();
 	}
 
+	if (i == 0)
+	{
+		return this;
+	}
+
+
 	//dynamic_cast <StackObject*>(&(_streamcalcs[i]))
-	return &(_streamcalcs[i]);
+	return &(_streamcalcs[i-1]);
 }
 
 int Stream::NStackObjects()

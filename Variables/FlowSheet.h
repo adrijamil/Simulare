@@ -95,7 +95,7 @@ public:
 		strmptr = 0;
 		for (int i = 0; i < _nchildren; i++)
 		{
-
+			//FSobject should have the an output member function then by subclasses override.
 			strmptr = dynamic_cast<Stream *>(_children[i]);  //downcasting to stream type. later if unit ops how?
 			if (strmptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
 			{

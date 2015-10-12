@@ -58,7 +58,7 @@ public:
 	 PropPack();
 	~PropPack();
 	PropertyCalc* Properties(){ return _propertycalculation; }
-
+	FlashMethod* GetFlashMethod(){ return _flashmethod; }
 	void SetMethod(FlashMethodEnum theFlashMethod);
 	virtual bool Flash(FlashTypeEnum theflashtype)
 	{
