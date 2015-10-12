@@ -21,6 +21,7 @@ public:
 	~PropertyCalc();
 	void AddProperty(PropertyCalc* thechild);
 	PropertyCalc* GetProperty(int i){ return _children[i]; }
+	int NChildren() { return _nchildren; }
 protected:
 	string _name;
 	PropPack* _parent;

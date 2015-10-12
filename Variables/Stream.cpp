@@ -30,7 +30,6 @@ Stream::Stream(string daname)
 	_phases[0]->SetParent(this);
 	_phases[1]->SetParent(this);
 	_phases[2]->SetParent(this);
-	//_phases[0]->_pressure = _pressure;
 
 	_name = daname;
 }
@@ -39,6 +38,23 @@ void Stream::SetPropertyPackage(PropPack* thePP)
 {
 	_proppack = thePP;
 }
+
+void Stream::_setstreamcalcs()
+{
+	int ncalcs;
+
+	ncalcs = _proppack->Properties()->NChildren();
+
+	_streamcalcs = new StreamCalc[ncalcs + 1];
+
+	for (int i = 1; i > ncalcs; i++)
+	{
+		_streamcalcs[i].SetRefStream(this);
+		_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i - 1));
+	}
+	_nstreamcalcs = ncalcs + 1;
+}
+
 
 
 Stream::~Stream()
@@ -236,17 +252,20 @@ void Stream::Output()
 
 StackObject* Stream::GetStackObject(int i)
 {
-
-
-	if (i == 0)
+	if (_nstreamcalcs != _proppack->Properties()->NChildren() + 1)
 	{
-		return this;
+		_setstreamcalcs();
 	}
-	else
+
+	return &(_streamcalcs[i]);
+}
+
+int Stream::NStackObjects()
+{
+	if (_nstreamcalcs != _proppack->Properties()->NChildren() + 1)
 	{
-		StreamCalc* theSC = new StreamCalc;  //danger of memory leak//delete it once it is solved;
-		theSC->SetPropertyCalc(_proppack->Properties()->GetProperty(i - 1));
-		theSC->SetRefStream(this);
-		return theSC;
+		_setstreamcalcs();
 	}
+	
+	return _nstreamcalcs;
 }

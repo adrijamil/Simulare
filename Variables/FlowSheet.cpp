@@ -40,8 +40,10 @@ bool FlowSheet::Solve()
 	//add who is dirty
 	//if first solve of the sim then all will be dirty
 	// else only those who have been touched
+	int nstackobj;
 	for (int i = 0; i < _nchildren; i++)
 	{
+		nstackobj = _children[i]->NStackObjects();
 		for (int j = 0; j < _children[i]->NStackObjects(); j++)
 		{
 			if (_children[i]->GetStackObject(j)->IsDirty())

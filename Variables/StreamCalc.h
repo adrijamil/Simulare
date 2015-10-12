@@ -1,21 +1,15 @@
 #pragma once
 #include "StackObject.h"
 #include "PropertyCalc.h"
-#include "Stream.h"
+//#include "Stream.h"
+class Stream;
 
 class StreamCalc :
 	public StackObject
 {
 public:
-	bool Solve()
-	{
-		bool retval;
-
-		_refstream->GetPropertyPackage()->RefStream()->ReadStream(_refstream);
-		retval=_propertycalc->Solve();
-		return retval;
-
-	}
+	bool Solve();
+	
 	void SetPropertyCalc(PropertyCalc* thePC){ _propertycalc = thePC; }
 	void SetRefStream(Stream* theRS){ _refstream = theRS; }
 	StreamCalc();
