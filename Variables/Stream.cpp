@@ -166,7 +166,7 @@ bool Stream::Solve()
 		}
 
 	othercalcs:
-	if (!_proppack->Properties()->Calculate())
+		if (!_proppack->Properties()->Solve())
 	{
 		retval = false;
 	}

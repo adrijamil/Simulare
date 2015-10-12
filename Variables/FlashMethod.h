@@ -30,10 +30,6 @@ class FlashMethod
 {
 public:
 	FlashMethod();
-	virtual void PT_Flash(Stream* theStream, PropPack* thePP){};
-	virtual void TQ_Flash(Stream* theStream, PropPack* thePP){};
-	virtual void PQ_Flash(Stream* theStream, PropPack* thePP){};
-	virtual void PS_Flash(Stream* theStream, PropPack* thePP){};
 	virtual void Flash(FlashTypeEnum theflashtype){};
 	virtual bool Setup(PropPack* thePP){ return false; };
 	virtual ~FlashMethod();

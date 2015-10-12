@@ -33,7 +33,7 @@ void PropertyCalc::AddProperty(PropertyCalc* thechild)
 
 }
 
-bool PropertyCalc::Calculate()
+bool PropertyCalc::Solve()
 {
 	PropertyCalc* theprop;
 	bool retval = true;
@@ -47,7 +47,7 @@ bool PropertyCalc::Calculate()
 		{
 			theprop = _children[i];
 
-			if (!theprop->Calculate())
+			if (!theprop->Solve())
 			{
 				retval = false;
 			}

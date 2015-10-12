@@ -8,17 +8,19 @@ using namespace std;
 
 #include "fwStream.h"
 //#include "PropPack.h"
+#include "StackObject.h"
+
 class PropPack;
 
-class PropertyCalc
+class PropertyCalc :
+	public StackObject
 {
 public:
-	virtual bool Calculate();
+	virtual bool Solve();
 	void SetParent(PropPack* thePP);
 	PropertyCalc();
 	~PropertyCalc();
 	void AddProperty(PropertyCalc* thechild);
-
 protected:
 	string _name;
 	PropPack* _parent;

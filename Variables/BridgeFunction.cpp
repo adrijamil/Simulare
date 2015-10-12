@@ -6,7 +6,6 @@ BridgeFunction::BridgeFunction()
 {
 }
 
-
 BridgeFunction::~BridgeFunction()
 {
 }

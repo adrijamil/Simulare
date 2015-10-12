@@ -42,8 +42,6 @@ public:
 	Stream(string daname);
 	RealVariable* VapourFraction(){ return _phases[0]->PhaseMoleFraction(); };
 
-
-
 	~Stream();
 
 	Phase* Phases(int i)
