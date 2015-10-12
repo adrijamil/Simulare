@@ -19,6 +19,7 @@
 #ifndef __FLASHMETHOD_H_INCLUDED__
 #define __FLASHMETHOD_H_INCLUDED__
 #include "fwStream.h"
+#include "PropertyCalc.h"
 
 using namespace std;
 
@@ -26,7 +27,8 @@ using namespace std;
 class PropPack;
 
 enum FlashTypeEnum { PT, PH, PQ, PS, TQ, TS, TH }; //7 types
-class FlashMethod
+class FlashMethod :
+	public PropertyCalc
 {
 public:
 	FlashMethod();

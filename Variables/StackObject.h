@@ -19,6 +19,6 @@ public:
 //
 private:
 	RealVariable* _variables;
-	bool _isdirty = false;
+	bool _isdirty = true;
 };
 

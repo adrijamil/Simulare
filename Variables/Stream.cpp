@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Stream.h"
-
+#include "StreamCalc.h"
 
 Stream::Stream()
 {
@@ -231,5 +231,22 @@ void Stream::Output()
 	for (int k = 0; k < myncomps; k++)
 	{
 		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
+	}
+}
+
+StackObject* Stream::GetStackObject(int i)
+{
+
+
+	if (i == 0)
+	{
+		return this;
+	}
+	else
+	{
+		StreamCalc* theSC = new StreamCalc;  //danger of memory leak//delete it once it is solved;
+		theSC->SetPropertyCalc(_proppack->Properties()->GetProperty(i - 1));
+		theSC->SetRefStream(this);
+		return theSC;
 	}
 }

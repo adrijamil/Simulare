@@ -12,8 +12,7 @@ using namespace std;
 
 class PropPack;
 
-class PropertyCalc :
-	public StackObject
+class PropertyCalc 
 {
 public:
 	virtual bool Solve();
@@ -21,6 +20,7 @@ public:
 	PropertyCalc();
 	~PropertyCalc();
 	void AddProperty(PropertyCalc* thechild);
+	PropertyCalc* GetProperty(int i){ return _children[i]; }
 protected:
 	string _name;
 	PropPack* _parent;

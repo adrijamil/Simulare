@@ -27,10 +27,10 @@
 
 #include "Phase.h"
 #include "FSObject.h"
-
 #include "PropPack.h"
-
 #include "StackObject.h"
+//#include "StreamCalc.h"
+class StreamCalc;
 //class Phase;  //this way we avoid recursion in header files;
 
 class Stream :
@@ -60,6 +60,8 @@ public:
 	{
 		return _proppack;
 	}
+	StackObject* GetStackObject(int i);
+	int NStackObjects(){ return _nstackobjects; }
 private:
 	//void Flash(FlashTypeEnum theflashtype);
 	Phase* _phases[3];

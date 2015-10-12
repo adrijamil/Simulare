@@ -159,6 +159,9 @@
     <ClInclude Include="StackObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StreamCalc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -288,6 +291,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StackObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StreamCalc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

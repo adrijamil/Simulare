@@ -124,6 +124,7 @@
     <ClInclude Include="StackObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stream.h" />
+    <ClInclude Include="StreamCalc.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UnitConvertor.h" />
     <ClInclude Include="UnitOp.h" />
@@ -175,6 +176,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Stream.cpp" />
+    <ClCompile Include="StreamCalc.cpp" />
     <ClCompile Include="UnitConvertor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="UnitOp.cpp" />
