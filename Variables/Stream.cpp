@@ -200,10 +200,10 @@ bool Stream::Solve()
 		}
 
 	othercalcs:
-		if (!_proppack->Properties()->Solve())
+	/*	if (!_proppack->Properties()->Solve())
 	{
 		retval = false;
-	}
+	}*/
 	_proppack->RefStream()->WriteStream(this);
 	
 	_issolved = retval;

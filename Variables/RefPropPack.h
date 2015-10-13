@@ -40,7 +40,7 @@ public:
 	~RefPropPack();
 
 	bool Setup(PropPack* thePP);
-	void Flash(FlashTypeEnum theflashtype);
+	void Solve(FlashTypeEnum theflashtype);
 
 private:
 	RPManager* themanager;

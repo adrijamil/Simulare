@@ -171,7 +171,7 @@ RefPropPack::~RefPropPack()
 }
 
 
-void RefPropPack::Flash(FlashTypeEnum theflashtype)
+void RefPropPack::Solve(FlashTypeEnum theflashtype)
 {
 	long  ierr,kq;
 	char 	herr[errormessagelength + 1];
