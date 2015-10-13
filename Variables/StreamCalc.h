@@ -12,6 +12,7 @@ public:
 	
 	void SetPropertyCalc(PropertyCalc* thePC){ _propertycalc = thePC; }
 	void SetRefStream(Stream* theRS){ _refstream = theRS; }
+	void Setup(PropertyCalc* thePC, Stream* theRS);
 	StreamCalc();
 	~StreamCalc();
 private:

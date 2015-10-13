@@ -4,9 +4,22 @@
 
 MassMolFlowCalc::MassMolFlowCalc()
 {
+
 }
 
+RealVariable** MassMolFlowCalc::GetVariables(Stream* refstream)
+{
+	//fmass
+	//fmol
+	//mw
+	RealVariable** thevars = new RealVariable*[3];
+	thevars[0] = refstream->MassFlow();
+	thevars[1] = refstream->MolarFlow();
+	thevars[2] = refstream->MolecularWeight();
 
+	return thevars;
+
+}
 
 bool MassMolFlowCalc::Calculate()
 {

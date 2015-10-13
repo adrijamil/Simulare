@@ -8,7 +8,7 @@ class MolWtCalc :
 {
 public:
 	bool Calculate();
-	
+	RealVariable** GetVariables(Stream* refstream);
 	MolWtCalc();
 	~MolWtCalc();
 private:

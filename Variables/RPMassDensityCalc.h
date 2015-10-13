@@ -8,5 +8,6 @@ public:
 	RPMassDensityCalc();
 	~RPMassDensityCalc();
 	bool Calculate();
+	RealVariable** GetVariables(Stream* refstream);
 };
 

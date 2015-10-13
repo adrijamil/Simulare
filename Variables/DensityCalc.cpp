@@ -4,7 +4,15 @@
 #include "stdafx.h"
 #include "MolWtCalc.h"
 
+RealVariable**  DensityCalc::GetVariables(Stream* refstream)
+{
+	RealVariable** thevars = new RealVariable*[3];
+	//thevars[0] = refstream->MassFlow();
+	//thevars[1] = refstream->MolarFlow();
+	//thevars[1] = refstream->MolecularWeight();
 
+	return thevars;
+}
 
 
 void DensityCalc::Calculate(Stream* thestream)

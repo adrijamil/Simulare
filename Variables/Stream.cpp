@@ -58,8 +58,10 @@ void Stream::_setstreamcalcs()
 
 		for (int i = 0; i > ncalcs; i++)
 		{
-			_streamcalcs[i].SetRefStream(this);
-			_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i));
+			_streamcalcs[i].Setup(_proppack->Properties()->GetProperty(i), this);
+			//_streamcalcs[i].SetRefStream(this);
+			
+			//_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i));
 		}
 		//_stackobjects[_nstackobjects - 1] = &(*theSO);
 	

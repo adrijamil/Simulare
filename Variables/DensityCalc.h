@@ -9,7 +9,7 @@ public:
 	DensityCalc();
 	~DensityCalc();
 	void Calculate(Stream* thestream);
-
+	RealVariable** GetVariables(Stream* refstream);
 private:
 	void CalcFluid(Fluid* thefluid);
 };

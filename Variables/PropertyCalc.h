@@ -22,6 +22,8 @@ public:
 	void AddProperty(PropertyCalc* thechild);
 	PropertyCalc* GetProperty(int i){ return _children[i]; }
 	int NChildren() { return _nchildren; }
+	virtual RealVariable** GetVariables(Stream* refstream){	return 0;
+	}
 protected:
 	string _name;
 	PropPack* _parent;

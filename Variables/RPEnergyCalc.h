@@ -11,8 +11,11 @@ public:
 	RPEnergyCalc();
 	~RPEnergyCalc();
 	bool Calculate();
+	RealVariable** GetVariables(Stream* refstream);
 private:
 	void _calcFluid(Fluid* thefluid);
+
+
 
 };
 

@@ -8,6 +8,23 @@ RPEnergyCalc::RPEnergyCalc()
 	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THERMdll");;
 }
 
+RealVariable**  RPEnergyCalc::GetVariables(Stream* refstream)
+{
+	RealVariable** thevars = new RealVariable*[6];
+
+	thevars[0] = refstream->Phases(0)->Composition();
+	thevars[1] = refstream->Phases(0)->MolarEnthalpy();
+	thevars[2] = refstream->Phases(0)->MolarEntropy();
+
+	thevars[3] = refstream->Phases(1)->Composition();
+	thevars[4] = refstream->Phases(1)->MolarEnthalpy();
+	thevars[5] = refstream->Phases(1)->MolarEntropy();
+
+	return thevars;
+}
+
+
+
 bool RPEnergyCalc::Calculate()
 {
 	//fwStream* tempfwstrm = new fwStream;
