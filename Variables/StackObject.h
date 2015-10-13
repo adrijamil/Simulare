@@ -11,6 +11,7 @@ public:
 	void AddVariable(RealVariable* _variables);
 	bool IsDirty(){ return _isdirty; }
 	double FractionKnown();//
+	virtual string Name(){ return 0; };
 	bool DependsOn(StackObject* theStackObject)
 	{
 		//if any of this _variables are calculated by theStackObject

@@ -5,6 +5,7 @@
 MassMolFlowCalc::MassMolFlowCalc()
 {
 	_nvars = 3;
+	_name = "MassMoleFlowConversion";
 }
 RealVariable**  MassMolFlowCalc::GetVariables(Stream* refstream)
 {
@@ -20,7 +21,7 @@ RealVariable**  MassMolFlowCalc::GetVariables(Stream* refstream)
 
 }
 
-bool MassMolFlowCalc::Calculate()
+bool MassMolFlowCalc::Solve()
 {
 	double fmass, fmol;
 	bool retval = true;

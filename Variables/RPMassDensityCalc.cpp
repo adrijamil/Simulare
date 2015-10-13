@@ -5,6 +5,7 @@
 RPMassDensityCalc::RPMassDensityCalc()
 {
 	_nvars = 9;
+	_name = "DensityConversion";
 }
 
 RealVariable** RPMassDensityCalc::GetVariables(Stream* refstream)
@@ -29,7 +30,7 @@ RealVariable** RPMassDensityCalc::GetVariables(Stream* refstream)
 RPMassDensityCalc::~RPMassDensityCalc()
 {
 }
-bool RPMassDensityCalc::Calculate()
+bool RPMassDensityCalc::Solve()
 {
 	bool retval = true;
 	double massd;

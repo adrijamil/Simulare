@@ -73,34 +73,34 @@ public:
 		//go through each item
 		//arrange by isknown?
 	arrange:
+		cout << "";
+		//for (int i = 0; i < _count; i++)
+		//{
+		//	j = i;
+		//	while (j > 0 && _items[j - 1]->FractionKnown() < _items[j]->FractionKnown())
+		//	{
+		//		_swap(j, j - 1);
+		//		j = j - 1;
+		//	}
+		//}
 
-		for (int i = 0; i < _count; i++)
-		{
-			j = i;
-			while (j > 0 && _items[j - 1]->FractionKnown() > _items[j]->FractionKnown())
-			{
-				_swap(j, j - 1);
-				j = j - 1;
-			}
-		}
 
+		////go through each item
+		////see who depends on it
+		////put that guy next
+		//StackObject* tempSO = 0;
 
-		//go through each item
-		//see who depends on it
-		//put that guy next
-		StackObject* tempSO = 0;
-
-		for (int i = 0; i < _count; i++)
-		{
-			tempSO = _items[i];
-			for (int j = i; j < _count; j++)
-			{
-				if (_items[j]->DependsOn(tempSO))
-				{
-					_insert(j, i + 1);
-				}
-			}
-		}
+		//for (int i = 0; i < _count; i++)
+		//{
+		//	tempSO = _items[i];
+		//	for (int j = i; j < _count; j++)
+		//	{
+		//		if (_items[j]->DependsOn(tempSO))
+		//		{
+		//			_insert(j, i + 1);
+		//		}
+		//	}
+		//}
 	}
 
 	bool Solve()
@@ -115,17 +115,21 @@ public:
 		std::cout << "stack is: " << "\n";
 		for (int k = 0; k < _count; k++)//if i get to second last then must be the last one that needs to be removed;
 		{
-		//	std::cout << "item " << k << " is " << _items[k]->Name().c_str() << "\n";
+			std::cout << "item " << k << " is " << _items[k]->Name().c_str()<< "\n";
 		}
 
 		while (_count>0)
 		{
+			thisitemsolved = _items[0]->Solve();
+			thisitemsolved = _items[1]->Solve();
+			thisitemsolved = _items[2]->Solve();
+			thisitemsolved = _items[3]->Solve();
 
-			//std::cout << "solving " << _items[i]->Name().c_str() << "\n";
+			std::cout << "solving " << _items[i]->Name().c_str() << "\n";
 			thisitemsolved = _items[i]->Solve();
 			if (thisitemsolved)
 			{
-				//std::cout << "solved " << _items[i]->Name().c_str() << "\n";
+				std::cout << "solved " << _items[i]->Name().c_str() << "\n";
 				_remove(_items[i]);
 				i--;
 			}
@@ -172,13 +176,13 @@ private:
 		{
 			if (_items[i] != item)
 			{
-				//std::cout << "adding " << _items[i]->Name().c_str() << "\n";
-				//newitems[i+offset] = &(*_items[i]);
+				std::cout << "adding " << _items[i]->Name().c_str() << "\n";
+				newitems[i+offset] = &(*_items[i]);
 			}
 			else
 			{
 				offset = -1;
-				//std::cout << "skipping " << _items[i]->Name().c_str() << "\n";
+				std::cout << "removed " << _items[i]->Name().c_str() << "\n";
 			}
 		}
 		_count--;
@@ -188,7 +192,7 @@ private:
 		std::cout << "new stack is: " << "\n";
 		for (int i = 0; i < _count ; i++)//if i get to second last then must be the last one that needs to be removed;
 		{
-			//std::cout << "item " << i << " is " << _items[i]->Name().c_str() << "\n";
+			std::cout << "item " << i << " is " << _items[i]->Name().c_str() << "\n";
 		}
 	}
 

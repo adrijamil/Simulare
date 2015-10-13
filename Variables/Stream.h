@@ -42,7 +42,12 @@ public:
 	Stream();
 	Stream(string daname);
 	RealVariable* VapourFraction(){ return _phases[0]->PhaseMoleFraction(); };
-
+	string Name()
+	{ 
+		string retstr = _name;
+		retstr.append(":Flash");
+			return retstr;
+	}
 	~Stream();
 
 	Phase* Phases(int i)

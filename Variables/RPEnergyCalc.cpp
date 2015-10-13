@@ -6,6 +6,7 @@ fp_THERMdllTYPE THERMdll;
 RPEnergyCalc::RPEnergyCalc()
 {
 	_nvars = 6;
+	_name = "PhaseEnergyCalc";
 	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THERMdll");;
 }
 
@@ -26,7 +27,7 @@ RealVariable**  RPEnergyCalc::GetVariables(Stream* refstream)
 
 
 
-bool RPEnergyCalc::Calculate()
+bool RPEnergyCalc::Solve()
 {
 	//fwStream* tempfwstrm = new fwStream;
 	int ncomps = _parent->NComps();

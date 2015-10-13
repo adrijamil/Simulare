@@ -5,6 +5,7 @@
 MolWtCalc::MolWtCalc()
 {
 	_nvars = 6;
+	_name = "MolecularWeight";
 }
 RealVariable** MolWtCalc::GetVariables(Stream* refstream)
 {
@@ -20,7 +21,7 @@ RealVariable** MolWtCalc::GetVariables(Stream* refstream)
 	cout << thevariables[0]->GetValue(0);
 	return thevariables;
 }
-bool MolWtCalc::Calculate()
+bool MolWtCalc::Solve()
 {
 
 	int ncomps = _parent->NComps();

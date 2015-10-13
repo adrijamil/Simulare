@@ -15,7 +15,9 @@ class PropPack;
 class PropertyCalc 
 {
 public:
+
 	virtual bool Solve();
+	virtual string Name(){ return _name; };
 	void SetParent(PropPack* thePP);
 	PropertyCalc();
 	~PropertyCalc();

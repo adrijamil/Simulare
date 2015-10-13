@@ -7,7 +7,7 @@ class MolWtCalc :
 	public PropertyCalc
 {
 public:
-	bool Calculate();
+	bool Solve();
 	RealVariable** GetVariables(Stream* refstream);
 	MolWtCalc();
 	~MolWtCalc();
