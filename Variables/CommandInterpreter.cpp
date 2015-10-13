@@ -105,9 +105,15 @@ void CommandInterpreter::SendCommand(string thecommand)
 	{
 		UnitOpSetup("", "", "");
 	}
+	else if (thecommand == "EDITSTREAM")
+	{
+		cout << "WHICH STREAM";
+		cin >> myreply;
+		StreamSetup(myreply, "");
+	}
 	else if (thecommand == "HELP")
 	{
-		cout << "COMMANDS AVAILABLE ARE: ADDSTREAM, ADDUNITOP, SOLVE, OUTPUT \n";
+		cout << "COMMANDS AVAILABLE ARE: ADDSTREAM, ADDUNITOP, SOLVE, OUTPUT, EDITSTREAM \n";
 	}
 	else
 	{

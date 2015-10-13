@@ -6,8 +6,6 @@
 #include "PropPackBuilder.h"
 #include "UnitOpBuilder.h"
 
-
-
 class CommandInterpreter
 {
 public:

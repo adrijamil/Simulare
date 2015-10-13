@@ -25,7 +25,7 @@ public:
 		return false;
 	}
 //
-private:
+protected:
 	RealVariable** _variables;
 	int  _nvariables=0;
 

@@ -36,6 +36,21 @@ void StreamCalc::Setup(PropertyCalc* thePC, Stream* theRS)
 
 bool StreamCalc::Solve()
 {
+	bool* calcbythis = new bool[_nvariables];
+
+
+
+	for (int i = 0; i < _nvariables; i++)
+	{
+		if (!_variables[i]->IsKnown())
+		{
+			calcbythis[i] = true;
+		}
+		else
+		{
+			calcbythis[i] = false;
+		}
+	}
 	bool retval;
 	_refstream->GetPropertyPackage()->RefStream()->ReadStream(_refstream);
 	//_propertycalc.getvariables()//this should return all variables to map to the stackobject
@@ -45,7 +60,20 @@ bool StreamCalc::Solve()
 		_refstream->GetPropertyPackage()->RefStream()->WriteStream(_refstream);
 	}
 	return retval;
-	
+
+	for (int j = 0; j < _nvariables; j++)
+	{
+		if (_variables[j]->IsKnown() && calcbythis[j] == true)
+		{
+			//_variables[j]->CalculatedBy()
+		}
+		else
+		{
+			calcbythis[j] = false;
+		}
+	}
+
+
 
 }
 

@@ -20,6 +20,7 @@ RealVariable** MolWtCalc::GetVariables(Stream* refstream)
 	thevariables[5] = refstream->Phases(1)->MolecularWeight();
 	cout << thevariables[0]->GetValue(0);
 	return thevariables;
+	
 }
 bool MolWtCalc::Solve()
 {
@@ -53,11 +54,4 @@ MolWtCalc::~MolWtCalc()
 
 void MolWtCalc::CalcFluid()
 {
-
-	/*for (int i = 0; i < ncomps; i++)
-	{
-		theMw = theMw + (thefluid->Composition()->GetValue(i))*_parent->GetComponent(i).Mw;
-	}
-	thefluid->MolecularWeight()->SetValue(theMw);
-*/
 }
