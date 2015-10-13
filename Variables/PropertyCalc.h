@@ -22,13 +22,15 @@ public:
 	void AddProperty(PropertyCalc* thechild);
 	PropertyCalc* GetProperty(int i){ return _children[i]; }
 	int NChildren() { return _nchildren; }
-	virtual RealVariable** GetVariables(Stream* refstream){	return 0;
-	}
+	virtual RealVariable** GetVariables(Stream* refstream){ return 0; }
+	int GetNVariables(){ return _nvars; }
 protected:
 	string _name;
 	PropPack* _parent;
 	PropertyCalc** _children;
 	int _nchildren;
+	int _nvars = 0;
+
 };
 
 #endif

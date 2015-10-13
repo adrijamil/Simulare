@@ -14,12 +14,22 @@ StackObject::~StackObject()
 void StackObject::AddVariable(RealVariable* thevar)
 {
 	_nvariables++;
-	_variables = (RealVariable**)realloc(_variables, _nvariables* sizeof(*thevar)); //allocate new array
-
-	if (_variables != NULL) //if it's null then realloc tak jadi//means theres only one guy;
+	RealVariable** newvariables;
+	if (_nvariables == 1)
 	{
-		_variables[_nvariables - 1] = &(*thevar);
+		newvariables = (RealVariable**)malloc(_nvariables* sizeof(*thevar));
 	}
+	else
+	{
+		newvariables = (RealVariable**)realloc(_variables, _nvariables* sizeof(*thevar)); //allocate new array
+	}
+
+	if (newvariables != NULL) //if it's null then realloc tak jadi//means theres only one guy;
+	{
+		newvariables[_nvariables - 1] = &(*thevar);
+	}
+
+	_variables = (RealVariable**)realloc(newvariables, _nvariables* sizeof(*thevar));
 }
 
 double StackObject::FractionKnown()//

@@ -5,12 +5,13 @@ fp_THERMdllTYPE THERMdll;
 
 RPEnergyCalc::RPEnergyCalc()
 {
+	_nvars = 6;
 	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THERMdll");;
 }
 
 RealVariable**  RPEnergyCalc::GetVariables(Stream* refstream)
 {
-	RealVariable** thevars = new RealVariable*[6];
+	RealVariable** thevars = (RealVariable**)malloc(_nvars * sizeof(thevars[0]));
 
 	thevars[0] = refstream->Phases(0)->Composition();
 	thevars[1] = refstream->Phases(0)->MolarEnthalpy();

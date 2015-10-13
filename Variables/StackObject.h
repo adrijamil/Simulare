@@ -14,6 +14,13 @@ public:
 	bool DependsOn(StackObject* theStackObject)
 	{
 		//if any of this _variables are calculated by theStackObject
+		for (int i = 0; i < _nvariables; i++)
+		{
+			if (_variables[i]->CalculatedBy() == theStackObject)
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 //

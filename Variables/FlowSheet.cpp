@@ -27,6 +27,7 @@ void FlowSheet::Add(FSObject* theobject)
 		_children[_nchildren-1] = &(*theobject);
 	 }
 	 int nobj = theobject->NStackObjects();
+
 	 for (int i = 0; i < nobj; i++)
 	 {
 		 AddStackObject(theobject->GetStackObject(i));

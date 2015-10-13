@@ -12,6 +12,8 @@ public:
 	MassMolFlowCalc();
 	~MassMolFlowCalc();
 	bool Calculate();
-	RealVariable** GetVariables(Stream* refstream);
+	//RealVariable** GetVariables(Stream* refstream, RealVariable** thevariables);
+	RealVariable**  GetVariables(Stream* refstream);
+
 };
 

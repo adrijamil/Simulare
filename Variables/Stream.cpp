@@ -56,7 +56,7 @@ void Stream::_setstreamcalcs()
 	_streamcalcs[0].SetRefStream(this);*/
 	//_streamcalcs = new StreamCalc[ncalcs + 1];
 
-		for (int i = 0; i > ncalcs; i++)
+		for (int i = 0; i < ncalcs; i++)
 		{
 			_streamcalcs[i].Setup(_proppack->Properties()->GetProperty(i), this);
 			//_streamcalcs[i].SetRefStream(this);
@@ -282,9 +282,10 @@ StackObject* Stream::GetStackObject(int i)
 		return this;
 	}
 
+	StackObject* thecalc = &(_streamcalcs[i - 1]);
 
 	//dynamic_cast <StackObject*>(&(_streamcalcs[i]))
-	return &(_streamcalcs[i-1]);
+	return thecalc;
 }
 
 int Stream::NStackObjects()
