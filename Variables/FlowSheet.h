@@ -41,6 +41,16 @@ public:
 	int NComps(){ return _default_package->NComps(); };
 	void AddStream(string strname)
 	{
+		
+		for (int i = 0; i < _nchildren; i++)
+		{
+			if (_children[i]->Name() == strname)
+			{
+				cout << strname << " found \n";
+				return;
+			}
+		}
+
 		Stream* strm = new Stream(strname);
 		if (!_default_package == 0)
 		{
@@ -51,6 +61,8 @@ public:
 		{
 			cout << "set package first";
 		}
+	
+
 	}
 	Stream* GetStream(string daname)
 	{

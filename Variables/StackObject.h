@@ -10,6 +10,7 @@ public:
 	virtual bool Solve()=0;
 	void AddVariable(RealVariable* _variables);
 	bool IsDirty(){ return _isdirty; }
+	void IsDirty(bool thebool);
 	double FractionKnown();//
 	virtual string Name(){ return 0; };
 	bool DependsOn(StackObject* theStackObject)

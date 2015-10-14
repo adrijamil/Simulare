@@ -120,16 +120,14 @@ public:
 
 		while (_count>0)
 		{
-			thisitemsolved = _items[0]->Solve();
-			thisitemsolved = _items[1]->Solve();
-			thisitemsolved = _items[2]->Solve();
-			thisitemsolved = _items[3]->Solve();
+			
 
 			std::cout << "solving " << _items[i]->Name().c_str() << "\n";
 			thisitemsolved = _items[i]->Solve();
 			if (thisitemsolved)
 			{
 				std::cout << "solved " << _items[i]->Name().c_str() << "\n";
+				//_items[i]->IsDirty(false);
 				_remove(_items[i]);
 				i--;
 			}

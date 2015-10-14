@@ -45,7 +45,7 @@ void fwStream::ReadStream(Stream* thestream)
 			Phases[i].Enthalpy = thestream->MolarEnthalpy()->GetValue();
 			Phases[i].Entropy = thestream->MolarEntropy()->GetValue();
 			Phases[i].MolarDensity = thestream->MolarDensity()->GetValue();
-			Phases[i].MassDensity = thestream->MolarDensity()->GetValue();
+			Phases[i].MassDensity = thestream->MassDensity()->GetValue();
 			Phases[i].MolecularWeight = thestream->MolecularWeight()->GetValue();
 			Phases[i].Composition = thestream->Composition()->GetValues();
 		}
@@ -58,7 +58,7 @@ void fwStream::ReadStream(Stream* thestream)
 			Phases[i].Enthalpy = thestream->Phases(i - 1)->MolarEnthalpy()->GetValue();
 			Phases[i].Entropy = thestream->Phases(i - 1)->MolarEntropy()->GetValue();
 			Phases[i].MolarDensity = thestream->Phases(i - 1)->MolarDensity()->GetValue();
-			Phases[i].MassDensity = thestream->Phases(i - 1)->MolarDensity()->GetValue();
+			Phases[i].MassDensity = thestream->Phases(i - 1)->MassDensity()->GetValue();
 			Phases[i].MolecularWeight = thestream->Phases(i - 1)->MolecularWeight()->GetValue();
 			Phases[i].Composition = thestream->Phases(i - 1)->Composition()->GetValues();
 		}

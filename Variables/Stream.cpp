@@ -31,12 +31,23 @@ Stream::Stream(string daname)
 	_phases[1]->SetParent(this);
 	_phases[2]->SetParent(this);
 
-	//add variables for flash calc
+	//make a separate routine for this
+	//should be handled by flash method -> other methods may provide more or less variables
 	AddVariable(_pressure);
 	AddVariable(_temperature);
 	AddVariable(_molenthalpy);
 	AddVariable(_molentropy);
+
+	AddVariable(_composition);
+	AddVariable(_phases[0]->Composition());
+	AddVariable(_phases[1]->Composition());
+
+	AddVariable(_molardensity);
+	AddVariable(_phases[0]->MolarDensity());
+	AddVariable(_phases[1]->MolarDensity());
+
 	AddVariable(_phases[0]->PhaseMoleFraction());
+	AddVariable(_phases[1]->PhaseMoleFraction());
 	_name = daname;
 }
 
@@ -126,15 +137,29 @@ bool Stream::Solve()
 	{
 		nspecs = nspecs + 1;
 	}
+	bool* calcbythis = new bool[_nvariables]{false};
 
 	if ((nspecs < 3))
 	{
+		
 		cout << "Specifation error \n";
 		retval = false;
-		_proppack->RefStream()->ReadStream(this);
-		goto othercalcs;
+		
 	}
-
+	_proppack->RefStream()->ReadStream(this);
+		
+	for (int i = 0; i < _nvariables; i++)
+	{
+		if (!_variables[i]->IsKnown())
+		{
+			cout << i << "\n";
+			calcbythis[i] = true;
+		}
+		else
+		{
+			calcbythis[i] = false;
+		}
+	}
 	//if ((!(_pressure->IsCalculated())) && (!(_temperature->IsCalculated())))
 	//{
 		if ((_pressure->IsKnown()) && (_temperature->IsKnown()))
@@ -208,6 +233,16 @@ bool Stream::Solve()
 	}*/
 	_proppack->RefStream()->WriteStream(this);
 	
+	for (int j = 0; j < _nvariables; j++)
+	{
+		if (_variables[j]->IsKnown() && calcbythis[j] == true)
+		{
+			_variables[j]->CalculatedBy(this);
+			cout << j << ":" << _variables[j]->GetValue() << "\n";
+
+		}
+	}
+
 	_issolved = retval;
 	return _issolved;
 

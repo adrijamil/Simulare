@@ -5,7 +5,20 @@
 StackObject::StackObject()
 {
 }
+void StackObject::IsDirty(bool thebool)
+{
+	if (_isdirty == false && thebool == true)
+	{
+		for (int i = 0; i < _nvariables; i++)
+		{
+			_variables[i]->IsKnown(false);
+			
+		}
+	}
+	
+	_isdirty = thebool; 
 
+}
 
 StackObject::~StackObject()
 {

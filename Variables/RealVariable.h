@@ -21,7 +21,6 @@
 #include "BaseVariable.h"
 class StackObject;
 
-
 enum RealVariableType { UNITLESS, PRESSURE, TEMPERATURE, MASSFLOW, MASSENTHALPY, PHYSPROPS, DELTAPRESSURE, K_RESISTANCE, ENERGYINPUT,ISENTROPICEFFICIENCY };//handle physprops as a separate thing. cos it can't be specified etc. it's dumb.
 
 class RealVariable :
@@ -32,7 +31,7 @@ public:
 	//default constructor instantiates BaseVariable as <double>
 	RealVariable();
 
-
+	RealVariableType GetType(){ return _variable_type; }
 	//constructor for known single element double
 	RealVariable(double thedb) :BaseVariable<double>(thedb){};
 
@@ -41,7 +40,7 @@ public:
 	RealVariable(double const (&thevalue)[N]) :BaseVariable<double>(thevalue){};
 	bool IsKnown() { return _is_known; }
 	bool IsCalculated(){ return _is_calculated; }
-	void IsKnown(bool thebool) { _is_known = thebool; }
+	void IsKnown(bool thebool);
 	void IsCalculated(bool thebool){ _is_calculated = thebool; }
 
 	double GetValue(int i)
@@ -89,6 +88,7 @@ public:
 	void SetValue(int i, double thevalue);
 	void SetValues(int N, double* thevalue);
 	StackObject* CalculatedBy(){ return _calculatedby; }
+	void CalculatedBy(StackObject* theSO){ _calculatedby = theSO; }
 	//Destructor
 	~RealVariable();
 private:

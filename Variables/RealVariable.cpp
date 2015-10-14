@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "RealVariable.h"
-
+#include "StackObject.h"
 RealVariable::RealVariable()
 {
 }
@@ -11,13 +11,25 @@ RealVariable::~RealVariable()
 
 void RealVariable::SetValue(double thevalue)
 {
+	
 	if (thevalue!=-32767)
 	{
 		_is_known = true;
 		_setvalue(thevalue);
 	}
-}
 
+	if (_calculatedby != NULL)
+	{
+		_calculatedby->IsDirty(true);
+
+	}
+	
+}
+void RealVariable::IsKnown(bool thebool)
+{
+	_is_known = thebool;
+	
+}
 void RealVariable::SetValue(int i, double thevalue)
 {
 	if (thevalue != -32767)

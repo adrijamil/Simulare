@@ -44,6 +44,7 @@ bool StreamCalc::Solve()
 	{
 		if (!_variables[i]->IsKnown())
 		{
+			cout << i << "\n";
 			calcbythis[i] = true;
 		}
 		else
@@ -51,6 +52,7 @@ bool StreamCalc::Solve()
 			calcbythis[i] = false;
 		}
 	}
+
 	bool retval;
 	_refstream->GetPropertyPackage()->RefStream()->ReadStream(_refstream);
 	//_propertycalc.getvariables()//this should return all variables to map to the stackobject
@@ -59,21 +61,24 @@ bool StreamCalc::Solve()
 	{
 		_refstream->GetPropertyPackage()->RefStream()->WriteStream(_refstream);
 	}
-	return retval;
+	
 
 	for (int j = 0; j < _nvariables; j++)
 	{
 		if (_variables[j]->IsKnown() && calcbythis[j] == true)
 		{
-			//_variables[j]->CalculatedBy()
+			_variables[j]->CalculatedBy(this);
+			cout << j << ":" << _variables[j]->GetValue() << "\n";
+		
 		}
 		else
 		{
+
 			calcbythis[j] = false;
 		}
 	}
 
-
+	return retval;
 
 }
 

@@ -107,7 +107,7 @@ void CommandInterpreter::SendCommand(string thecommand)
 	}
 	else if (thecommand == "EDITSTREAM")
 	{
-		cout << "WHICH STREAM";
+		cout << "WHICH STREAM? \n" ;
 		cin >> myreply;
 		StreamSetup(myreply, "");
 	}
@@ -242,6 +242,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 		cout << "Enter stream name \n";
 		cin >> thename;
 	}
+
 
 	_activecase->AddStream(thename); //default proppack will be used
 	myncomps = _activecase->GetStream(thename)->NComps();
