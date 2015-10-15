@@ -39,20 +39,28 @@ public:
 	template < size_t N >
 	RealVariable(double const (&thevalue)[N]) :BaseVariable<double>(thevalue){};
 	bool IsKnown() { return _is_known; }
+
 	bool IsCalculated(){ return _is_calculated; }
 	void IsKnown(bool thebool);
 	void IsCalculated(bool thebool){ _is_calculated = thebool; }
-
+	void IsDirty(bool thebool)
+	{ 
+		_isdirty = thebool;
+	};
+	bool IsDirty(){ return _isdirty; };
 	double GetValue(int i)
 	{
+
+		double retval = -32767;
 		if (_is_known)
 		{
-			return _getvalue(i);
+			if (!_isdirty||!_is_calculated)
+			{
+				retval= _getvalue(i);
+			}
+			
 		}
-		else
-		{
-			return -32767;
-		}
+		return retval;
 	}
 
 	double* GetValues()
@@ -96,6 +104,7 @@ private:
 	bool _is_known=false; // is known or not. toggle this when setting/clearing variables
 	bool _is_calculated=true; //as in is it dependent or independent (specified or calculated)
 	StackObject* _calculatedby;
+	bool _isdirty=true;
 };
 
 

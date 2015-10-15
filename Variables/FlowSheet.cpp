@@ -49,7 +49,7 @@ bool FlowSheet::Solve()
 	for (int i = 0; i < _nchildren; i++)
 	{
 		nstackobj = _children[i]->NStackObjects();
-		for (int j = 0; j < _children[i]->NStackObjects(); j++)
+		for (int j = 0; j < nstackobj; j++)
 		{
 			if (_children[i]->GetStackObject(j)->IsDirty())
 			{
@@ -61,5 +61,20 @@ bool FlowSheet::Solve()
 	_stack->Forget();
 	
 	retval=_stack->Solve();
+
+	for (int i = 0; i < _nchildren; i++)
+	{
+		nstackobj = _children[i]->NStackObjects();
+		for (int j = 0; j < nstackobj; j++)
+		{
+			if (_children[i]->GetStackObject(j)->IsDirty())
+			{
+				cout << _children[i]->GetStackObject(j)->Name() << " is still dirty yo \n";
+			}
+		}
+	}
+
+
+
 	return retval;
 }

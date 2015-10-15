@@ -4,7 +4,7 @@
 
 MassMolFlowCalc::MassMolFlowCalc()
 {
-	_nvars = 3;
+	_nvars = 10;
 	_name = "MassMoleFlowConversion";
 }
 RealVariable**  MassMolFlowCalc::GetVariables(Stream* refstream)
@@ -16,9 +16,19 @@ RealVariable**  MassMolFlowCalc::GetVariables(Stream* refstream)
 	thevariables[0] = refstream->MassFlow();
 	thevariables[1] = refstream->MolarFlow();
 	thevariables[2] = refstream->MolecularWeight();
+	thevariables[3] = refstream->VapourFraction();
+
+	thevariables[4] = refstream->Phases(0)->MassFlow();
+	thevariables[5] = refstream->Phases(0)->MolarFlow();
+	thevariables[6] = refstream->Phases(0)->MolecularWeight();
+
+	thevariables[7] = refstream->Phases(1)->MassFlow();
+	thevariables[8] = refstream->Phases(1)->MolarFlow();
+	thevariables[9] = refstream->Phases(1)->MolecularWeight();
+
+
 
 	return thevariables;
-
 }
 
 bool MassMolFlowCalc::Solve()

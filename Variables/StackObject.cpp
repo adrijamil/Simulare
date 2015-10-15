@@ -11,11 +11,16 @@ void StackObject::IsDirty(bool thebool)
 	{
 		for (int i = 0; i < _nvariables; i++)
 		{
-			_variables[i]->IsKnown(false);
-			
+			_variables[i]->IsDirty(true);
 		}
 	}
-	
+	else if (_isdirty == true && thebool == false)
+	{
+		for (int i = 0; i < _nvariables; i++)
+		{
+			_variables[i]->IsDirty(false);
+		}
+	}
 	_isdirty = thebool; 
 
 }

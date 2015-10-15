@@ -73,34 +73,56 @@ public:
 		//go through each item
 		//arrange by isknown?
 	arrange:
+		double fracknownj, fracknownj_ ;
+
 		cout << "";
-		//for (int i = 0; i < _count; i++)
-		//{
-		//	j = i;
-		//	while (j > 0 && _items[j - 1]->FractionKnown() < _items[j]->FractionKnown())
-		//	{
-		//		_swap(j, j - 1);
-		//		j = j - 1;
-		//	}
-		//}
+		for (int i = 0; i < _count; i++)
+		{
+			j = i;
+			std::cout << _items[j]->Name().c_str() << _items[j]->FractionKnown() << "\n";
+
+			/*try
+			{
+				fracknownj = _items[j]->FractionKnown();
+			}
+			catch (exception e)
+			{
+				std::cout << _items[j]->FractionKnown();<< " made an error caught \n";
+			}
+
+			try
+			{
+				fracknownj_ = _items[j - 1]->FractionKnown();
+			}
+			catch (exception e)
+			{
+				std::cout << " made an error caught \n";
+			}*/
+
+			while (j > 0 && _items[j - 1]->FractionKnown() <_items[j]->FractionKnown())
+			{
+				_swap(j, j - 1);
+				j = j - 1;
+			}
+		}
 
 
-		////go through each item
-		////see who depends on it
-		////put that guy next
-		//StackObject* tempSO = 0;
+		//go through each item
+		//see who depends on it
+		//put that guy next
+		StackObject* tempSO = 0;
 
-		//for (int i = 0; i < _count; i++)
-		//{
-		//	tempSO = _items[i];
-		//	for (int j = i; j < _count; j++)
-		//	{
-		//		if (_items[j]->DependsOn(tempSO))
-		//		{
-		//			_insert(j, i + 1);
-		//		}
-		//	}
-		//}
+		for (int i = 0; i < _count; i++)
+		{
+			tempSO = _items[i];
+			for (int j = i; j < _count; j++)
+			{
+				if (_items[j]->DependsOn(tempSO))
+				{
+					_insert(j, i + 1);
+				}
+			}
+		}
 	}
 
 	bool Solve()
@@ -117,17 +139,19 @@ public:
 		{
 			std::cout << "item " << k << " is " << _items[k]->Name().c_str()<< "\n";
 		}
-
+		bool testbool;
 		while (_count>0)
 		{
 			
-
+			testbool = true;
 			std::cout << "solving " << _items[i]->Name().c_str() << "\n";
 			thisitemsolved = _items[i]->Solve();
 			if (thisitemsolved)
 			{
 				std::cout << "solved " << _items[i]->Name().c_str() << "\n";
-				//_items[i]->IsDirty(false);
+				_items[i]->IsDirty(false);
+				testbool = _items[i]->IsDirty();
+				if (testbool == false){ std::cout << _items[i]->Name().c_str() << ":isdirty = false \n"; }
 				_remove(_items[i]);
 				i--;
 			}
@@ -147,6 +171,11 @@ public:
 			}
 		}
 		if (_count==0){ retval = true; }
+
+
+
+
+
 		return retval;
 	}
 

@@ -45,7 +45,6 @@ void BridgeFunction::AddBridge(BridgeFunction* thechild)
 	BridgeFunction** newchildren;
 	cout << "\n";
 
-
 	thechild->SetParent(_parent);
 	//realloc is similar to redim preserve. members of array are preserved and sent to new array (newchildren)
 	//should be possible to reallocate straight to itself ie _children = (FSObject**)realloc(...... but this is safer. can catch errors.

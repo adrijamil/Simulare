@@ -9,7 +9,39 @@ public:
 	~StackObject();
 	virtual bool Solve()=0;
 	void AddVariable(RealVariable* _variables);
-	bool IsDirty(){ return _isdirty; }
+	bool IsDirty()
+	{ 
+		bool isthisdirty;
+		if (_isdirty == false)
+		{
+			for (int i = 0; i < _nvariables; i++)
+			{
+				isthisdirty = false;
+				isthisdirty = _variables[i]->IsDirty();
+				if (isthisdirty)
+				{
+					_isdirty = true;
+					
+				}
+			}
+
+			if (_isdirty == true)
+			{
+				//make all vars I calculate dirty
+				for (int i = 0; i < _nvariables; i++)
+				{
+					if (_variables[i]->CalculatedBy()==this)
+					{
+						_variables[i]->IsDirty(true);
+						_variables[i]->IsKnown(false);
+					}
+				}
+
+			}
+		}
+
+		return _isdirty;
+	}
 	void IsDirty(bool thebool);
 	double FractionKnown();//
 	virtual string Name(){ return 0; };

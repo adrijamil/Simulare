@@ -7,7 +7,6 @@ StreamCalc::StreamCalc()
 
 }
 
-
 string StreamCalc::Name()
 {
 	string retstring;
@@ -73,7 +72,6 @@ bool StreamCalc::Solve()
 		}
 		else
 		{
-
 			calcbythis[j] = false;
 		}
 	}

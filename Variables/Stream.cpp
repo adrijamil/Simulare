@@ -95,11 +95,11 @@ Stream::~Stream()
 
 bool Stream::Solve()
 {
-	if (_issolved == true)
+	/*if (_issolved == true)
 	{
 		return true;
 	}
-	
+	*/
 	bool retval=true;
 	//check DOF then call appropriate flash
 
@@ -139,11 +139,12 @@ bool Stream::Solve()
 	}
 	bool* calcbythis = new bool[_nvariables]{false};
 
-	if ((nspecs < 3))
+	if ((nspecs != 3))
 	{
 		
 		cout << "Specifation error \n";
 		retval = false;
+		return retval;
 		
 	}
 	_proppack->RefStream()->ReadStream(this);

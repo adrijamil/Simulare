@@ -228,7 +228,8 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 	
 	int i;
 	bool issetup;
-	
+	RealVariable* thetarg=0;
+
 	double tempdb;
 	std::istringstream  mypartstream(thespecs);
 	
@@ -274,8 +275,8 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			}
 		
 			tempdb = stod(thevar);
-			_activecase->GetStream(thename)->Pressure()->SetValue(tempdb);
-			_activecase->GetStream(thename)->Pressure()->IsCalculated(false);
+			thetarg = _activecase->GetStream(thename)->Pressure();
+			
 		}
 		else if (param == "TEMPERATURE")
 		{	
@@ -290,8 +291,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			}
 			
 			tempdb = stod(thevar);
-			_activecase->GetStream(thename)->Temperature()->SetValue(tempdb);
-			_activecase->GetStream(thename)->Temperature()->IsCalculated(false);
+			thetarg = _activecase->GetStream(thename)->Temperature();
 
 		}
 		else if (param == "VAPOURFRACTION")
@@ -307,8 +307,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			}
 
 			tempdb = stod(thevar);
-			_activecase->GetStream(thename)->VapourFraction()->SetValue(tempdb);
-			_activecase->GetStream(thename)->VapourFraction()->IsCalculated(false);
+			thetarg = _activecase->GetStream(thename)->VapourFraction();
 
 		}
 		else if (param == "COMPOSITION")
@@ -330,9 +329,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 					molecomps[i] = stod(thevar);
 					i = i + 1;
 				}
-				_activecase->GetStream(thename)->Composition()->SetValues(myncomps, molecomps);
-				_activecase->GetStream(thename)->Composition()->IsCalculated(false);
-				_activecase->GetStream(thename)->Normalise();
+				thetarg = _activecase->GetStream(thename)->Composition();
 		}
 		else if (param == "ENTHALPY")
 		{
@@ -347,9 +344,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			}
 
 			tempdb = stod(thevar);
-			_activecase->GetStream(thename)->MolarEnthalpy()->SetValue(tempdb);
-			_activecase->GetStream(thename)->MolarEnthalpy()->IsCalculated(false);
-
+			thetarg = _activecase->GetStream(thename)->MolarEnthalpy();
 		}
 		else if (param == "ENTROPY")
 		{
@@ -364,9 +359,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			}
 
 			tempdb = stod(thevar);
-			_activecase->GetStream(thename)->MolarEntropy()->SetValue(tempdb);
-			_activecase->GetStream(thename)->MolarEntropy()->IsCalculated(false);
-
+			thetarg = _activecase->GetStream(thename)->MolarEntropy();
 		}
 		else if (param == "MASSFLOW")
 		{
@@ -381,13 +374,28 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			}
 
 			tempdb = stod(thevar);
-			_activecase->GetStream(thename)->MassFlow()->SetValue(tempdb);
-			_activecase->GetStream(thename)->MassFlow()->IsCalculated(false);
-
+			thetarg = _activecase->GetStream(thename)->MassFlow();
 		}
 		else if (param == "DONE")
 		{
 			issetup = true;
+		}
+
+		if (param != "DONE")
+		{
+			if (param == "COMPOSITION")
+			{
+				thetarg->SetValues(myncomps, molecomps);
+
+				_activecase->GetStream(thename)->Normalise();
+			}
+			else
+			{
+				thetarg->SetValue(tempdb);
+				
+			}
+			thetarg->IsDirty(true);
+			thetarg->IsCalculated(false);
 		}
 	}
 	cout << thename << " has been added.\n";
